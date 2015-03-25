@@ -17,9 +17,9 @@
         <menus>
           <Menu mnemonicParsing="false">
             <items>
-              <MenuItem mnemonicParsing="false" text="Nueva Búsqueda" />
+              <MenuItem fx:id="btNuevaB" mnemonicParsing="false" onAction="#clear" text="Nueva Búsqueda" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Salir" />
+                  <MenuItem fx:id="btCerrar" mnemonicParsing="false" onAction="#cerrarApp" text="Salir" />
             </items>
                <graphic>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="53.0" text="IDBL">
@@ -42,7 +42,7 @@
         <items>
           <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="573.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="tfBuscar" alignment="CENTER" layoutX="14.0" layoutY="14.0" onAction="#buscar" prefHeight="37.0" prefWidth="180.0" promptText="Inserte su búsqueda..." AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                  <TextField fx:id="tfBuscar" alignment="CENTER" layoutX="14.0" layoutY="14.0" onAction="#buscar" prefHeight="37.0" prefWidth="180.0" promptText="Inserte CIF..." AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -345,15 +345,15 @@
                               <Button fx:id="btPrint" layoutX="605.0" layoutY="50.0" mnemonicParsing="false" onAction="#printMulta" prefHeight="59.0" prefWidth="105.0" text="IMPRIMIR" />
                               <Button fx:id="btVerWeb" layoutX="485.0" layoutY="50.0" mnemonicParsing="false" onAction="#verWeb" prefHeight="59.0" prefWidth="105.0" text="WEB" />
                            </children></AnchorPane>
-                        <AnchorPane fx:id="panelVista" prefHeight="573.0" prefWidth="694.0" visible="false">
+                        <AnchorPane fx:id="panelVista" prefHeight="573.0" prefWidth="694.0">
                            <children>
                               <TableView fx:id="tablaMultas" layoutX="3.0" layoutY="14.0" onMouseClicked="#setSelectedMulta" prefHeight="433.0" prefWidth="695.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="21.0">
                                 <columns>
-                                    <TableColumn maxWidth="318.0" prefWidth="315.0" text="Nombre" />
-                                    <TableColumn maxWidth="224.0" minWidth="95.0" prefWidth="104.0" text="CIF" />
-                                  <TableColumn maxWidth="214.0" minWidth="85.0" prefWidth="105.0" text="MATRICULA" />
-                                  <TableColumn maxWidth="210.0" minWidth="25.0" prefWidth="81.0" text="Publicación" />
-                                    <TableColumn maxWidth="214.0" minWidth="84.0" prefWidth="88.0" text="Vencimiento" />
+                                    <TableColumn fx:id="nombreCL" maxWidth="318.0" prefWidth="315.0" text="Nombre" />
+                                    <TableColumn fx:id="cifCL" maxWidth="224.0" minWidth="95.0" prefWidth="104.0" text="CIF" />
+                                  <TableColumn fx:id="matriculaCL" maxWidth="214.0" minWidth="85.0" prefWidth="105.0" text="MATRICULA" />
+                                  <TableColumn fx:id="publicacionCL" maxWidth="210.0" minWidth="25.0" prefWidth="81.0" text="Publicación" />
+                                    <TableColumn fx:id="vencimientoCL" maxWidth="214.0" minWidth="84.0" prefWidth="88.0" text="Vencimiento" />
                                 </columns>
                               </TableView>
                               <Button fx:id="btVerMulta" layoutX="491.0" layoutY="462.0" mnemonicParsing="false" onAction="#verMulta" prefHeight="37.0" prefWidth="214.0" text="Ver Multa" AnchorPane.rightAnchor="21.0">

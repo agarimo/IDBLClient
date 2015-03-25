@@ -7,30 +7,35 @@ import javafx.beans.property.SimpleStringProperty;
  * @author Agarimo
  */
 public class ModeloMulta {
-
+    
+    public int id;
     public SimpleStringProperty nombre = new SimpleStringProperty();
     public SimpleStringProperty cif = new SimpleStringProperty();
     public SimpleStringProperty matricula = new SimpleStringProperty();
     public SimpleStringProperty fecha = new SimpleStringProperty();
     public SimpleStringProperty fechaV = new SimpleStringProperty();
 
-    public SimpleStringProperty getNombre() {
-        return nombre;
+    public int getId(){
+        return id;
+    }
+    
+    public String getNombre() {
+        return nombre.get();
     }
 
-    public SimpleStringProperty getCif() {
-        return cif;
+    public String getCif() {
+        return cif.get();
     }
 
-    public SimpleStringProperty getMatricula() {
-        return matricula;
+    public String getMatricula() {
+        return matricula.get();
     }
 
-    public SimpleStringProperty getFecha() {
-        return fecha;
+    public String getFecha() {
+        return fecha.get();
     }
 
-    public SimpleStringProperty getFechaV() {
-        return fechaV;
+    public String getFechaV() {
+        return fechaV.get();
     }
 }

@@ -2,24 +2,33 @@ package client;
 
 import static client.IDBLClient.stage;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.HostServices;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import model.ModeloMulta;
 import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
 import org.controlsfx.dialog.Dialogs;
@@ -81,7 +90,7 @@ public class ClientController {
     private RadioButton rbContiene;
 
     @FXML
-    private TableView<?> tablaMultas;
+    private TableView<ModeloMulta> tablaMultas;
 
     @FXML
     private Button btVerWeb;
@@ -198,6 +207,28 @@ public class ClientController {
     private RadioButton rbTodas;
 
     @FXML
+    private MenuItem btCerrar;
+
+    @FXML
+    private MenuItem btNuevaB;
+
+    @FXML
+    private TableColumn nombreCL;
+    @FXML
+    private TableColumn cifCL;
+    @FXML
+    private TableColumn matriculaCL;
+    @FXML
+    private TableColumn publicacionCL;
+
+    @FXML
+    private TableColumn vencimientoCL;
+
+    ObservableList<ModeloMulta> multas;
+
+    private int posicionMulta;
+
+    @FXML
     void buscar(ActionEvent event) {
 
         if (rbDesactivado.isSelected()) {
@@ -211,14 +242,17 @@ public class ClientController {
     void setTipoBusqueda(ActionEvent event) {
         if (rbNif.isSelected()) {
             typ = 1;
+            tfBuscar.setPromptText("Inserte CIF...");
         }
 
         if (rbMatricula.isSelected()) {
             typ = 2;
+            tfBuscar.setPromptText("Inserte MATRICULA...");
         }
 
         if (rbExpediente.isSelected()) {
             typ = 3;
+            tfBuscar.setPromptText("Inserte EXPEDIENTE...");
         }
     }
 
@@ -253,9 +287,16 @@ public class ClientController {
         }
     }
 
+    void setPorDefecto() {
+        this.rbUltimo.setSelected(true);
+        opt = 1;
+        this.rbDesactivado.setSelected(true);
+        avg = 1;
+    }
+
     @FXML
     void setMostrar(ActionEvent event) {
-        
+
     }
 
     @FXML
@@ -273,7 +314,7 @@ public class ClientController {
 
     @FXML
     void setListaAvanzado(ActionEvent event) {
-        
+
     }
 
     @FXML
@@ -289,6 +330,13 @@ public class ClientController {
         panelInicio.setVisible(true);
     }
 
+    void verPInicio() {
+        panelVista.setVisible(false);
+        panelMulta.setVisible(false);
+        panelAvanzado.setVisible(false);
+        panelInicio.setVisible(true);
+    }
+
     @FXML
     void verPVista(ActionEvent event) {
         panelVista.setVisible(true);
@@ -296,7 +344,7 @@ public class ClientController {
         panelAvanzado.setVisible(false);
         panelInicio.setVisible(false);
     }
-    
+
     void verPVista() {
         panelVista.setVisible(true);
         panelMulta.setVisible(false);
@@ -356,6 +404,17 @@ public class ClientController {
         stage.setY(event.getScreenY() + y);
     }
 
+    private void inicializarTabla() {
+        nombreCL.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        cifCL.setCellValueFactory(new PropertyValueFactory<>("cif"));
+        matriculaCL.setCellValueFactory(new PropertyValueFactory<>("matricula"));
+        publicacionCL.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+        vencimientoCL.setCellValueFactory(new PropertyValueFactory<>("fechaV"));
+
+        multas = FXCollections.observableArrayList();
+        tablaMultas.setItems(multas);
+    }
+
     @FXML
     void initialize() {
         IDBLClient.stage.initStyle(StageStyle.TRANSPARENT);
@@ -366,9 +425,71 @@ public class ClientController {
                 ev.consume();
             }
         });
+
+        inicializarTabla();
+
+        final ObservableList<ModeloMulta> tablaPersonaSel = tablaMultas.getSelectionModel().getSelectedItems();
+        tablaPersonaSel.addListener(selectorTabla);
     }
 
     private static boolean cerrarApp() {
         return false;
+    }
+
+    @FXML
+    void clear() {
+        setPorDefecto();
+        verPInicio();
+        tfBuscar.setText("");
+//        for (int i = 0; i < 20; i++) {
+//            ModeloMulta p1 = new ModeloMulta();
+//            p1.id = i;
+//            p1.nombre.set("Nombre " + i);
+//            p1.cif.set("Apellido " + i);
+//            p1.matricula.set("020" + i);
+//            p1.fecha.set("67589458" + i);
+//            p1.fechaV.set("67589458" + i);
+//
+//            multas.add(p1);
+//        }
+    }
+
+    /**
+     * Listener de la tabla multas
+     */
+    private final ListChangeListener<ModeloMulta> selectorTabla
+            = (ListChangeListener.Change<? extends ModeloMulta> c) -> {
+                getSelectedMulta();
+            };
+
+    /**
+     * PARA SELECCIONAR UNA CELDA DE LA TABLA "tablaPersonas"
+     *
+     * @return
+     */
+    public ModeloMulta getMulta() {
+
+        if (tablaMultas != null) {
+            List<ModeloMulta> tabla = tablaMultas.getSelectionModel().getSelectedItems();
+            if (tabla.size() == 1) {
+                ModeloMulta a = tabla.get(0);
+                return a;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Método para poner en los textFields la tupla que selccionemos
+     */
+    private void getSelectedMulta() {
+        final ModeloMulta persona = getMulta();
+        posicionMulta = multas.indexOf(persona);
+
+        if (persona != null) {
+
+            System.out.println("Seleccionado id: " + persona.id);
+
+        }
     }
 }
