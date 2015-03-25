@@ -21,7 +21,7 @@ import util.Varios;
  */
 public class SqlIDBL {
 
-    public static List<VistaMulta> listaProducto(String query) {
+    public static List<VistaMulta> listaMultas(String query) {
         List<VistaMulta> list = new ArrayList();
         Sql bd;
         ResultSet rs;
@@ -32,7 +32,7 @@ public class SqlIDBL {
             rs = bd.ejecutarQueryRs(query);
 
             while (rs.next()) {
-                aux = new VistaMulta(rs.getString("idSancion"), rs.getString("fase"), rs.getDate("fechaPublicacion"), rs.getDate("fechaVencimiento"));
+                aux = new VistaMulta(rs.getInt("idMulta"),rs.getString("nombre"), rs.getString("nif"),rs.getString("matricula"), rs.getDate("fechaPublicacion"), rs.getDate("fechaVencimiento"));
                 list.add(aux);
             }
 
@@ -46,7 +46,7 @@ public class SqlIDBL {
         return list;
     }
     
-    public static List<String> listaProductoA(String query,String column) {
+    public static List<String> listaMultasA(String query,String column) {
         List<String> list = new ArrayList();
         Sql bd;
         ResultSet rs;
@@ -71,14 +71,14 @@ public class SqlIDBL {
         return list;
     }
 
-    public static MultaS cargaMultaS(String aux) {
+    public static MultaS cargaMultaS(int aux) {
         Sql bd;
         ResultSet rs;
         MultaS multa = null;
 
         try {
             bd = new Sql(Variables.con);
-            rs = bd.ejecutarQueryRs("SELECT * FROM historico.multa WHERE idSancion=" + Varios.entrecomillar(aux));
+            rs = bd.ejecutarQueryRs("SELECT * FROM historico.multa WHERE idMulta=" + aux);
 
             if (rs.next()) {
                 multa = new MultaS();
@@ -138,7 +138,6 @@ public class SqlIDBL {
         } catch (SQLException ex) {
             Logger.getLogger(SqlIDBL.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return multa;
     }
 

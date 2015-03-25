@@ -42,13 +42,13 @@
         <items>
           <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="573.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="tfBuscar" alignment="CENTER" layoutX="14.0" layoutY="14.0" onAction="#buscar" prefHeight="37.0" prefWidth="180.0" promptText="Inserte CIF..." AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                  <TextField fx:id="tfBuscar" alignment="CENTER" layoutX="14.0" layoutY="14.0" onAction="#buscar" prefHeight="37.0" prefWidth="180.0" promptText="Inserte NIF..." AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </TextField>
                   <Button fx:id="btBuscar" layoutX="11.0" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buscar" prefHeight="25.0" prefWidth="137.0" text="Buscar" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="67.0" />
-                  <Accordion layoutY="109.0" prefHeight="237.0" prefWidth="202.0">
+                  <Accordion fx:id="acordeon" layoutY="109.0" prefHeight="237.0" prefWidth="202.0">
                     <panes>
                       <TitledPane fx:id="pTipoBusqueda" text="Tipo de Búsqueda">
                            <content>
@@ -148,7 +148,8 @@
                         <RadioButton fx:id="rbTodas" mnemonicParsing="false" onAction="#setMostrar" selected="true" text="Todas" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <toggleGroup>
                               <ToggleGroup fx:id="bgMostrar" />
-                           </toggleGroup></RadioButton>
+                           </toggleGroup>
+                        </RadioButton>
                         <RadioButton fx:id="rbEnPlazo" mnemonicParsing="false" onAction="#setMostrar" text="En plazo" toggleGroup="$bgMostrar" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
@@ -215,7 +216,7 @@
                                                    <font>
                                                       <Font name="System Bold" size="12.0" />
                                                    </font></Label>
-                                                <Label fx:id="lbOrganismo" GridPane.columnIndex="1" />
+                                                <Label fx:id="lbOrganismo" prefHeight="17.0" prefWidth="319.0" GridPane.columnIndex="1" />
                                                 <Label fx:id="lbFechaP" prefHeight="17.0" prefWidth="333.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                                 <Label fx:id="lbFechaV" prefHeight="17.0" prefWidth="327.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                                 <Label fx:id="lbBoe" prefHeight="17.0" prefWidth="311.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -342,12 +343,12 @@
                                 </content>
                               </TitledPane>
                               <Button fx:id="btVolverMulta" layoutX="485.0" layoutY="14.0" mnemonicParsing="false" onAction="#verPVista" prefHeight="25.0" prefWidth="225.0" text="Volver" />
-                              <Button fx:id="btPrint" layoutX="605.0" layoutY="50.0" mnemonicParsing="false" onAction="#printMulta" prefHeight="59.0" prefWidth="105.0" text="IMPRIMIR" />
+                              <Button fx:id="btPrint" layoutX="605.0" layoutY="50.0" mnemonicParsing="false" onAction="#printMulta" prefHeight="59.0" prefWidth="105.0" text="IMPRIMIR" visible="false" />
                               <Button fx:id="btVerWeb" layoutX="485.0" layoutY="50.0" mnemonicParsing="false" onAction="#verWeb" prefHeight="59.0" prefWidth="105.0" text="WEB" />
                            </children></AnchorPane>
-                        <AnchorPane fx:id="panelVista" prefHeight="573.0" prefWidth="694.0">
+                        <AnchorPane fx:id="panelVista" prefHeight="573.0" prefWidth="694.0" visible="false">
                            <children>
-                              <TableView fx:id="tablaMultas" layoutX="3.0" layoutY="14.0" onMouseClicked="#setSelectedMulta" prefHeight="433.0" prefWidth="695.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="21.0">
+                              <TableView fx:id="tablaMultas" layoutX="3.0" layoutY="14.0" prefHeight="433.0" prefWidth="695.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="21.0">
                                 <columns>
                                     <TableColumn fx:id="nombreCL" maxWidth="318.0" prefWidth="315.0" text="Nombre" />
                                     <TableColumn fx:id="cifCL" maxWidth="224.0" minWidth="95.0" prefWidth="104.0" text="CIF" />
@@ -361,7 +362,6 @@
                                     <Insets left="100.0" />
                                  </opaqueInsets>
                               </Button>
-                              <Button fx:id="btCancelarMulta" layoutX="491.0" layoutY="534.0" mnemonicParsing="false" onAction="#verPInicio" prefHeight="25.0" prefWidth="214.0" text="Cancelar" />
                            </children>
                         </AnchorPane>
                         <AnchorPane fx:id="panelInicio" prefHeight="573.0" prefWidth="727.0" visible="false" />

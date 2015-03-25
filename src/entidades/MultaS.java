@@ -92,6 +92,11 @@ public class MultaS {
     public void setFechaVencimiento(Date fechaVencimiento) {
         this.fechaVencimiento = fechaVencimiento;
     }
+
+    @Override
+    public String toString() {
+        return "MultaS{" + "id=" + id + ", bol=" + bol + ", veh=" + veh + ", san=" + san + ", sanc=" + sanc + ", fase=" + fase + ", plazo=" + plazo + ", fechaEntrada=" + fechaEntrada + ", fechaVencimiento=" + fechaVencimiento + '}';
+    }
     
     
 }

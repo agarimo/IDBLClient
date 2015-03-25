@@ -1,15 +1,19 @@
 package client;
 
 import static client.IDBLClient.stage;
+import entidades.MultaS;
+import entidades.VistaMulta;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.application.HostServices;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -32,6 +36,7 @@ import model.ModeloMulta;
 import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
 import org.controlsfx.dialog.Dialogs;
+import util.Dates;
 
 public class ClientController {
 
@@ -183,9 +188,6 @@ public class ClientController {
     private TextField tfBuscar;
 
     @FXML
-    private Button btCancelarMulta;
-
-    @FXML
     private ToggleGroup bgOpciones;
 
     @FXML
@@ -224,16 +226,27 @@ public class ClientController {
     @FXML
     private TableColumn vencimientoCL;
 
+    @FXML
+    private Accordion acordeon;
+
     ObservableList<ModeloMulta> multas;
 
-    private int posicionMulta;
+    private int selectedMulta = -1;
+    private String link;
+    private List listadoMultas = new ArrayList();
+
+    String getBusqueda() {
+        return tfBuscar.getText().toUpperCase().trim();
+    }
 
     @FXML
     void buscar(ActionEvent event) {
 
         if (rbDesactivado.isSelected()) {
             verPVista();
+            cargarMultas(getBusqueda());
         } else {
+            cargarAvanzado(getBusqueda(), typ, opt, avg);
             verPAvanzado();
         }
     }
@@ -242,7 +255,7 @@ public class ClientController {
     void setTipoBusqueda(ActionEvent event) {
         if (rbNif.isSelected()) {
             typ = 1;
-            tfBuscar.setPromptText("Inserte CIF...");
+            tfBuscar.setPromptText("Inserte NIF...");
         }
 
         if (rbMatricula.isSelected()) {
@@ -292,11 +305,16 @@ public class ClientController {
         opt = 1;
         this.rbDesactivado.setSelected(true);
         avg = 1;
+        this.rbTodas.setSelected(true);
     }
 
     @FXML
     void setMostrar(ActionEvent event) {
-
+        if (rbTodas.isSelected()) {
+            cargarDatosTabla(listadoMultas);
+        } else {
+            cargarDatosTabla(getInPlazo());
+        }
     }
 
     @FXML
@@ -368,7 +386,7 @@ public class ClientController {
 
     @FXML
     void printMulta(ActionEvent event) {
-
+        //do nothing
     }
 
     @FXML
@@ -377,13 +395,18 @@ public class ClientController {
     }
 
     @FXML
-    void setSelectedMulta(ActionEvent event) {
-
-    }
-
-    @FXML
     void verMulta(ActionEvent event) {
-        verPMulta();
+        if (selectedMulta < 0) {
+            Dialogs.create()
+                    .owner(stage)
+                    .title("Error!")
+                    .masthead("Error en selección")
+                    .message("Debes seleccionar una multa para continuar")
+                    .showError();
+        } else {
+            cargarDatosMulta(SqlIDBL.cargaMultaS(selectedMulta));
+            verPMulta();
+        }
     }
 
     @FXML
@@ -415,6 +438,71 @@ public class ClientController {
         tablaMultas.setItems(multas);
     }
 
+    private void cargarDatosTabla(List lista) {
+        multas.clear();
+        VistaMulta aux;
+        ModeloMulta model;
+        Iterator it = lista.iterator();
+
+        while (it.hasNext()) {
+            aux = (VistaMulta) it.next();
+            model = new ModeloMulta();
+            model.id = aux.getId();
+            model.nombre.set(aux.getNombre());
+            model.cif.set(aux.getCif());
+            model.matricula.set(aux.getMatricula());
+            model.fecha.set(Dates.imprimeFecha(aux.getPublicacion()));
+            model.fechaV.set(Dates.imprimeFecha(aux.getVencimiento()));
+
+            multas.add(model);
+        }
+
+        lbLocalizadas.setText(Integer.toString(listadoMultas.size()));
+        lbEnPlazo.setText(Integer.toString(getInPlazo().size()));
+    }
+
+    List getInPlazo() {
+        List list = new ArrayList();
+        Iterator it = listadoMultas.iterator();
+        VistaMulta aux;
+
+        while (it.hasNext()) {
+            aux = (VistaMulta) it.next();
+
+            if (aux.isPlazo()) {
+                list.add(aux);
+            }
+        }
+        return list;
+    }
+
+    private void cargarDatosMulta(MultaS aux) {
+        this.lbOrganismo.setText(aux.getBol().getOrigenS());
+        this.lbFechaP.setText(Dates.imprimeFecha(aux.getBol().getFechaPublicacion()));
+        this.lbFechaV.setText(Dates.imprimeFecha(aux.getFechaVencimiento()));
+        this.lbBoe.setText(aux.getBol().getnBoe());
+        this.lbNombre.setText(aux.getSanc().getNombre());
+        this.lbCif.setText(aux.getSan().getNif());
+        this.lbMatricula.setText(aux.getVeh().getMatricula());
+        this.lbExpediente.setText(aux.getSanc().getExpediente());
+        this.lbFase.setText(aux.getFase());
+        this.lbArticulo.setText(aux.getSanc().getArticulo());
+        this.lbFecha.setText(Dates.imprimeFecha(aux.getSanc().getFechaMulta()));
+        this.lbImporte.setText(aux.getSanc().getCuantia());
+        this.lbPuntos.setText(aux.getSanc().getPuntos());
+        this.lbLinea.setText(aux.getSanc().getLinea());
+        this.link = aux.getSanc().getLink();
+    }
+
+    private void cargarMultas(String aux) {
+        listadoMultas = SqlIDBL.listaMultas(VistaMulta.SQLBuscar(aux, typ, opt, avg));
+        cargarDatosTabla(listadoMultas);
+    }
+
+    private void cargarAvanzado(String text, int typ, int opt, int avg) {
+
+    }
+
     @FXML
     void initialize() {
         IDBLClient.stage.initStyle(StageStyle.TRANSPARENT);
@@ -428,8 +516,8 @@ public class ClientController {
 
         inicializarTabla();
 
-        final ObservableList<ModeloMulta> tablaPersonaSel = tablaMultas.getSelectionModel().getSelectedItems();
-        tablaPersonaSel.addListener(selectorTabla);
+        final ObservableList<ModeloMulta> aux = tablaMultas.getSelectionModel().getSelectedItems();
+        aux.addListener(selectorTabla);
     }
 
     private static boolean cerrarApp() {
@@ -441,17 +529,8 @@ public class ClientController {
         setPorDefecto();
         verPInicio();
         tfBuscar.setText("");
-//        for (int i = 0; i < 20; i++) {
-//            ModeloMulta p1 = new ModeloMulta();
-//            p1.id = i;
-//            p1.nombre.set("Nombre " + i);
-//            p1.cif.set("Apellido " + i);
-//            p1.matricula.set("020" + i);
-//            p1.fecha.set("67589458" + i);
-//            p1.fechaV.set("67589458" + i);
-//
-//            multas.add(p1);
-//        }
+        lbLocalizadas.setText("");
+        lbEnPlazo.setText("");
     }
 
     /**
@@ -484,12 +563,13 @@ public class ClientController {
      */
     private void getSelectedMulta() {
         final ModeloMulta persona = getMulta();
-        posicionMulta = multas.indexOf(persona);
+        selectedMulta = multas.indexOf(persona);
 
         if (persona != null) {
-
-            System.out.println("Seleccionado id: " + persona.id);
-
+            selectedMulta = persona.id;
+        } else {
+            selectedMulta = -1;
         }
     }
+
 }
