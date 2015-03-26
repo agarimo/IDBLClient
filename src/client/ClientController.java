@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -40,9 +41,7 @@ import util.Dates;
 
 public class ClientController {
 
-    private double x, y;
-    private int typ = 1, opt = 1, avg = 1;
-
+    //<editor-fold defaultstate="collapsed" desc="VARIABLES FXML">
     @FXML
     private ResourceBundle resources;
 
@@ -74,7 +73,7 @@ public class ClientController {
     private ToggleGroup bgTipo;
 
     @FXML
-    private ListView<?> listaAvanzado;
+    private ListView<String> listaAvanzado;
 
     @FXML
     private Label lbLocalizadas;
@@ -215,6 +214,12 @@ public class ClientController {
     private MenuItem btNuevaB;
 
     @FXML
+    private Label lbBuscando;
+
+    @FXML
+    private ProgressIndicator pgBuscando;
+
+    @FXML
     private TableColumn nombreCL;
     @FXML
     private TableColumn cifCL;
@@ -229,14 +234,36 @@ public class ClientController {
     @FXML
     private Accordion acordeon;
 
-    ObservableList<ModeloMulta> multas;
+    @FXML
+    private MenuItem cmCif;
 
+    @FXML
+    private MenuItem cmNombre;
+
+    @FXML
+    private MenuItem cmMatricula;
+//</editor-fold>
+
+    ObservableList<ModeloMulta> multas;
+    ObservableList<String> multasLista;
+
+    private double x, y;
+    private int typ = 1, opt = 1, avg = 1;
     private int selectedMulta = -1;
+    private int selectedLista = -1;
     private String link;
     private List listadoMultas = new ArrayList();
+    private List listadoAvg = new ArrayList();
 
+    //<editor-fold defaultstate="collapsed" desc="CONROL BUSQUEDA">
     String getBusqueda() {
-        return tfBuscar.getText().toUpperCase().trim();
+        String aux = tfBuscar.getText().toUpperCase().trim();
+
+//        if (rbDesactivado.isSelected() && typ == 1) {
+//            aux = validaNif(aux);
+//        }
+        tfBuscar.setText(aux);
+        return aux;
     }
 
     @FXML
@@ -246,10 +273,19 @@ public class ClientController {
             verPVista();
             cargarMultas(getBusqueda());
         } else {
-            cargarAvanzado(getBusqueda(), typ, opt, avg);
             verPAvanzado();
+            cargarAvanzado(getBusqueda());
+            pgBuscando.setVisible(false);
+            lbBuscando.setVisible(false);
+
         }
     }
+
+    private String validaNif(String trim) {
+        return trim;
+    }
+//</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="GENERAL">
 
     @FXML
     void setTipoBusqueda(ActionEvent event) {
@@ -331,16 +367,6 @@ public class ClientController {
     }
 
     @FXML
-    void setListaAvanzado(ActionEvent event) {
-
-    }
-
-    @FXML
-    void continuarAvanzado(ActionEvent event) {
-        verPVista();
-    }
-
-    @FXML
     void verPInicio(ActionEvent event) {
         panelVista.setVisible(false);
         panelMulta.setVisible(false);
@@ -385,6 +411,39 @@ public class ClientController {
     }
 
     @FXML
+    void cogerVentana(MouseEvent event) {
+        x = stage.getX() - event.getScreenX();
+        y = stage.getY() - event.getScreenY();
+    }
+
+    @FXML
+    void soltarVentana(MouseEvent event) {
+        stage.setX(event.getScreenX() + x);
+        stage.setY(event.getScreenY() + y);
+    }
+
+    @FXML
+    void moverVentana(MouseEvent event) {
+        stage.setX(event.getScreenX() + x);
+        stage.setY(event.getScreenY() + y);
+    }
+
+    private static boolean cerrarApp() {
+        return false;
+    }
+
+    @FXML
+    void clear() {
+        setPorDefecto();
+        verPInicio();
+        tfBuscar.setText("");
+        lbLocalizadas.setText("");
+        lbEnPlazo.setText("");
+    }
+//</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="CONTROL DETALLE MULTA">
+
+    @FXML
     void printMulta(ActionEvent event) {
         //do nothing
     }
@@ -409,23 +468,25 @@ public class ClientController {
         }
     }
 
-    @FXML
-    void cogerVentana(MouseEvent event) {
-        x = stage.getX() - event.getScreenX();
-        y = stage.getY() - event.getScreenY();
+    private void cargarDatosMulta(MultaS aux) {
+        this.lbOrganismo.setText(aux.getBol().getOrigenS());
+        this.lbFechaP.setText(Dates.imprimeFecha(aux.getBol().getFechaPublicacion()));
+        this.lbFechaV.setText(Dates.imprimeFecha(aux.getFechaVencimiento()));
+        this.lbBoe.setText(aux.getBol().getnBoe());
+        this.lbNombre.setText(aux.getSanc().getNombre());
+        this.lbCif.setText(aux.getSan().getNif());
+        this.lbMatricula.setText(aux.getVeh().getMatricula());
+        this.lbExpediente.setText(aux.getSanc().getExpediente());
+        this.lbFase.setText(aux.getFase());
+        this.lbArticulo.setText(aux.getSanc().getArticulo());
+        this.lbFecha.setText(Dates.imprimeFecha(aux.getSanc().getFechaMulta()));
+        this.lbImporte.setText(aux.getSanc().getCuantia());
+        this.lbPuntos.setText(aux.getSanc().getPuntos());
+        this.lbLinea.setText(aux.getSanc().getLinea());
+        this.link = aux.getSanc().getLink();
     }
-
-    @FXML
-    void soltarVentana(MouseEvent event) {
-        stage.setX(event.getScreenX() + x);
-        stage.setY(event.getScreenY() + y);
-    }
-
-    @FXML
-    void moverVentana(MouseEvent event) {
-        stage.setX(event.getScreenX() + x);
-        stage.setY(event.getScreenY() + y);
-    }
+//</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="CONTROL VISTA MULTAS">
 
     private void inicializarTabla() {
         nombreCL.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -476,77 +537,17 @@ public class ClientController {
         return list;
     }
 
-    private void cargarDatosMulta(MultaS aux) {
-        this.lbOrganismo.setText(aux.getBol().getOrigenS());
-        this.lbFechaP.setText(Dates.imprimeFecha(aux.getBol().getFechaPublicacion()));
-        this.lbFechaV.setText(Dates.imprimeFecha(aux.getFechaVencimiento()));
-        this.lbBoe.setText(aux.getBol().getnBoe());
-        this.lbNombre.setText(aux.getSanc().getNombre());
-        this.lbCif.setText(aux.getSan().getNif());
-        this.lbMatricula.setText(aux.getVeh().getMatricula());
-        this.lbExpediente.setText(aux.getSanc().getExpediente());
-        this.lbFase.setText(aux.getFase());
-        this.lbArticulo.setText(aux.getSanc().getArticulo());
-        this.lbFecha.setText(Dates.imprimeFecha(aux.getSanc().getFechaMulta()));
-        this.lbImporte.setText(aux.getSanc().getCuantia());
-        this.lbPuntos.setText(aux.getSanc().getPuntos());
-        this.lbLinea.setText(aux.getSanc().getLinea());
-        this.link = aux.getSanc().getLink();
-    }
-
     private void cargarMultas(String aux) {
-        listadoMultas = SqlIDBL.listaMultas(VistaMulta.SQLBuscar(aux, typ, opt, avg));
+        listadoMultas = SqlIDBL.listaMultas(VistaMulta.SQLBuscar(aux, typ, opt));
         cargarDatosTabla(listadoMultas);
     }
-
-    private void cargarAvanzado(String text, int typ, int opt, int avg) {
-
-    }
-
-    @FXML
-    void initialize() {
-        IDBLClient.stage.initStyle(StageStyle.TRANSPARENT);
-        IDBLClient.stage.setResizable(false);
-        IDBLClient.stage.setTitle("IDBL");
-        IDBLClient.stage.setOnCloseRequest((WindowEvent ev) -> {
-            if (!cerrarApp()) {
-                ev.consume();
-            }
-        });
-
-        inicializarTabla();
-
-        final ObservableList<ModeloMulta> aux = tablaMultas.getSelectionModel().getSelectedItems();
-        aux.addListener(selectorTabla);
-    }
-
-    private static boolean cerrarApp() {
-        return false;
-    }
-
-    @FXML
-    void clear() {
-        setPorDefecto();
-        verPInicio();
-        tfBuscar.setText("");
-        lbLocalizadas.setText("");
-        lbEnPlazo.setText("");
-    }
-
-    /**
-     * Listener de la tabla multas
-     */
-    private final ListChangeListener<ModeloMulta> selectorTabla
-            = (ListChangeListener.Change<? extends ModeloMulta> c) -> {
-                getSelectedMulta();
-            };
 
     /**
      * PARA SELECCIONAR UNA CELDA DE LA TABLA "tablaPersonas"
      *
      * @return
      */
-    public ModeloMulta getMulta() {
+    private ModeloMulta getMulta() {
 
         if (tablaMultas != null) {
             List<ModeloMulta> tabla = tablaMultas.getSelectionModel().getSelectedItems();
@@ -571,5 +572,98 @@ public class ClientController {
             selectedMulta = -1;
         }
     }
+//</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="CONTROL VISTA AVANZADA">
 
+    private void inicializarLista() {
+        multasLista = FXCollections.observableArrayList();
+        listaAvanzado.setItems(multasLista);
+    }
+
+    private void cargarDatosLista(List lista) {
+        multasLista.clear();
+        String aux;
+        Iterator it = lista.iterator();
+
+        while (it.hasNext()) {
+            aux = (String) it.next();
+            multasLista.add(aux);
+        }
+    }
+
+    @FXML
+    void continuarAvanzado(ActionEvent event) {
+        if (selectedLista != -1) {
+            verPVista();
+            tfBuscar.setText(multasLista.get(selectedLista));
+            cargarMultas(multasLista.get(selectedLista));
+            setPorDefecto();
+        } else {
+            Dialogs.create()
+                    .owner(stage)
+                    .title("Error!")
+                    .masthead("Error en selección")
+                    .message("Debes seleccionar un elemento para continuar")
+                    .showError();
+        }
+    }
+
+    private void cargarAvanzado(String aux) {
+        listadoAvg = SqlIDBL.listaMultasA(VistaMulta.SQLBuscarA(aux, typ, avg), Variables.tipoBusqueda[typ]);
+        cargarDatosLista(listadoAvg);
+    }
+
+    private String getMultaLista() {
+        if (listaAvanzado != null) {
+            String aux = listaAvanzado.getSelectionModel().getSelectedItem();
+            return aux;
+        }
+        return null;
+    }
+
+    private void getSelectedMultaLista() {
+        String aux = getMultaLista();
+        selectedLista = multasLista.indexOf(aux);
+    }
+//</editor-fold>
+
+    @FXML
+    void initialize() {
+        IDBLClient.stage.initStyle(StageStyle.TRANSPARENT);
+        IDBLClient.stage.setResizable(false);
+        IDBLClient.stage.setTitle("IDBL");
+        IDBLClient.stage.setOnCloseRequest((WindowEvent ev) -> {
+            if (!cerrarApp()) {
+                ev.consume();
+            }
+        });
+
+        inicializarTabla();
+        inicializarLista();
+
+        final ObservableList<ModeloMulta> aux = tablaMultas.getSelectionModel().getSelectedItems();
+        aux.addListener(selectorTabla);
+
+        final ObservableList<String> aux1 = listaAvanzado.getSelectionModel().getSelectedItems();
+        aux1.addListener(selectorLista);
+
+    }
+
+    //<editor-fold defaultstate="collapsed" desc="LISTENERS">
+    /**
+     * Listener de la tabla multas
+     */
+    private final ListChangeListener<ModeloMulta> selectorTabla
+            = (ListChangeListener.Change<? extends ModeloMulta> c) -> {
+                getSelectedMulta();
+            };
+
+    /**
+     * Listener de la lista multasAvg
+     */
+    private final ListChangeListener<String> selectorLista
+            = (ListChangeListener.Change<? extends String> c) -> {
+                getSelectedMultaLista();
+            };
+//</editor-fold>
 }

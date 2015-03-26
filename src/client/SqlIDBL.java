@@ -51,7 +51,7 @@ public class SqlIDBL {
         Sql bd;
         ResultSet rs;
         String aux;
-
+        
         try {
             bd = new Sql(Variables.con);
             rs = bd.ejecutarQueryRs(query);

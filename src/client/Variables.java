@@ -18,6 +18,7 @@ import org.jdom2.input.SAXBuilder;
 public class Variables {
 
     public static Conexion con;
+    public static String[] tipoBusqueda = {"-", "nif", "matricula", "expediente"};
     
 
     public static void iniciaVariables() {
