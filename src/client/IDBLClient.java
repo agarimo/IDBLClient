@@ -1,5 +1,8 @@
 package client;
 
+import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
+import com.sun.javafx.application.HostServicesDelegate;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,10 +16,12 @@ import javafx.stage.Stage;
 public class IDBLClient extends Application {
 
     public static Stage stage;
+    public static HostServicesDelegate hostServices;
 
     @Override
     public void start(Stage stage) throws Exception {
         Variables.iniciaVariables();
+        hostServices= HostServicesDelegate.getInstance(this);
         IDBLClient.stage = stage;
         Parent root = FXMLLoader.load(getClass().getResource("Client.fxml"));
 
@@ -32,5 +37,4 @@ public class IDBLClient extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
 }

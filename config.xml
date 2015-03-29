@@ -7,4 +7,7 @@
         <db-username>admin</db-username>
         <db-password>IkuinenK@@m.s84</db-password>
     </conexion>
+    <general>
+        <modo>admin</modo>
+    </general>
 </config>

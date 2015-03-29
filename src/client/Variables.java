@@ -18,6 +18,7 @@ import org.jdom2.input.SAXBuilder;
 public class Variables {
 
     public static Conexion con;
+    public static boolean modoAdmin=false;
     public static String[] tipoBusqueda = {"-", "nif", "matricula", "expediente"};
     
 
@@ -45,6 +46,7 @@ public class Variables {
     }
 
     private static void cargaXML() {
+        String aux;
         SAXBuilder builder = new SAXBuilder();
         File xmlFile = new File("config.xml");
         try {
@@ -56,6 +58,13 @@ public class Variables {
             con.setPuerto(conexion.getChildText("db-port"));
             con.setUsuario(conexion.getChildText("db-username"));
             con.setPass(conexion.getChildText("db-password"));
+            
+            conexion=config.getChild("general");
+            aux=conexion.getChildText("modo");
+            
+            if(aux.equals("admin")){
+                modoAdmin=true;
+            }
 
         } catch (IOException | JDOMException io) {
             System.out.println(io.getMessage());

@@ -104,11 +104,11 @@ public class VistaMulta {
     public static String SQLBuscarA(String aux, int typ, int avg) {
         String[] avanzado = {"-",
             "=" + Varios.entrecomillar(aux),
-            " like " + Varios.entrecomillar(aux + "%") + " limit 100",
-            " like " + Varios.entrecomillar("%" + aux + "%") + " limit 100",
-            " like " + Varios.entrecomillar("%" + aux) + " limit 100"};
+            " like " + Varios.entrecomillar(aux + "%") + " order by "+Variables.tipoBusqueda[typ]+" limit 100",
+            " like " + Varios.entrecomillar("%" + aux + "%") + " order by "+Variables.tipoBusqueda[typ]+" limit 100",
+            " like " + Varios.entrecomillar("%" + aux) + " order by "+Variables.tipoBusqueda[typ]+" limit 100"};
         String[] tipo={"","historico.sancionado","historico.vehiculo","historico.sancion"};
-
+        
         return "SELECT * FROM "+tipo[typ]+" WHERE "+Variables.tipoBusqueda[typ]+""+avanzado[avg];
     }
 }

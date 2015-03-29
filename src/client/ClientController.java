@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -14,7 +15,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
@@ -34,9 +38,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import model.ModeloMulta;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
+import util.CalculaNif;
 import util.Dates;
 
 public class ClientController {
@@ -235,15 +237,17 @@ public class ClientController {
     private Accordion acordeon;
 
     @FXML
-    private MenuItem cmCif;
+    private Button btMinimizar;
 
-    @FXML
-    private MenuItem cmNombre;
-
-    @FXML
-    private MenuItem cmMatricula;
+//    @FXML
+//    private MenuItem cmCif;
+//
+//    @FXML
+//    private MenuItem cmNombre;
+//
+//    @FXML
+//    private MenuItem cmMatricula;
 //</editor-fold>
-
     ObservableList<ModeloMulta> multas;
     ObservableList<String> multasLista;
 
@@ -259,9 +263,10 @@ public class ClientController {
     String getBusqueda() {
         String aux = tfBuscar.getText().toUpperCase().trim();
 
-//        if (rbDesactivado.isSelected() && typ == 1) {
-//            aux = validaNif(aux);
-//        }
+        if (rbDesactivado.isSelected() && typ == 1) {
+            aux = validaNif(aux);
+        }
+
         tfBuscar.setText(aux);
         return aux;
     }
@@ -282,7 +287,13 @@ public class ClientController {
     }
 
     private String validaNif(String trim) {
-        return trim;
+        CalculaNif cn = new CalculaNif();
+
+        if (trim.length() == 9) {
+            return trim;
+        } else {
+            return cn.calcular(trim);
+        }
     }
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="GENERAL">
@@ -291,16 +302,19 @@ public class ClientController {
     void setTipoBusqueda(ActionEvent event) {
         if (rbNif.isSelected()) {
             typ = 1;
+            tfBuscar.setText("");
             tfBuscar.setPromptText("Inserte NIF...");
         }
 
         if (rbMatricula.isSelected()) {
             typ = 2;
+            tfBuscar.setText("");
             tfBuscar.setPromptText("Inserte MATRICULA...");
         }
 
         if (rbExpediente.isSelected()) {
             typ = 3;
+            tfBuscar.setText("");
             tfBuscar.setPromptText("Inserte EXPEDIENTE...");
         }
     }
@@ -355,13 +369,13 @@ public class ClientController {
 
     @FXML
     void cerrarApp(ActionEvent event) {
-        Action response = Dialogs.create()
-                .owner(stage)
-                .title("Seleccione una opción")
-                .message("¿Desea cerrar la aplicación?")
-                .showConfirm();
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Salir");
+        alert.setHeaderText(null);
+        alert.setContentText("¿Desea cerrar la aplicación?");
 
-        if (response == Dialog.ACTION_YES) {
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
             System.exit(0);
         }
     }
@@ -440,6 +454,11 @@ public class ClientController {
         lbLocalizadas.setText("");
         lbEnPlazo.setText("");
     }
+
+    @FXML
+    void minimizar() {
+        IDBLClient.stage.setIconified(true);
+    }
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="CONTROL DETALLE MULTA">
 
@@ -450,18 +469,19 @@ public class ClientController {
 
     @FXML
     void verWeb(ActionEvent event) {
-
+        System.out.println(link);
+       IDBLClient.hostServices.showDocument(link);
     }
 
     @FXML
     void verMulta(ActionEvent event) {
         if (selectedMulta < 0) {
-            Dialogs.create()
-                    .owner(stage)
-                    .title("Error!")
-                    .masthead("Error en selección")
-                    .message("Debes seleccionar una multa para continuar")
-                    .showError();
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("¡Error!");
+            alert.setHeaderText(null);
+            alert.setContentText("Debes seleccionar una multa para continuar");
+
+            alert.showAndWait();
         } else {
             cargarDatosMulta(SqlIDBL.cargaMultaS(selectedMulta));
             verPMulta();
@@ -540,6 +560,15 @@ public class ClientController {
     private void cargarMultas(String aux) {
         listadoMultas = SqlIDBL.listaMultas(VistaMulta.SQLBuscar(aux, typ, opt));
         cargarDatosTabla(listadoMultas);
+
+        if (listadoMultas.isEmpty()) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Información");
+            alert.setHeaderText(null);
+            alert.setContentText("No se han encontrado registros.");
+
+            alert.showAndWait();
+        }
     }
 
     /**
@@ -599,12 +628,12 @@ public class ClientController {
             cargarMultas(multasLista.get(selectedLista));
             setPorDefecto();
         } else {
-            Dialogs.create()
-                    .owner(stage)
-                    .title("Error!")
-                    .masthead("Error en selección")
-                    .message("Debes seleccionar un elemento para continuar")
-                    .showError();
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("¡Error!");
+            alert.setHeaderText(null);
+            alert.setContentText("Debes seleccionar un elemento para continuar");
+
+            alert.showAndWait();
         }
     }
 
@@ -637,6 +666,12 @@ public class ClientController {
                 ev.consume();
             }
         });
+
+        if (Variables.modoAdmin) {
+            rbTodo.setVisible(true);
+        } else {
+            rbTodo.setVisible(false);
+        }
 
         inicializarTabla();
         inicializarLista();
