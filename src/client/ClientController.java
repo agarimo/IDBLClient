@@ -469,7 +469,7 @@ public class ClientController {
 
     @FXML
     void verWeb(ActionEvent event) {
-        System.out.println(link);
+       System.out.println(link);
        IDBLClient.hostServices.showDocument(link);
     }
 
