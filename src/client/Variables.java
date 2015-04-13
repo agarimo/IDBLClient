@@ -47,10 +47,11 @@ public class Variables {
     }
     
     private static void setConexion(){
-        con.setDireccion("localhost");
+        con.setDireccion("192.168.6.20");
         con.setUsuario("client");
         con.setPass("user01");
         con.setPuerto("3306");
+        modoAdmin=false;
     }
 
     private static void cargaXML() {
