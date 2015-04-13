@@ -24,9 +24,10 @@ public class Variables {
 
     public static void iniciaVariables() {
         driver();
-        ficheros();
+//        ficheros();
         con = new Conexion();
-        cargaXML();
+        setConexion();
+//        cargaXML();
     }
     
     private static void driver(){
@@ -43,6 +44,13 @@ public class Variables {
         aux.mkdirs();
         aux = new File("dsc");
         aux.mkdirs();
+    }
+    
+    private static void setConexion(){
+        con.setDireccion("oficina.redcedeco.net");
+        con.setUsuario("client");
+        con.setPass("user01");
+        con.setPuerto("3306");
     }
 
     private static void cargaXML() {

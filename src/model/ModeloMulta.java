@@ -12,6 +12,8 @@ public class ModeloMulta {
     public SimpleStringProperty nombre = new SimpleStringProperty();
     public SimpleStringProperty cif = new SimpleStringProperty();
     public SimpleStringProperty matricula = new SimpleStringProperty();
+    public SimpleStringProperty expediente = new SimpleStringProperty();
+    public SimpleStringProperty fase = new SimpleStringProperty();
     public SimpleStringProperty fecha = new SimpleStringProperty();
     public SimpleStringProperty fechaV = new SimpleStringProperty();
 
@@ -38,4 +40,14 @@ public class ModeloMulta {
     public String getFechaV() {
         return fechaV.get();
     }
+
+    public String getExpediente() {
+        return expediente.get();
+    }
+
+    public String getFase() {
+        return fase.get();
+    }
+    
+    
 }

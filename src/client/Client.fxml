@@ -49,31 +49,38 @@
                      </font>
                   </TextField>
                   <Button fx:id="btBuscar" layoutX="11.0" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buscar" prefHeight="25.0" prefWidth="137.0" text="Buscar" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="67.0" />
-                  <Accordion fx:id="acordeon" layoutY="109.0" prefHeight="237.0" prefWidth="202.0">
+                  <Accordion fx:id="acordeon" layoutY="250.0" prefHeight="237.0" prefWidth="202.0">
                     <panes>
-                      <TitledPane fx:id="pTipoBusqueda" text="Tipo de Búsqueda">
-                           <content>
-                              <GridPane>
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
+                        <TitledPane fx:id="pBusquedaAvanzada" expanded="false" text="Búsqueda Avanzada">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="162.0" prefWidth="200.0">
                                  <children>
-                                    <RadioButton fx:id="rbNif" mnemonicParsing="false" onAction="#setTipoBusqueda" selected="true" text="NIF">
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="bgTipo" />
-                                       </toggleGroup></RadioButton>
-                                    <RadioButton fx:id="rbMatricula" mnemonicParsing="false" onAction="#setTipoBusqueda" text="MATRICULA" toggleGroup="$bgTipo" GridPane.rowIndex="1" />
-                                    <RadioButton fx:id="rbExpediente" mnemonicParsing="false" onAction="#setTipoBusqueda" text="EXPEDIENTE" toggleGroup="$bgTipo" GridPane.rowIndex="2" />
+                                    <GridPane layoutX="15.0" layoutY="7.0" prefHeight="148.0" prefWidth="165.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <RadioButton fx:id="rbComienza" mnemonicParsing="false" onAction="#setAvanzado" text="Comienza por" GridPane.rowIndex="1">
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="bgAvanzada" />
+                                             </toggleGroup>
+                                          </RadioButton>
+                                          <RadioButton fx:id="rbContiene" mnemonicParsing="false" onAction="#setAvanzado" text="Contiene" toggleGroup="$bgAvanzada" GridPane.rowIndex="2" />
+                                          <RadioButton fx:id="rbTermina" mnemonicParsing="false" onAction="#setAvanzado" text="Termina por" toggleGroup="$bgAvanzada" GridPane.rowIndex="3" />
+                                          <RadioButton fx:id="rbDesactivado" mnemonicParsing="false" onAction="#setAvanzado" selected="true" text="Normal" toggleGroup="$bgAvanzada" />
+                                       </children>
+                                    </GridPane>
                                  </children>
-                              </GridPane>
-                           </content>
+                              </AnchorPane>
+                          </content>
                         </TitledPane>
-                      <TitledPane fx:id="pOpcionesBusqueda" expanded="false" text="Opciones de Búsqueda">
+                      <TitledPane fx:id="pOpcionesBusqueda" expanded="false" text="Opciones de Búsqueda" visible="false">
                            <content>
                               <GridPane prefHeight="150.0" prefWidth="200.0">
                                 <columnConstraints>
@@ -93,79 +100,31 @@
                               </GridPane>
                            </content>
                         </TitledPane>
-                        <TitledPane fx:id="pBusquedaAvanzada" expanded="false" text="Búsqueda Avanzada">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="162.0" prefWidth="200.0">
-                                 <children>
-                                    <GridPane layoutX="15.0" layoutY="7.0" prefHeight="148.0" prefWidth="165.0">
-                                      <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                      </columnConstraints>
-                                      <rowConstraints>
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                      </rowConstraints>
-                                       <children>
-                                          <RadioButton fx:id="rbComienza" mnemonicParsing="false" onAction="#setAvanzado" text="Comienza por" GridPane.rowIndex="1">
-                                             <toggleGroup>
-                                                <ToggleGroup fx:id="bgAvanzada" />
-                                             </toggleGroup></RadioButton>
-                                          <RadioButton fx:id="rbContiene" mnemonicParsing="false" onAction="#setAvanzado" text="Contiene" toggleGroup="$bgAvanzada" GridPane.rowIndex="2" />
-                                          <RadioButton fx:id="rbTermina" mnemonicParsing="false" onAction="#setAvanzado" text="Termina por" toggleGroup="$bgAvanzada" GridPane.rowIndex="3" />
-                                          <RadioButton fx:id="rbDesactivado" mnemonicParsing="false" onAction="#setAvanzado" selected="true" text="Normal" toggleGroup="$bgAvanzada" />
-                                       </children>
-                                    </GridPane>
-                                 </children>
-                              </AnchorPane>
-                          </content>
-                        </TitledPane>
                     </panes>
                   </Accordion>
-                  <GridPane layoutX="12.0" layoutY="383.0" prefHeight="121.0" prefWidth="180.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label prefHeight="17.0" prefWidth="91.0" text="Localizadas:" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font></Label>
-                        <Label prefHeight="17.0" prefWidth="94.0" text="En Plazo:" textAlignment="CENTER" GridPane.rowIndex="1">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font></Label>
-                        <Label prefHeight="17.0" prefWidth="90.0" text="Mostrar:" GridPane.rowIndex="2" />
-                        <Label fx:id="lbLocalizadas" alignment="TOP_LEFT" prefHeight="17.0" prefWidth="133.0" GridPane.columnIndex="1" />
-                        <Label fx:id="lbEnPlazo" alignment="TOP_LEFT" prefHeight="17.0" prefWidth="101.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <RadioButton fx:id="rbTodas" mnemonicParsing="false" onAction="#setMostrar" selected="true" text="Todas" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="bgMostrar" />
-                           </toggleGroup>
-                        </RadioButton>
-                        <RadioButton fx:id="rbEnPlazo" mnemonicParsing="false" onAction="#setMostrar" text="En plazo" toggleGroup="$bgMostrar" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                     </children>
-                  </GridPane>
-                  <Label alignment="CENTER" layoutX="10.0" layoutY="358.0" prefHeight="25.0" prefWidth="180.0" text="Información:" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font></Label>
-                  <Button fx:id="btSalir" layoutY="504.0" mnemonicParsing="false" onAction="#cerrarApp" prefHeight="44.0" prefWidth="200.0" text="SALIR" textOverrun="CLIP" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                  </Button>
-                  <Separator layoutY="345.0" prefWidth="200.0" />
-                  <Separator layoutX="1.0" layoutY="505.0" prefHeight="3.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" />
-                  <Button fx:id="btMinimizar" layoutY="547.0" mnemonicParsing="false" onAction="#minimizar" prefHeight="25.0" prefWidth="200.0" text="Minimizar" textAlignment="CENTER" />
+                <TitledPane fx:id="pTipoBusqueda" animated="false" collapsible="false" layoutY="114.0" prefHeight="136.0" prefWidth="200.0" text="Tipo de Búsqueda">
+                     <content>
+                        <GridPane>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <RadioButton fx:id="rbNif" mnemonicParsing="false" onAction="#setTipoBusqueda" selected="true" text="NIF">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="bgTipo" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="rbMatricula" mnemonicParsing="false" onAction="#setTipoBusqueda" text="MATRICULA" toggleGroup="$bgTipo" GridPane.rowIndex="1" />
+                              <RadioButton fx:id="rbExpediente" mnemonicParsing="false" onAction="#setTipoBusqueda" text="EXPEDIENTE" toggleGroup="$bgTipo" GridPane.rowIndex="2" />
+                           </children>
+                        </GridPane>
+                     </content>
+                  </TitledPane>
                </children>
             </AnchorPane>
           <AnchorPane fx:id="panelBusqueda" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -354,15 +313,17 @@
                               <Button fx:id="btPrint" layoutX="605.0" layoutY="50.0" mnemonicParsing="false" onAction="#printMulta" prefHeight="59.0" prefWidth="105.0" text="IMPRIMIR" visible="false" />
                               <Button fx:id="btVerWeb" layoutX="485.0" layoutY="50.0" mnemonicParsing="false" onAction="#verWeb" prefHeight="59.0" prefWidth="105.0" text="WEB" />
                            </children></AnchorPane>
-                        <AnchorPane fx:id="panelVista" prefHeight="573.0" prefWidth="694.0" visible="false">
+                        <AnchorPane fx:id="panelVista" prefHeight="573.0" prefWidth="694.0">
                            <children>
-                              <TableView fx:id="tablaMultas" layoutX="3.0" layoutY="14.0" prefHeight="433.0" prefWidth="695.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="21.0">
+                              <TableView fx:id="tablaMultas" layoutX="3.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="433.0" prefWidth="695.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="21.0">
                                 <columns>
-                                    <TableColumn fx:id="nombreCL" maxWidth="318.0" prefWidth="315.0" text="Nombre" />
-                                    <TableColumn fx:id="cifCL" maxWidth="224.0" minWidth="95.0" prefWidth="104.0" text="CIF" />
-                                  <TableColumn fx:id="matriculaCL" maxWidth="214.0" minWidth="85.0" prefWidth="105.0" text="MATRICULA" />
-                                  <TableColumn fx:id="publicacionCL" maxWidth="210.0" minWidth="25.0" prefWidth="81.0" text="Publicación" />
-                                    <TableColumn fx:id="vencimientoCL" maxWidth="214.0" minWidth="84.0" prefWidth="88.0" text="Vencimiento" />
+                                    <TableColumn fx:id="nombreCL" editable="false" maxWidth="386.0" prefWidth="215.0" sortable="false" text="Nombre" />
+                                    <TableColumn fx:id="cifCL" editable="false" maxWidth="80.0" minWidth="80.0" resizable="false" sortable="false" text="CIF" />
+                                  <TableColumn fx:id="matriculaCL" editable="false" maxWidth="80.0" minWidth="80.0" resizable="false" sortable="false" text="MATRICULA" />
+                                    <TableColumn fx:id="expedienteCL" editable="false" maxWidth="80.0" minWidth="80.0" resizable="false" sortable="false" text="Expediente" />
+                                    <TableColumn fx:id="faseCL" editable="false" maxWidth="80.0" minWidth="80.0" resizable="false" sortable="false" text="Fase" />
+                                  <TableColumn fx:id="publicacionCL" editable="false" maxWidth="80.0" minWidth="80.0" resizable="false" sortable="false" text="Publicación" />
+                                    <TableColumn fx:id="vencimientoCL" editable="false" maxWidth="80.0" minWidth="80.0" resizable="false" sortable="false" text="Vencimiento" />
                                 </columns>
                               </TableView>
                               <Button fx:id="btVerMulta" layoutX="491.0" layoutY="462.0" mnemonicParsing="false" onAction="#verMulta" prefHeight="37.0" prefWidth="214.0" text="Ver Multa" AnchorPane.rightAnchor="21.0">
@@ -370,6 +331,43 @@
                                     <Insets left="100.0" />
                                  </opaqueInsets>
                               </Button>
+                              <GridPane layoutX="14.0" layoutY="454.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="91.0" text="Localizadas:" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label prefHeight="17.0" prefWidth="94.0" text="En Plazo:" textAlignment="CENTER" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label prefHeight="17.0" prefWidth="90.0" text="Mostrar:" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <RadioButton fx:id="rbTodas" mnemonicParsing="false" onAction="#setMostrar" selected="true" text="Todas" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="bgMostrar" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="rbEnPlazo" mnemonicParsing="false" onAction="#setMostrar" text="En plazo" toggleGroup="$bgMostrar" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <Label fx:id="lbLocalizadas" alignment="TOP_LEFT" prefHeight="17.0" prefWidth="133.0" GridPane.columnIndex="1" />
+                                    <Label fx:id="lbEnPlazo" alignment="TOP_LEFT" prefHeight="17.0" prefWidth="101.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                 </children>
+                              </GridPane>
                            </children>
                         </AnchorPane>
                         <AnchorPane fx:id="panelInicio" prefHeight="573.0" prefWidth="727.0" visible="false" />

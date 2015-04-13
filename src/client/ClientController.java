@@ -54,9 +54,6 @@ public class ClientController {
     private RadioButton rbMatricula;
 
     @FXML
-    private Button btSalir;
-
-    @FXML
     private RadioButton rbTodo;
 
     @FXML
@@ -234,10 +231,13 @@ public class ClientController {
     private TableColumn vencimientoCL;
 
     @FXML
-    private Accordion acordeon;
-
+    private TableColumn expedienteCL;
+    
     @FXML
-    private Button btMinimizar;
+    private TableColumn faseCL;
+    
+    @FXML
+    private Accordion acordeon;
 
 //    @FXML
 //    private MenuItem cmCif;
@@ -267,7 +267,7 @@ public class ClientController {
             aux = validaNif(aux);
         }
 
-        tfBuscar.setText(aux);
+        tfBuscar.setText("");
         return aux;
     }
 
@@ -469,8 +469,8 @@ public class ClientController {
 
     @FXML
     void verWeb(ActionEvent event) {
-       System.out.println(link);
-       IDBLClient.hostServices.showDocument(link);
+        System.out.println(link);
+        IDBLClient.hostServices.showDocument(link);
     }
 
     @FXML
@@ -512,6 +512,8 @@ public class ClientController {
         nombreCL.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         cifCL.setCellValueFactory(new PropertyValueFactory<>("cif"));
         matriculaCL.setCellValueFactory(new PropertyValueFactory<>("matricula"));
+        expedienteCL.setCellValueFactory(new PropertyValueFactory<>("expediente"));
+        faseCL.setCellValueFactory(new PropertyValueFactory<>("fase"));
         publicacionCL.setCellValueFactory(new PropertyValueFactory<>("fecha"));
         vencimientoCL.setCellValueFactory(new PropertyValueFactory<>("fechaV"));
 
@@ -624,7 +626,7 @@ public class ClientController {
     void continuarAvanzado(ActionEvent event) {
         if (selectedLista != -1) {
             verPVista();
-            tfBuscar.setText(multasLista.get(selectedLista));
+//            tfBuscar.setText(multasLista.get(selectedLista));
             cargarMultas(multasLista.get(selectedLista));
             setPorDefecto();
         } else {
