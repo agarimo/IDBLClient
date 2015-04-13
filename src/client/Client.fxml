@@ -309,19 +309,19 @@
                                     </AnchorPane>
                                 </content>
                               </TitledPane>
-                              <Button fx:id="btVolverMulta" layoutX="485.0" layoutY="14.0" mnemonicParsing="false" onAction="#verPVista" prefHeight="25.0" prefWidth="225.0" text="Volver" />
-                              <Button fx:id="btPrint" layoutX="605.0" layoutY="50.0" mnemonicParsing="false" onAction="#printMulta" prefHeight="59.0" prefWidth="105.0" text="IMPRIMIR" visible="false" />
-                              <Button fx:id="btVerWeb" layoutX="485.0" layoutY="50.0" mnemonicParsing="false" onAction="#verWeb" prefHeight="59.0" prefWidth="105.0" text="WEB" />
+                              <Button fx:id="btVolverMulta" layoutX="620.0" layoutY="131.0" mnemonicParsing="false" onAction="#verPVista" prefHeight="59.0" prefWidth="90.0" text="Volver" />
+                              <Button fx:id="btPrint" layoutX="486.0" layoutY="71.0" mnemonicParsing="false" onAction="#printMulta" prefHeight="117.0" prefWidth="105.0" text="IMPRIMIR" visible="false" />
+                              <Button fx:id="btVerWeb" layoutX="486.0" layoutY="14.0" mnemonicParsing="false" onAction="#verWeb" prefHeight="46.0" prefWidth="224.0" text="WEB" />
                            </children></AnchorPane>
-                        <AnchorPane fx:id="panelVista" prefHeight="573.0" prefWidth="694.0">
+                        <AnchorPane fx:id="panelVista" prefHeight="573.0" prefWidth="694.0" visible="false">
                            <children>
                               <TableView fx:id="tablaMultas" layoutX="3.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="433.0" prefWidth="695.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="21.0">
                                 <columns>
                                     <TableColumn fx:id="nombreCL" editable="false" maxWidth="386.0" prefWidth="215.0" sortable="false" text="Nombre" />
                                     <TableColumn fx:id="cifCL" editable="false" maxWidth="80.0" minWidth="80.0" resizable="false" sortable="false" text="CIF" />
                                   <TableColumn fx:id="matriculaCL" editable="false" maxWidth="80.0" minWidth="80.0" resizable="false" sortable="false" text="MATRICULA" />
-                                    <TableColumn fx:id="expedienteCL" editable="false" maxWidth="80.0" minWidth="80.0" resizable="false" sortable="false" text="Expediente" />
-                                    <TableColumn fx:id="faseCL" editable="false" maxWidth="80.0" minWidth="80.0" resizable="false" sortable="false" text="Fase" />
+                                    <TableColumn fx:id="expedienteCL" editable="false" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" resizable="false" sortable="false" text="Expediente" />
+                                    <TableColumn fx:id="faseCL" editable="false" maxWidth="48.0" minWidth="48.0" prefWidth="48.0" resizable="false" sortable="false" text="Fase" />
                                   <TableColumn fx:id="publicacionCL" editable="false" maxWidth="80.0" minWidth="80.0" resizable="false" sortable="false" text="Publicación" />
                                     <TableColumn fx:id="vencimientoCL" editable="false" maxWidth="80.0" minWidth="80.0" resizable="false" sortable="false" text="Vencimiento" />
                                 </columns>

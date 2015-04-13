@@ -503,7 +503,20 @@ public class ClientController {
         this.lbImporte.setText(aux.getSanc().getCuantia());
         this.lbPuntos.setText(aux.getSanc().getPuntos());
         this.lbLinea.setText(aux.getSanc().getLinea());
-        this.link = aux.getSanc().getLink();
+        setLinkWeb(aux.getSanc().getLink());
+    }
+    
+    private void setLinkWeb(String link){
+        this.link = link;
+        
+        if(link.contains("sede.dgt.gob.es")){
+            btVerWeb.setDisable(false);
+            btVerWeb.setText("Ver en la web");
+            this.link=link.replace("sede.dgt.gob.es", "sedeapl.dgt.gob.es");
+        }else{
+            btVerWeb.setDisable(true);
+            btVerWeb.setText("Visualización en web no disponible");
+        }
     }
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="CONTROL VISTA MULTAS">
@@ -534,6 +547,8 @@ public class ClientController {
             model.nombre.set(aux.getNombre());
             model.cif.set(aux.getCif());
             model.matricula.set(aux.getMatricula());
+            model.expediente.set(aux.getExpediente());
+            model.fase.set(aux.getFase());
             model.fecha.set(Dates.imprimeFecha(aux.getPublicacion()));
             model.fechaV.set(Dates.imprimeFecha(aux.getVencimiento()));
 

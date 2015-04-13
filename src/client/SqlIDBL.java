@@ -32,7 +32,7 @@ public class SqlIDBL {
             rs = bd.ejecutarQueryRs(query);
 
             while (rs.next()) {
-                aux = new VistaMulta(rs.getInt("idMulta"),rs.getString("nombre"), rs.getString("nif"),rs.getString("matricula"), rs.getDate("fechaPublicacion"), rs.getDate("fechaVencimiento"));
+                aux = new VistaMulta(rs.getInt("idMulta"),rs.getString("nombre"), rs.getString("nif"),rs.getString("matricula"),rs.getString("expediente"),rs.getString("fase"), rs.getDate("fechaPublicacion"), rs.getDate("fechaVencimiento"));
                 list.add(aux);
             }
 
