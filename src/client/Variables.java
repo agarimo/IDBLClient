@@ -21,27 +21,26 @@ public class Variables {
     public static boolean modoAdmin=false;
     public static String passwordAdmin="admin01";
     public static String[] tipoBusqueda = {"-", "nif", "matricula", "expediente"};
-    
 
     public static void iniciaVariables() {
         driver();
-//        ficheros();
         con = new Conexion();
         setConexion();
+//        ficheros();
 //        cargaXML();
     }
-    
-    private static void driver(){
-         try {
+
+    private static void driver() {
+        try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Variables.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private static void ficheros(){
+
+    private static void ficheros() {
         File aux;
-        aux= new File("data");
+        aux = new File("data");
         aux.mkdirs();
         aux = new File("dsc");
         aux.mkdirs();
@@ -68,12 +67,12 @@ public class Variables {
             con.setPuerto(conexion.getChildText("db-port"));
             con.setUsuario(conexion.getChildText("db-username"));
             con.setPass(conexion.getChildText("db-password"));
-            
-            conexion=config.getChild("general");
-            aux=conexion.getChildText("modo");
-            
-            if(aux.equals("admin")){
-                modoAdmin=true;
+
+            conexion = config.getChild("general");
+            aux = conexion.getChildText("modo");
+
+            if (aux.equals("admin")) {
+                modoAdmin = true;
             }
 
         } catch (IOException | JDOMException io) {
