@@ -19,6 +19,7 @@ public class Variables {
 
     public static Conexion con;
     public static boolean modoAdmin=false;
+    public static String passwordAdmin="admin01";
     public static String[] tipoBusqueda = {"-", "nif", "matricula", "expediente"};
     
 

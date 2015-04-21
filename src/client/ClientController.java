@@ -9,20 +9,26 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -33,10 +39,12 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import javafx.util.Pair;
 import model.ModeloMulta;
 import util.CalculaNif;
 import util.Dates;
@@ -213,6 +221,9 @@ public class ClientController {
     private MenuItem btNuevaB;
 
     @FXML
+    private MenuItem btModoAdmin;
+
+    @FXML
     private Label lbBuscando;
 
     @FXML
@@ -232,10 +243,10 @@ public class ClientController {
 
     @FXML
     private TableColumn expedienteCL;
-    
+
     @FXML
     private TableColumn faseCL;
-    
+
     @FXML
     private Accordion acordeon;
 
@@ -321,12 +332,17 @@ public class ClientController {
 
     @FXML
     void setOpcionBusqueda(ActionEvent event) {
-        if (rbUltimo.isSelected()) {
-            opt = 1;
-        }
-
-        if (rbTodo.isSelected()) {
+//        if (rbUltimo.isSelected()) {
+//            opt = 1;
+//        }
+//
+//        if (rbTodo.isSelected()) {
+//            opt = 2;
+//        }
+        if (Variables.modoAdmin) {
             opt = 2;
+        } else {
+            opt = 1;
         }
     }
 
@@ -459,9 +475,96 @@ public class ClientController {
     void minimizar() {
         IDBLClient.stage.setIconified(true);
     }
+
+    @FXML
+    void modoAdmin(ActionEvent event) {
+        if (Variables.modoAdmin) {
+            Variables.modoAdmin = false;
+            activaAdmin();
+        } else {
+            login();
+            activaAdmin();
+        }
+    }
+
+    void activaAdmin() {
+        if (Variables.modoAdmin) {
+            pBusquedaAvanzada.setVisible(true);
+            btModoAdmin.setText("Modo Normal");
+        } else {
+            pBusquedaAvanzada.setVisible(false);
+            btModoAdmin.setText("Modo Admin");
+        }
+    }
+
+    void login() {
+        // Create the custom dialog.
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle("Acceso");
+        dialog.setHeaderText("Introduzca la contraseña");
+
+        // Set the icon (must be included in the project).
+        //        dialog.setGraphic(new ImageView(this.getClass().getResource("login.png").toString()));
+        // Set the button types.
+        ButtonType loginButtonType = new ButtonType("Login", ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+
+        // Create the username and password labels and fields.
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 100, 10, 10));
+
+        //        TextField username = new TextField();
+        //        username.setPromptText("Username");
+        PasswordField password = new PasswordField();
+        password.setPromptText("Password");
+
+        //        grid.add(new Label("Username:"), 0, 0);
+        //        grid.add(username, 1, 0);
+        grid.add(new Label("Password:"), 0, 0);
+        grid.add(password, 1, 0);
+
+        // Enable/Disable login button depending on whether a username was entered.
+        Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
+        loginButton.setDisable(true);
+
+        // Do some validation (using the Java 8 lambda syntax).
+        password.textProperty().addListener((observable, oldValue, newValue) -> {
+            loginButton.setDisable(newValue.trim().isEmpty());
+        });
+
+        dialog.getDialogPane().setContent(grid);
+
+        // Request focus on the username field by default.
+        Platform.runLater(() -> password.requestFocus());
+
+        // Convert the result to a username-password-pair when the login button is clicked.
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == loginButtonType) {
+                return new Pair<>("", password.getText());
+            }
+            return null;
+        });
+
+        Optional<Pair<String, String>> result = dialog.showAndWait();
+
+        result.ifPresent(usernamePassword -> {
+            if (usernamePassword.getValue().equals(Variables.passwordAdmin)) {
+                Variables.modoAdmin = true;
+            } else {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("ACCESO DENEGADO");
+                alert.setContentText("Contraseña incorrecta");
+                alert.showAndWait();
+            }
+            //            System.out.println("Username=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
+        });
+    }
+
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="CONTROL DETALLE MULTA">
-
     @FXML
     void printMulta(ActionEvent event) {
         //do nothing
@@ -505,15 +608,15 @@ public class ClientController {
         this.lbLinea.setText(aux.getSanc().getLinea());
         setLinkWeb(aux.getSanc().getLink());
     }
-    
-    private void setLinkWeb(String link){
+
+    private void setLinkWeb(String link) {
         this.link = link;
-        
-        if(link.contains("sede.dgt.gob.es")){
+
+        if (link.contains("sede.dgt.gob.es")) {
             btVerWeb.setDisable(false);
             btVerWeb.setText("Ver en la web");
-            this.link=link.replace("sede.dgt.gob.es", "sedeapl.dgt.gob.es");
-        }else{
+            this.link = link.replace("sede.dgt.gob.es", "sedeapl.dgt.gob.es");
+        } else {
             btVerWeb.setDisable(true);
             btVerWeb.setText("Visualización en web no disponible");
         }

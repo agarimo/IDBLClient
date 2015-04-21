@@ -19,6 +19,7 @@
           <Menu mnemonicParsing="false">
             <items>
               <MenuItem fx:id="btNuevaB" mnemonicParsing="false" onAction="#clear" text="Nueva Búsqueda" />
+                  <MenuItem fx:id="btModoAdmin" mnemonicParsing="false" onAction="#modoAdmin" text="Modo Admin" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="btCerrar" mnemonicParsing="false" onAction="#cerrarApp" text="Salir" />
             </items>
@@ -51,7 +52,7 @@
                   <Button fx:id="btBuscar" layoutX="11.0" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buscar" prefHeight="25.0" prefWidth="137.0" text="Buscar" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="67.0" />
                   <Accordion fx:id="acordeon" layoutY="250.0" prefHeight="237.0" prefWidth="202.0">
                     <panes>
-                        <TitledPane fx:id="pBusquedaAvanzada" expanded="false" text="Búsqueda Avanzada">
+                        <TitledPane fx:id="pBusquedaAvanzada" expanded="false" text="Búsqueda Avanzada" visible="false">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="162.0" prefWidth="200.0">
                                  <children>
