@@ -9,7 +9,7 @@ import javafx.beans.property.SimpleStringProperty;
 public class ModeloMulta {
     
     public int id;
-    public SimpleStringProperty nombre = new SimpleStringProperty();
+    public SimpleStringProperty organismo = new SimpleStringProperty();
     public SimpleStringProperty cif = new SimpleStringProperty();
     public SimpleStringProperty matricula = new SimpleStringProperty();
     public SimpleStringProperty expediente = new SimpleStringProperty();
@@ -21,8 +21,8 @@ public class ModeloMulta {
         return id;
     }
     
-    public String getNombre() {
-        return nombre.get();
+    public String getOrganismo() {
+        return organismo.get();
     }
 
     public String getCif() {

@@ -12,7 +12,7 @@ import util.Varios;
 public class VistaMulta {
 
     int id;
-    String nombre;
+    String organismo;
     String cif;
     String matricula;
     String expediente;
@@ -25,9 +25,9 @@ public class VistaMulta {
 
     }
 
-    public VistaMulta(int id, String nombre, String cif,  String matricula,String expediente, String fase, Date fP, Date fV) {
+    public VistaMulta(int id, String organismo, String cif,  String matricula,String expediente, String fase, Date fP, Date fV) {
         this.id = id;
-        this.nombre = nombre;
+        this.organismo = organismo;
         this.cif = cif;
         this.matricula = matricula;
         this.expediente = expediente;
@@ -45,12 +45,12 @@ public class VistaMulta {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getOrganismo() {
+        return organismo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setOrganismo(String nombre) {
+        this.organismo = nombre;
     }
 
     public String getCif() {

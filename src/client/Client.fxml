@@ -12,9 +12,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="win" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientController">
+<VBox fx:id="win" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientController">
    <children>
-      <MenuBar onMouseDragged="#moverVentana" onMousePressed="#cogerVentana" onMouseReleased="#soltarVentana" prefHeight="25.0" prefWidth="915.0">
+      <MenuBar onMouseDragged="#moverVentana" onMousePressed="#cogerVentana" onMouseReleased="#soltarVentana" prefHeight="25.0" prefWidth="980.0">
         <menus>
           <Menu mnemonicParsing="false">
             <items>
@@ -126,11 +126,12 @@
                         </GridPane>
                      </content>
                   </TitledPane>
+                  <Button fx:id="btMinimizar" layoutY="547.0" mnemonicParsing="false" onAction="#minimizar" prefHeight="25.0" prefWidth="200.0" text="Minimizar" />
                </children>
             </AnchorPane>
           <AnchorPane fx:id="panelBusqueda" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <StackPane fx:id="paneles" layoutX="6.0" prefHeight="573.0" prefWidth="726.0">
+                  <StackPane fx:id="paneles" layoutX="6.0" prefHeight="573.0" prefWidth="772.0">
                      <children>
                         <AnchorPane fx:id="panelAvanzado" prefHeight="200.0" prefWidth="200.0" visible="false">
                            <children>
@@ -314,20 +315,20 @@
                               <Button fx:id="btPrint" layoutX="486.0" layoutY="71.0" mnemonicParsing="false" onAction="#printMulta" prefHeight="117.0" prefWidth="105.0" text="IMPRIMIR" visible="false" />
                               <Button fx:id="btVerWeb" layoutX="486.0" layoutY="14.0" mnemonicParsing="false" onAction="#verWeb" prefHeight="46.0" prefWidth="224.0" text="WEB" />
                            </children></AnchorPane>
-                        <AnchorPane fx:id="panelVista" prefHeight="573.0" prefWidth="694.0" visible="false">
+                        <AnchorPane fx:id="panelVista" prefHeight="573.0" prefWidth="728.0">
                            <children>
-                              <TableView fx:id="tablaMultas" layoutX="3.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="433.0" prefWidth="695.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="21.0">
+                              <TableView fx:id="tablaMultas" layoutX="3.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="280.0" prefWidth="745.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="17.0">
                                 <columns>
-                                    <TableColumn fx:id="nombreCL" editable="false" maxWidth="386.0" prefWidth="215.0" sortable="false" text="Nombre" />
+                                    <TableColumn fx:id="organismoCL" editable="false" maxWidth="245.0" minWidth="245.0" prefWidth="245.0" resizable="false" sortable="false" text="Organismo" />
                                     <TableColumn fx:id="cifCL" editable="false" maxWidth="80.0" minWidth="80.0" resizable="false" sortable="false" text="CIF" />
                                   <TableColumn fx:id="matriculaCL" editable="false" maxWidth="80.0" minWidth="80.0" resizable="false" sortable="false" text="MATRICULA" />
                                     <TableColumn fx:id="expedienteCL" editable="false" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" resizable="false" sortable="false" text="Expediente" />
                                     <TableColumn fx:id="faseCL" editable="false" maxWidth="48.0" minWidth="48.0" prefWidth="48.0" resizable="false" sortable="false" text="Fase" />
-                                  <TableColumn fx:id="publicacionCL" editable="false" maxWidth="80.0" minWidth="80.0" resizable="false" sortable="false" text="Publicación" />
-                                    <TableColumn fx:id="vencimientoCL" editable="false" maxWidth="80.0" minWidth="80.0" resizable="false" sortable="false" text="Vencimiento" />
+                                  <TableColumn fx:id="publicacionCL" editable="false" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" resizable="false" sortable="false" text="Publicación" />
+                                    <TableColumn fx:id="vencimientoCL" editable="false" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" resizable="false" sortable="false" text="Vencimiento" />
                                 </columns>
                               </TableView>
-                              <Button fx:id="btVerMulta" layoutX="491.0" layoutY="462.0" mnemonicParsing="false" onAction="#verMulta" prefHeight="37.0" prefWidth="214.0" text="Ver Multa" AnchorPane.rightAnchor="21.0">
+                              <Button fx:id="btVerMulta" layoutX="538.0" layoutY="507.0" mnemonicParsing="false" onAction="#verMulta" prefHeight="37.0" prefWidth="214.0" text="Ver Detalle Multa" AnchorPane.rightAnchor="20.0">
                                  <opaqueInsets>
                                     <Insets left="100.0" />
                                  </opaqueInsets>
@@ -369,6 +370,52 @@
                                     <Label fx:id="lbEnPlazo" alignment="TOP_LEFT" prefHeight="17.0" prefWidth="101.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                  </children>
                               </GridPane>
+                              <GridPane layoutX="10.0" layoutY="301.0" prefHeight="92.0" prefWidth="745.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="182.0" minWidth="9.0" prefWidth="65.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="483.0" minWidth="10.0" prefWidth="421.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="152.0" minWidth="10.0" prefWidth="63.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="202.0" minWidth="10.0" prefWidth="190.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Nombre : ">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Puntos : " GridPane.columnIndex="2">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Euros : " GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Articulo :" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Linea :" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lbNombreV" prefHeight="17.0" prefWidth="459.0" GridPane.columnIndex="1" />
+                                    <Label fx:id="lbPuntosV" prefHeight="17.0" prefWidth="207.0" GridPane.columnIndex="3" />
+                                    <Label fx:id="lbEurosV" prefHeight="17.0" prefWidth="202.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <Label fx:id="lbArticuloV" prefHeight="17.0" prefWidth="201.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                 </children>
+                              </GridPane>
+                              <Label fx:id="lbLineaV" contentDisplay="CENTER" layoutX="14.0" layoutY="399.0" prefHeight="30.0" prefWidth="738.0" textAlignment="CENTER" />
+                              <Separator layoutX="10.0" layoutY="429.0" prefHeight="25.0" prefWidth="738.0" />
                            </children>
                         </AnchorPane>
                         <AnchorPane fx:id="panelInicio" prefHeight="573.0" prefWidth="727.0" visible="false" />

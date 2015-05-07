@@ -47,7 +47,7 @@ public class Variables {
     }
     
     private static void setConexion(){
-        con.setDireccion("192.168.6.20");
+        con.setDireccion("oficina.redcedeco.net");
         con.setUsuario("client");
         con.setPass("user01");
         con.setPuerto("3306");

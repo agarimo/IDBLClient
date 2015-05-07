@@ -230,7 +230,7 @@ public class ClientController {
     private ProgressIndicator pgBuscando;
 
     @FXML
-    private TableColumn nombreCL;
+    private TableColumn organismoCL;
     @FXML
     private TableColumn cifCL;
     @FXML
@@ -249,6 +249,21 @@ public class ClientController {
 
     @FXML
     private Accordion acordeon;
+
+    @FXML
+    private Label lbNombreV;
+
+    @FXML
+    private Label lbEurosV;
+
+    @FXML
+    private Label lbPuntosV;
+
+    @FXML
+    private Label lbArticuloV;
+
+    @FXML
+    private Label lbLineaV;
 
 //    @FXML
 //    private MenuItem cmCif;
@@ -625,7 +640,7 @@ public class ClientController {
     //<editor-fold defaultstate="collapsed" desc="CONTROL VISTA MULTAS">
 
     private void inicializarTabla() {
-        nombreCL.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        organismoCL.setCellValueFactory(new PropertyValueFactory<>("organismo"));
         cifCL.setCellValueFactory(new PropertyValueFactory<>("cif"));
         matriculaCL.setCellValueFactory(new PropertyValueFactory<>("matricula"));
         expedienteCL.setCellValueFactory(new PropertyValueFactory<>("expediente"));
@@ -647,7 +662,7 @@ public class ClientController {
             aux = (VistaMulta) it.next();
             model = new ModeloMulta();
             model.id = aux.getId();
-            model.nombre.set(aux.getNombre());
+            model.organismo.set(aux.getOrganismo());
             model.cif.set(aux.getCif());
             model.matricula.set(aux.getMatricula());
             model.expediente.set(aux.getExpediente());
@@ -689,6 +704,22 @@ public class ClientController {
 
             alert.showAndWait();
         }
+    }
+
+    private void mostrarDatosMulta(MultaS aux) {
+        this.lbNombreV.setText(aux.getSanc().getNombre());
+        this.lbEurosV.setText(aux.getSanc().getCuantia());
+        this.lbPuntosV.setText(aux.getSanc().getPuntos());
+        this.lbArticuloV.setText(aux.getSanc().getArticulo());
+        this.lbLineaV.setText(aux.getSanc().getLinea());
+    }
+
+    private void limpiarDatosMulta() {
+        this.lbNombreV.setText("");
+        this.lbEurosV.setText("");
+        this.lbPuntosV.setText("");
+        this.lbArticuloV.setText("");
+        this.lbLineaV.setText("");
     }
 
     /**
@@ -811,6 +842,11 @@ public class ClientController {
     private final ListChangeListener<ModeloMulta> selectorTabla
             = (ListChangeListener.Change<? extends ModeloMulta> c) -> {
                 getSelectedMulta();
+                if (selectedMulta > 0) {
+                    mostrarDatosMulta(SqlIDBL.cargaMultaS(selectedMulta));
+                } else {
+                    limpiarDatosMulta();
+                }
             };
 
     /**
