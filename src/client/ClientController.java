@@ -290,25 +290,42 @@ public class ClientController {
         String aux = tfBuscar.getText().toUpperCase().trim();
 
         if (rbDesactivado.isSelected() && typ == 1) {
-            aux = validaNif(aux);
+            try {
+                aux = validaNif(aux);
+            } catch (Exception e) {
+                aux = null;
+            }
         }
-
         tfBuscar.setText("");
         return aux;
     }
 
+    private boolean checkBusqueda(String busqueda) {
+        return busqueda != null;
+    }
+
     @FXML
     void buscar(ActionEvent event) {
+        String busqueda = getBusqueda();
 
-        if (rbDesactivado.isSelected()) {
-            verPVista();
-            cargarMultas(getBusqueda());
-        } else {
-            verPAvanzado();
-            cargarAvanzado(getBusqueda());
-            pgBuscando.setVisible(false);
-            lbBuscando.setVisible(false);
-
+        if (busqueda.length() > 0) {
+            if (checkBusqueda(busqueda)) {
+                if (rbDesactivado.isSelected()) {
+                    verPVista();
+                    cargarMultas(busqueda);
+                } else {
+                    verPAvanzado();
+                    cargarAvanzado(busqueda);
+                    pgBuscando.setVisible(false);
+                    lbBuscando.setVisible(false);
+                }
+            } else {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Error de formato");
+                alert.setContentText("El nif a buscar no tiene un formato válido");
+                alert.showAndWait();
+            }
         }
     }
 
@@ -832,7 +849,6 @@ public class ClientController {
 
         final ObservableList<String> aux1 = listaAvanzado.getSelectionModel().getSelectedItems();
         aux1.addListener(selectorLista);
-
     }
 
     //<editor-fold defaultstate="collapsed" desc="LISTENERS">

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
 import util.Sql;
 import util.Varios;
 
@@ -40,6 +41,12 @@ public class SqlIDBL {
             bd.close();
 
         } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("ERROR DE CONEXIÓN");
+            alert.setContentText(ex.getMessage());
+
+            alert.showAndWait();
             Logger.getLogger(SqlIDBL.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -65,6 +72,12 @@ public class SqlIDBL {
             bd.close();
 
         } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("ERROR DE CONEXIÓN");
+            alert.setContentText(ex.getMessage());
+
+            alert.showAndWait();
             Logger.getLogger(SqlIDBL.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -136,6 +149,12 @@ public class SqlIDBL {
             rs.close();
             bd.close();
         } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("ERROR DE CONEXIÓN");
+            alert.setContentText(ex.getMessage());
+
+            alert.showAndWait();
             Logger.getLogger(SqlIDBL.class.getName()).log(Level.SEVERE, null, ex);
         }
         return multa;
