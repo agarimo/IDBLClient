@@ -72,8 +72,8 @@
                                                 <ToggleGroup fx:id="bgAvanzada" />
                                              </toggleGroup>
                                           </RadioButton>
-                                          <RadioButton fx:id="rbContiene" mnemonicParsing="false" onAction="#setAvanzado" text="Contiene" toggleGroup="$bgAvanzada" GridPane.rowIndex="2" />
-                                          <RadioButton fx:id="rbTermina" mnemonicParsing="false" onAction="#setAvanzado" text="Termina por" toggleGroup="$bgAvanzada" GridPane.rowIndex="3" />
+                                          <RadioButton fx:id="rbContiene" disable="true" mnemonicParsing="false" onAction="#setAvanzado" text="Contiene" toggleGroup="$bgAvanzada" GridPane.rowIndex="2" />
+                                          <RadioButton fx:id="rbTermina" disable="true" mnemonicParsing="false" onAction="#setAvanzado" text="Termina por" toggleGroup="$bgAvanzada" GridPane.rowIndex="3" />
                                           <RadioButton fx:id="rbDesactivado" mnemonicParsing="false" onAction="#setAvanzado" selected="true" text="Normal" toggleGroup="$bgAvanzada" />
                                        </children>
                                     </GridPane>
@@ -151,171 +151,7 @@
                               </Label>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="panelMulta" prefHeight="573.0" prefWidth="733.0" visible="false">
-                           <children>
-                              <TitledPane animated="false" collapsible="false" layoutX="9.0" layoutY="14.0" prefHeight="176.0" prefWidth="464.0" text="Boletin">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="150.0" prefWidth="436.0">
-                                       <children>
-                                          <GridPane layoutX="14.0" layoutY="14.0" prefHeight="120.0" prefWidth="436.0">
-                                            <columnConstraints>
-                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="10.0" prefWidth="112.0" />
-                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="347.0" minWidth="10.0" prefWidth="289.0" />
-                                            </columnConstraints>
-                                            <rowConstraints>
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                            </rowConstraints>
-                                             <children>
-                                                <Label text="Organismo :">
-                                                   <font>
-                                                      <Font name="System Bold" size="12.0" />
-                                                   </font></Label>
-                                                <Label text="Fecha Publicación :" GridPane.rowIndex="1">
-                                                   <font>
-                                                      <Font name="System Bold" size="12.0" />
-                                                   </font></Label>
-                                                <Label text="Fecha Vencimiento :" GridPane.rowIndex="2">
-                                                   <font>
-                                                      <Font name="System Bold" size="12.0" />
-                                                   </font></Label>
-                                                <Label text="B.O.E. :" GridPane.rowIndex="3">
-                                                   <font>
-                                                      <Font name="System Bold" size="12.0" />
-                                                   </font></Label>
-                                                <Label fx:id="lbOrganismo" prefHeight="17.0" prefWidth="319.0" GridPane.columnIndex="1" />
-                                                <Label fx:id="lbFechaP" prefHeight="17.0" prefWidth="333.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                                <Label fx:id="lbFechaV" prefHeight="17.0" prefWidth="327.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                                <Label fx:id="lbBoe" prefHeight="17.0" prefWidth="311.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                             </children>
-                                          </GridPane>
-                                       </children>
-                                    </AnchorPane>
-                                </content>
-                              </TitledPane>
-                              <TitledPane animated="false" collapsible="false" layoutX="14.0" layoutY="500.0" prefHeight="59.0" prefWidth="702.0" text="Linea de Sanción" AnchorPane.rightAnchor="15.0">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="33.0" prefWidth="602.0">
-                                       <children>
-                                          <Label fx:id="lbLinea" alignment="CENTER" contentDisplay="CENTER" layoutX="13.0" layoutY="2.0" prefHeight="31.0" prefWidth="673.0" />
-                                       </children></AnchorPane>
-                                </content>
-                              </TitledPane>
-                              <TitledPane animated="false" collapsible="false" layoutX="8.0" layoutY="314.0" prefHeight="176.0" prefWidth="702.0" text="Sanción">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="688.0">
-                                       <children>
-                                          <GridPane layoutX="14.0" layoutY="14.0" prefHeight="114.0" prefWidth="661.0">
-                                            <columnConstraints>
-                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="165.0" minWidth="10.0" prefWidth="83.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="370.0" minWidth="10.0" prefWidth="305.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="141.0" minWidth="0.0" prefWidth="74.0" />
-                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="258.0" minWidth="10.0" prefWidth="197.0" />
-                                            </columnConstraints>
-                                            <rowConstraints>
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                            </rowConstraints>
-                                             <children>
-                                                <Label text="Expediente : ">
-                                                   <font>
-                                                      <Font name="System Bold" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label fx:id="lbExpediente" prefHeight="17.0" prefWidth="307.0" GridPane.columnIndex="1" />
-                                                <Label text="Fase :" GridPane.columnIndex="2">
-                                                   <font>
-                                                      <Font name="System Bold" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label fx:id="lbFase" prefHeight="17.0" prefWidth="252.0" GridPane.columnIndex="3" />
-                                                <Label text="Articulo :" GridPane.rowIndex="1">
-                                                   <font>
-                                                      <Font name="System Bold" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label fx:id="lbArticulo" prefHeight="17.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                                <Label text="Fecha : " GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                                   <font>
-                                                      <Font name="System Bold" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label fx:id="lbFecha" prefHeight="17.0" prefWidth="233.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                                <Label text="Importe :" GridPane.rowIndex="2">
-                                                   <font>
-                                                      <Font name="System Bold" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="Puntos :" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                                   <font>
-                                                      <Font name="System Bold" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label fx:id="lbImporte" prefHeight="17.0" prefWidth="314.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                                <Label fx:id="lbPuntos" prefHeight="17.0" prefWidth="223.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                             </children>
-                                          </GridPane>
-                                       </children></AnchorPane>
-                                </content>
-                              </TitledPane>
-                              <TitledPane animated="false" collapsible="false" layoutX="9.0" layoutY="197.0" prefHeight="107.0" prefWidth="702.0" text="Sancionado">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <GridPane layoutX="8.0" layoutY="41.0" prefHeight="31.0" prefWidth="684.0">
-                                            <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="166.0" minWidth="10.0" prefWidth="74.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="405.0" minWidth="10.0" prefWidth="320.0" />
-                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="231.0" minWidth="10.0" prefWidth="73.0" />
-                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="217.0" minWidth="10.0" prefWidth="217.0" />
-                                            </columnConstraints>
-                                            <rowConstraints>
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                            </rowConstraints>
-                                             <children>
-                                                <Label text="Cif : ">
-                                                   <font>
-                                                      <Font name="System Bold" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="Matricula : " GridPane.columnIndex="2">
-                                                   <font>
-                                                      <Font name="System Bold" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label fx:id="lbCif" prefHeight="17.0" prefWidth="425.0" GridPane.columnIndex="1" />
-                                                <Label fx:id="lbMatricula" prefHeight="17.0" prefWidth="225.0" GridPane.columnIndex="3" />
-                                             </children>
-                                          </GridPane>
-                                          <GridPane layoutX="8.0" layoutY="14.0" prefHeight="25.0" prefWidth="671.0">
-                                            <columnConstraints>
-                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="331.0" minWidth="10.0" prefWidth="74.0" />
-                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="647.0" minWidth="10.0" prefWidth="597.0" />
-                                            </columnConstraints>
-                                            <rowConstraints>
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                            </rowConstraints>
-                                             <children>
-                                                <Label text="Nombre :">
-                                                   <font>
-                                                      <Font name="System Bold" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label fx:id="lbNombre" prefHeight="17.0" prefWidth="648.0" GridPane.columnIndex="1" />
-                                             </children>
-                                          </GridPane>
-                                       </children>
-                                    </AnchorPane>
-                                </content>
-                              </TitledPane>
-                              <Button fx:id="btVolverMulta" layoutX="620.0" layoutY="131.0" mnemonicParsing="false" onAction="#verPVista" prefHeight="59.0" prefWidth="90.0" text="Volver" />
-                              <Button fx:id="btPrint" layoutX="486.0" layoutY="71.0" mnemonicParsing="false" onAction="#printMulta" prefHeight="117.0" prefWidth="105.0" text="IMPRIMIR" visible="false" />
-                              <Button fx:id="btVerWeb" layoutX="486.0" layoutY="14.0" mnemonicParsing="false" onAction="#verWeb" prefHeight="46.0" prefWidth="224.0" text="WEB" />
-                           </children></AnchorPane>
-                        <AnchorPane fx:id="panelVista" prefHeight="573.0" prefWidth="728.0">
+                        <AnchorPane fx:id="panelVista" prefHeight="573.0" prefWidth="728.0" visible="false">
                            <children>
                               <TableView fx:id="tablaMultas" layoutX="3.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="280.0" prefWidth="745.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="17.0">
                                 <columns>
@@ -419,6 +255,170 @@
                            </children>
                         </AnchorPane>
                         <AnchorPane fx:id="panelInicio" prefHeight="573.0" prefWidth="727.0" visible="false" />
+                        <AnchorPane fx:id="panelMulta" prefHeight="573.0" prefWidth="733.0" visible="false">
+                           <children>
+                              <TitledPane animated="false" collapsible="false" layoutY="14.0" prefHeight="176.0" prefWidth="464.0" text="Boletin">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="150.0" prefWidth="436.0">
+                                       <children>
+                                          <GridPane layoutX="14.0" layoutY="14.0" prefHeight="120.0" prefWidth="436.0">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="10.0" prefWidth="112.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="347.0" minWidth="10.0" prefWidth="289.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Label text="Organismo :">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font></Label>
+                                                <Label text="Fecha Publicación :" GridPane.rowIndex="1">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font></Label>
+                                                <Label text="Fecha Vencimiento :" GridPane.rowIndex="2">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font></Label>
+                                                <Label text="B.O.E. :" GridPane.rowIndex="3">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font></Label>
+                                                <Label fx:id="lbOrganismo" prefHeight="17.0" prefWidth="319.0" GridPane.columnIndex="1" />
+                                                <Label fx:id="lbFechaP" prefHeight="17.0" prefWidth="333.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <Label fx:id="lbFechaV" prefHeight="17.0" prefWidth="327.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                <Label fx:id="lbBoe" prefHeight="17.0" prefWidth="311.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </TitledPane>
+                              <TitledPane animated="false" collapsible="false" layoutX="9.0" layoutY="500.0" prefHeight="59.0" prefWidth="734.0" text="Linea de Sanción" AnchorPane.rightAnchor="29.0">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="33.0" prefWidth="741.0">
+                                       <children>
+                                          <Label fx:id="lbLinea" alignment="CENTER" contentDisplay="CENTER" layoutX="13.0" layoutY="2.0" prefHeight="31.0" prefWidth="734.0" />
+                                       </children></AnchorPane>
+                                </content>
+                              </TitledPane>
+                              <TitledPane animated="false" collapsible="false" layoutY="312.0" prefHeight="176.0" prefWidth="743.0" text="Sanción">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="150.0" prefWidth="732.0">
+                                       <children>
+                                          <GridPane layoutX="14.0" layoutY="14.0" prefHeight="114.0" prefWidth="661.0">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="165.0" minWidth="10.0" prefWidth="83.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="370.0" minWidth="10.0" prefWidth="305.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="141.0" minWidth="0.0" prefWidth="74.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="258.0" minWidth="10.0" prefWidth="197.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Label text="Expediente : ">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="lbExpediente" prefHeight="17.0" prefWidth="307.0" GridPane.columnIndex="1" />
+                                                <Label text="Fase :" GridPane.columnIndex="2">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="lbFase" prefHeight="17.0" prefWidth="252.0" GridPane.columnIndex="3" />
+                                                <Label text="Articulo :" GridPane.rowIndex="1">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="lbArticulo" prefHeight="17.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <Label text="Fecha : " GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="lbFecha" prefHeight="17.0" prefWidth="233.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                                <Label text="Importe :" GridPane.rowIndex="2">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Puntos :" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="lbImporte" prefHeight="17.0" prefWidth="314.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                <Label fx:id="lbPuntos" prefHeight="17.0" prefWidth="223.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                             </children>
+                                          </GridPane>
+                                       </children></AnchorPane>
+                                </content>
+                              </TitledPane>
+                              <TitledPane animated="false" collapsible="false" layoutY="197.0" prefHeight="107.0" prefWidth="743.0" text="Sancionado">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="81.0" prefWidth="730.0">
+                                       <children>
+                                          <GridPane layoutX="8.0" layoutY="41.0" prefHeight="31.0" prefWidth="684.0">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="166.0" minWidth="10.0" prefWidth="74.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="405.0" minWidth="10.0" prefWidth="320.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="231.0" minWidth="10.0" prefWidth="73.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="217.0" minWidth="10.0" prefWidth="217.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Label text="Cif : ">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Matricula : " GridPane.columnIndex="2">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="lbCif" prefHeight="17.0" prefWidth="425.0" GridPane.columnIndex="1" />
+                                                <Label fx:id="lbMatricula" prefHeight="17.0" prefWidth="225.0" GridPane.columnIndex="3" />
+                                             </children>
+                                          </GridPane>
+                                          <GridPane layoutX="8.0" layoutY="14.0" prefHeight="25.0" prefWidth="671.0">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="331.0" minWidth="10.0" prefWidth="74.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="647.0" minWidth="10.0" prefWidth="597.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Label text="Nombre :">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="lbNombre" prefHeight="17.0" prefWidth="648.0" GridPane.columnIndex="1" />
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </TitledPane>
+                              <Button fx:id="btVolverMulta" layoutX="653.0" layoutY="130.0" mnemonicParsing="false" onAction="#verPVista" prefHeight="59.0" prefWidth="90.0" text="Volver" />
+                              <Button fx:id="btPrint" layoutX="486.0" layoutY="71.0" mnemonicParsing="false" onAction="#printMulta" prefHeight="117.0" prefWidth="105.0" text="IMPRIMIR" visible="false" />
+                              <Button fx:id="btVerWeb" layoutX="468.0" layoutY="14.0" mnemonicParsing="false" onAction="#verWeb" prefHeight="46.0" prefWidth="275.0" text="WEB" />
+                           </children></AnchorPane>
                      </children>
                   </StackPane>
                </children>
