@@ -133,7 +133,7 @@
                <children>
                   <StackPane fx:id="paneles" layoutX="6.0" prefHeight="573.0" prefWidth="772.0">
                      <children>
-                        <AnchorPane fx:id="panelAvanzado" prefHeight="200.0" prefWidth="200.0" visible="false">
+                        <AnchorPane fx:id="panelAvanzado" prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <ListView fx:id="listaAvanzado" layoutX="73.0" layoutY="120.0" prefHeight="394.0" prefWidth="247.0" />
                               <Label layoutX="73.0" layoutY="36.0" prefHeight="59.0" prefWidth="557.0" text="Seleccione un elemento en la lista para continuar">

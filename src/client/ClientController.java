@@ -347,13 +347,6 @@ public class ClientController {
 
     @FXML
     void setOpcionBusqueda(ActionEvent event) {
-//        if (rbUltimo.isSelected()) {
-//            opt = 1;
-//        }
-//
-//        if (rbTodo.isSelected()) {
-//            opt = 2;
-//        }
         if (Variables.modoAdmin) {
             opt = 2;
         } else {
@@ -506,9 +499,11 @@ public class ClientController {
         if (Variables.modoAdmin) {
             pBusquedaAvanzada.setVisible(true);
             btModoAdmin.setText("Modo Normal");
+            opt=2;
         } else {
             pBusquedaAvanzada.setVisible(false);
             btModoAdmin.setText("Modo Admin");
+            opt=1;
         }
     }
 
