@@ -46,18 +46,18 @@ public class SqlIDBL {
         return list;
     }
     
-    public static List<String> listaMultasA(String query,String column) {
-        List<String> list = new ArrayList();
+    public static List<Sancionado> listaMultasA(String query,String column) {
+        List<Sancionado> list = new ArrayList();
         Sql bd;
         ResultSet rs;
-        String aux;
+        Sancionado aux;
         
         try {
             bd = new Sql(Variables.con);
             rs = bd.ejecutarQueryRs(query);
 
             while (rs.next()) {
-                aux = rs.getString(column);
+                aux = new Sancionado(rs.getInt("idSancionado"),rs.getString("nif"),rs.getString("tipoJuridico"),rs.getString("nombre"));
                 list.add(aux);
             }
 

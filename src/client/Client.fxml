@@ -133,22 +133,27 @@
                <children>
                   <StackPane fx:id="paneles" layoutX="6.0" prefHeight="573.0" prefWidth="772.0">
                      <children>
-                        <AnchorPane fx:id="panelAvanzado" prefHeight="200.0" prefWidth="200.0">
+                        <AnchorPane fx:id="panelAvanzado" prefHeight="200.0" prefWidth="200.0" visible="false">
                            <children>
-                              <ListView fx:id="listaAvanzado" layoutX="73.0" layoutY="120.0" prefHeight="394.0" prefWidth="247.0" />
                               <Label layoutX="73.0" layoutY="36.0" prefHeight="59.0" prefWidth="557.0" text="Seleccione un elemento en la lista para continuar">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="btContinuarAvanzado" layoutX="351.0" layoutY="120.0" mnemonicParsing="false" onAction="#continuarAvanzado" prefHeight="35.0" prefWidth="275.0" text="Continuar" textAlignment="CENTER" />
-                              <Button fx:id="btVolverAvanzado" layoutX="355.0" layoutY="489.0" mnemonicParsing="false" onAction="#verPInicio" prefHeight="25.0" prefWidth="275.0" text="Volver" textAlignment="CENTER" />
-                              <ProgressIndicator fx:id="pgBuscando" layoutX="351.0" layoutY="169.0" prefHeight="92.0" prefWidth="275.0" />
-                              <Label fx:id="lbBuscando" alignment="CENTER" layoutX="351.0" layoutY="261.0" prefHeight="17.0" prefWidth="275.0" text="...Buscando...">
+                              <Button fx:id="btContinuarAvanzado" layoutX="430.0" layoutY="95.0" mnemonicParsing="false" onAction="#continuarAvanzado" prefHeight="35.0" prefWidth="200.0" text="Continuar" textAlignment="CENTER" />
+                              <Button fx:id="btVolverAvanzado" layoutX="439.0" layoutY="489.0" mnemonicParsing="false" onAction="#verPInicio" prefHeight="25.0" prefWidth="191.0" text="Volver" textAlignment="CENTER" />
+                              <ProgressIndicator fx:id="pgBuscando" layoutX="435.0" layoutY="169.0" prefHeight="92.0" prefWidth="191.0" />
+                              <Label fx:id="lbBuscando" alignment="CENTER" layoutX="435.0" layoutY="261.0" prefHeight="30.0" prefWidth="191.0" text="...Buscando...">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
                               </Label>
+                              <TableView fx:id="listaAvanzado" layoutX="73.0" layoutY="95.0" prefHeight="421.0" prefWidth="344.0">
+                                <columns>
+                                  <TableColumn fx:id="nifCL" prefWidth="136.0" resizable="false" text="NIF" />
+                                  <TableColumn fx:id="nombreCL" prefWidth="207.0" resizable="false" text="NOMBRE" />
+                                </columns>
+                              </TableView>
                            </children>
                         </AnchorPane>
                         <AnchorPane fx:id="panelVista" prefHeight="573.0" prefWidth="728.0" visible="false">

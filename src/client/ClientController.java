@@ -2,6 +2,7 @@ package client;
 
 import static client.IDBLClient.stage;
 import entidades.MultaS;
+import entidades.Sancionado;
 import entidades.VistaMulta;
 import java.net.URL;
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javafx.util.Pair;
 import model.ModeloMulta;
+import model.ModeloSancion;
 import util.CalculaNif;
 import util.Dates;
 
@@ -80,7 +82,7 @@ public class ClientController {
     private ToggleGroup bgTipo;
 
     @FXML
-    private ListView<String> listaAvanzado;
+    private TableView<ModeloSancion> listaAvanzado;
 
     @FXML
     private Label lbLocalizadas;
@@ -246,6 +248,12 @@ public class ClientController {
 
     @FXML
     private TableColumn faseCL;
+    
+    @FXML
+    private TableColumn nifCL;
+    
+    @FXML
+    private TableColumn nombreCL;
 
     @FXML
     private Accordion acordeon;
@@ -275,12 +283,12 @@ public class ClientController {
 //    private MenuItem cmMatricula;
 //</editor-fold>
     ObservableList<ModeloMulta> multas;
-    ObservableList<String> multasLista;
+    ObservableList<ModeloSancion> multasLista;
 
     private double x, y;
     private int typ = 1, opt = 1, avg = 1;
     private int selectedMulta = -1;
-    private int selectedLista = -1;
+    private String selectedLista=null;
     private String link;
     private List listadoMultas = new ArrayList();
     private List listadoAvg = new ArrayList();
@@ -750,28 +758,57 @@ public class ClientController {
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="CONTROL VISTA AVANZADA">
 
+//    private void inicializarLista() {
+//        multasLista = FXCollections.observableArrayList();
+//        listaAvanzado.setItems(multasLista);
+//    }
+//
+//    private void cargarDatosLista(List lista) {
+//        multasLista.clear();
+//        String aux;
+//        Iterator it = lista.iterator();
+//
+//        while (it.hasNext()) {
+//            aux = (String) it.next();
+//            multasLista.add(aux);
+//        }
+//    }
+    
     private void inicializarLista() {
+        nifCL.setCellValueFactory(new PropertyValueFactory<>("nif"));
+        nombreCL.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+
         multasLista = FXCollections.observableArrayList();
         listaAvanzado.setItems(multasLista);
     }
 
     private void cargarDatosLista(List lista) {
         multasLista.clear();
-        String aux;
+        Sancionado aux;
+        ModeloSancion model;
         Iterator it = lista.iterator();
 
         while (it.hasNext()) {
-            aux = (String) it.next();
-            multasLista.add(aux);
+            aux = (Sancionado) it.next();
+            model = new ModeloSancion();
+            model.id = aux.getId();
+            model.nif.set(aux.getNif());
+            model.nombre.set(aux.getNombre());
+           
+
+            multasLista.add(model);
         }
+
+        lbLocalizadas.setText(Integer.toString(listadoMultas.size()));
+        lbEnPlazo.setText(Integer.toString(getInPlazo().size()));
     }
 
     @FXML
     void continuarAvanzado(ActionEvent event) {
-        if (selectedLista != -1) {
+        if (selectedLista != null) {
             verPVista();
 //            tfBuscar.setText(multasLista.get(selectedLista));
-            cargarMultas(multasLista.get(selectedLista));
+            cargarMultas(selectedLista);
             setPorDefecto();
         } else {
             Alert alert = new Alert(AlertType.ERROR);
@@ -784,21 +821,47 @@ public class ClientController {
     }
 
     private void cargarAvanzado(String aux) {
-        listadoAvg = SqlIDBL.listaMultasA(VistaMulta.SQLBuscarA(aux, typ, avg), Variables.tipoBusqueda[typ]);
+        listadoAvg = SqlIDBL.listaMultasA(Sancionado.SQLBuscarA(aux, typ, avg), Variables.tipoBusqueda[typ]);
         cargarDatosLista(listadoAvg);
     }
 
-    private String getMultaLista() {
+//    private String getMultaLista() {
+//        if (listaAvanzado != null) {
+//            String aux = listaAvanzado.getSelectionModel().getSelectedItem();
+//            return aux;
+//        }
+//        return null;
+//    }
+    
+    /**
+     * PARA SELECCIONAR UNA CELDA DE LA TABLA "tablaPersonas"
+     *
+     * @return
+     */
+    private ModeloSancion getMultaLista() {
+
         if (listaAvanzado != null) {
-            String aux = listaAvanzado.getSelectionModel().getSelectedItem();
-            return aux;
+            List<ModeloSancion> tabla = listaAvanzado.getSelectionModel().getSelectedItems();
+            if (tabla.size() == 1) {
+                ModeloSancion a = tabla.get(0);
+                System.out.println(a);
+                return a;
+            }
         }
         return null;
     }
 
+//    private void getSelectedMultaLista() {
+//        String aux = getMultaLista();
+//        selectedLista = multasLista.indexOf(aux);
+//    }
+    
+     /**
+     * Método para poner en los textFields la tupla que selccionemos
+     */
     private void getSelectedMultaLista() {
-        String aux = getMultaLista();
-        selectedLista = multasLista.indexOf(aux);
+        String aux=getMultaLista().getNif();
+        selectedLista=aux;
     }
 //</editor-fold>
 
@@ -825,7 +888,7 @@ public class ClientController {
         final ObservableList<ModeloMulta> aux = tablaMultas.getSelectionModel().getSelectedItems();
         aux.addListener(selectorTabla);
 
-        final ObservableList<String> aux1 = listaAvanzado.getSelectionModel().getSelectedItems();
+        final ObservableList<ModeloSancion> aux1 = listaAvanzado.getSelectionModel().getSelectedItems();
         aux1.addListener(selectorLista);
 
     }
@@ -847,8 +910,8 @@ public class ClientController {
     /**
      * Listener de la lista multasAvg
      */
-    private final ListChangeListener<String> selectorLista
-            = (ListChangeListener.Change<? extends String> c) -> {
+    private final ListChangeListener<ModeloSancion> selectorLista
+            = (ListChangeListener.Change<? extends ModeloSancion> c) -> {
                 getSelectedMultaLista();
             };
 //</editor-fold>
