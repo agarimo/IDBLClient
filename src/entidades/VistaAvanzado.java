@@ -55,7 +55,6 @@ public class VistaAvanzado {
             " like " + Varios.entrecomillar("%" + aux) + " order by " + Variables.tipoBusqueda[typ] + " limit 100"};
         String[] tipo = {"", "historico.sancionado", "historico.vehiculo", "historico.sancion"};
 
-        System.out.println("SELECT * FROM " + tipo[typ] + " WHERE " + Variables.tipoBusqueda[typ] + "" + avanzado[avg]);
         return "SELECT * FROM " + tipo[typ] + " WHERE " + Variables.tipoBusqueda[typ] + "" + avanzado[avg];
     }
 }

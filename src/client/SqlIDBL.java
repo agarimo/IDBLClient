@@ -5,6 +5,7 @@ import entidades.MultaS;
 import entidades.Sancion;
 import entidades.Sancionado;
 import entidades.Vehiculo;
+import entidades.VistaAvanzado;
 import entidades.VistaMulta;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +33,7 @@ public class SqlIDBL {
             rs = bd.ejecutarQueryRs(query);
 
             while (rs.next()) {
-                aux = new VistaMulta(rs.getInt("idMulta"),rs.getString("organismo"), rs.getString("nif"),rs.getString("matricula"),rs.getString("expediente"),rs.getString("fase"), rs.getDate("fechaPublicacion"), rs.getDate("fechaVencimiento"));
+                aux = new VistaMulta(rs.getInt("idMulta"), rs.getString("organismo"), rs.getString("nif"), rs.getString("matricula"), rs.getString("expediente"), rs.getString("fase"), rs.getDate("fechaPublicacion"), rs.getDate("fechaVencimiento"));
                 list.add(aux);
             }
 
@@ -45,19 +46,33 @@ public class SqlIDBL {
 
         return list;
     }
-    
-    public static List<Sancionado> listaMultasA(String query,String column) {
-        List<Sancionado> list = new ArrayList();
+
+    public static List<VistaAvanzado> listaMultasA(String query, String column, int typ) {
+        List<VistaAvanzado> list = new ArrayList();
         Sql bd;
         ResultSet rs;
-        Sancionado aux;
-        
+        VistaAvanzado aux = null;
+
         try {
             bd = new Sql(Variables.con);
             rs = bd.ejecutarQueryRs(query);
+            System.out.println(query);
 
             while (rs.next()) {
-                aux = new Sancionado(rs.getInt("idSancionado"),rs.getString("nif"),rs.getString("tipoJuridico"),rs.getString("nombre"));
+                switch (typ) {
+                    case 1:
+                        aux = new VistaAvanzado(rs.getInt("idSancionado"), rs.getString("nif"), rs.getString("nombre"));
+                        break;
+
+                    case 2:
+                        aux = new VistaAvanzado(rs.getInt("idVehiculo"), rs.getString("matricula"), rs.getString("matricula"));
+                        break;
+
+                    case 3:
+                        aux = new VistaAvanzado(rs.getInt("idSancion"), rs.getString("expediente"), rs.getString("nombre"));
+                        break;
+                }
+
                 list.add(aux);
             }
 

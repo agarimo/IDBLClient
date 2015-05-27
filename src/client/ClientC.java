@@ -2,7 +2,7 @@ package client;
 
 import static client.IDBLClient.stage;
 import entidades.MultaS;
-import entidades.Sancionado;
+import entidades.VistaAvanzado;
 import entidades.VistaMulta;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,7 +26,6 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
@@ -41,17 +40,18 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javafx.util.Pair;
 import model.ModeloMulta;
-import model.ModeloSancion;
+import model.ModeloSancionado;
 import util.CalculaNif;
 import util.Dates;
 
-public class ClientController {
+public class ClientC {
 
     //<editor-fold defaultstate="collapsed" desc="VARIABLES FXML">
     @FXML
@@ -82,7 +82,7 @@ public class ClientController {
     private ToggleGroup bgTipo;
 
     @FXML
-    private TableView<ModeloSancion> listaAvanzado;
+    private TableView<ModeloSancionado> listaAvanzado;
 
     @FXML
     private Label lbLocalizadas;
@@ -248,10 +248,10 @@ public class ClientController {
 
     @FXML
     private TableColumn faseCL;
-    
+
     @FXML
     private TableColumn nifCL;
-    
+
     @FXML
     private TableColumn nombreCL;
 
@@ -273,6 +273,9 @@ public class ClientController {
     @FXML
     private Label lbLineaV;
 
+    @FXML
+    private Pane panelAviso;
+
 //    @FXML
 //    private MenuItem cmCif;
 //
@@ -283,15 +286,15 @@ public class ClientController {
 //    private MenuItem cmMatricula;
 //</editor-fold>
     ObservableList<ModeloMulta> multas;
-    ObservableList<ModeloSancion> multasLista;
+    ObservableList<ModeloSancionado> multasLista;
 
     private double x, y;
-    private int typ = 1, opt = 1, avg = 1;
+    private static int typ = 1, opt = 1, avg = 1;
     private int selectedMulta = -1;
-    private String selectedLista=null;
+    private String selectedLista = null;
     private String link;
     private List listadoMultas = new ArrayList();
-    private List listadoAvg = new ArrayList();
+    public  List listadoAvg = new ArrayList();
 
     //<editor-fold defaultstate="collapsed" desc="CONROL BUSQUEDA">
     String getBusqueda() {
@@ -314,9 +317,6 @@ public class ClientController {
         } else {
             verPAvanzado();
             cargarAvanzado(getBusqueda());
-            pgBuscando.setVisible(false);
-            lbBuscando.setVisible(false);
-
         }
     }
 
@@ -366,18 +366,22 @@ public class ClientController {
     void setAvanzado(ActionEvent event) {
 
         if (rbDesactivado.isSelected()) {
+            panelAviso.setVisible(false);
             avg = 1;
         }
 
         if (rbComienza.isSelected()) {
+            panelAviso.setVisible(false);
             avg = 2;
         }
 
         if (rbContiene.isSelected()) {
+            panelAviso.setVisible(true);
             avg = 3;
         }
 
         if (rbTermina.isSelected()) {
+            panelAviso.setVisible(true);
             avg = 4;
         }
     }
@@ -507,11 +511,11 @@ public class ClientController {
         if (Variables.modoAdmin) {
             pBusquedaAvanzada.setVisible(true);
             btModoAdmin.setText("Modo Normal");
-            opt=2;
+            opt = 2;
         } else {
             pBusquedaAvanzada.setVisible(false);
             btModoAdmin.setText("Modo Admin");
-            opt=1;
+            opt = 1;
         }
     }
 
@@ -773,28 +777,48 @@ public class ClientController {
 //            multasLista.add(aux);
 //        }
 //    }
-    
     private void inicializarLista() {
+
         nifCL.setCellValueFactory(new PropertyValueFactory<>("nif"));
         nombreCL.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+
+        switch (typ) {
+            case 1:
+                nifCL.setText("NIF");
+                nombreCL.setText("NOMBRE");
+                nombreCL.setVisible(true);
+                break;
+
+            case 2:
+                nifCL.setText("MATRICULA");
+                nombreCL.setText("---");
+                nombreCL.setVisible(false);
+                break;
+
+            case 3:
+                nifCL.setText("EXPEDIENTE");
+                nombreCL.setText("NOMBRE");
+                nombreCL.setVisible(true);
+                break;
+        }
 
         multasLista = FXCollections.observableArrayList();
         listaAvanzado.setItems(multasLista);
     }
 
     private void cargarDatosLista(List lista) {
+        inicializarLista();
         multasLista.clear();
-        Sancionado aux;
-        ModeloSancion model;
+        VistaAvanzado aux;
+        ModeloSancionado model;
         Iterator it = lista.iterator();
 
         while (it.hasNext()) {
-            aux = (Sancionado) it.next();
-            model = new ModeloSancion();
+            aux = (VistaAvanzado) it.next();
+            model = new ModeloSancionado();
             model.id = aux.getId();
             model.nif.set(aux.getNif());
             model.nombre.set(aux.getNombre());
-           
 
             multasLista.add(model);
         }
@@ -807,7 +831,6 @@ public class ClientController {
     void continuarAvanzado(ActionEvent event) {
         if (selectedLista != null) {
             verPVista();
-//            tfBuscar.setText(multasLista.get(selectedLista));
             cargarMultas(selectedLista);
             setPorDefecto();
         } else {
@@ -820,9 +843,15 @@ public class ClientController {
         }
     }
 
-    private void cargarAvanzado(String aux) {
-        listadoAvg = SqlIDBL.listaMultasA(Sancionado.SQLBuscarA(aux, typ, avg), Variables.tipoBusqueda[typ]);
+    public void cargarAvanzado(String aux) {
+        pgBuscando.setVisible(true);
+        lbBuscando.setVisible(true);
+        
+        listadoAvg = SqlIDBL.listaMultasA(VistaAvanzado.SQLBuscarA(aux, typ, avg), Variables.tipoBusqueda[typ], typ);
         cargarDatosLista(listadoAvg);
+        
+        pgBuscando.setVisible(false);
+        lbBuscando.setVisible(false);
     }
 
 //    private String getMultaLista() {
@@ -832,19 +861,17 @@ public class ClientController {
 //        }
 //        return null;
 //    }
-    
     /**
      * PARA SELECCIONAR UNA CELDA DE LA TABLA "tablaPersonas"
      *
      * @return
      */
-    private ModeloSancion getMultaLista() {
+    private ModeloSancionado getMultaLista() {
 
         if (listaAvanzado != null) {
-            List<ModeloSancion> tabla = listaAvanzado.getSelectionModel().getSelectedItems();
+            List<ModeloSancionado> tabla = listaAvanzado.getSelectionModel().getSelectedItems();
             if (tabla.size() == 1) {
-                ModeloSancion a = tabla.get(0);
-                System.out.println(a);
+                ModeloSancionado a = tabla.get(0);
                 return a;
             }
         }
@@ -855,13 +882,12 @@ public class ClientController {
 //        String aux = getMultaLista();
 //        selectedLista = multasLista.indexOf(aux);
 //    }
-    
-     /**
+    /**
      * Método para poner en los textFields la tupla que selccionemos
      */
     private void getSelectedMultaLista() {
-        String aux=getMultaLista().getNif();
-        selectedLista=aux;
+        String aux = getMultaLista().getNif();
+        selectedLista = aux;
     }
 //</editor-fold>
 
@@ -883,12 +909,11 @@ public class ClientController {
         }
 
         inicializarTabla();
-        inicializarLista();
 
         final ObservableList<ModeloMulta> aux = tablaMultas.getSelectionModel().getSelectedItems();
         aux.addListener(selectorTabla);
 
-        final ObservableList<ModeloSancion> aux1 = listaAvanzado.getSelectionModel().getSelectedItems();
+        final ObservableList<ModeloSancionado> aux1 = listaAvanzado.getSelectionModel().getSelectedItems();
         aux1.addListener(selectorLista);
 
     }
@@ -910,8 +935,8 @@ public class ClientController {
     /**
      * Listener de la lista multasAvg
      */
-    private final ListChangeListener<ModeloSancion> selectorLista
-            = (ListChangeListener.Change<? extends ModeloSancion> c) -> {
+    private final ListChangeListener<ModeloSancionado> selectorLista
+            = (ListChangeListener.Change<? extends ModeloSancionado> c) -> {
                 getSelectedMultaLista();
             };
 //</editor-fold>

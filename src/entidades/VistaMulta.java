@@ -117,8 +117,6 @@ public class VistaMulta {
 
     public static String SQLBuscar(String aux, int typ, int opt) {
         String[] opciones = {"-", " AND fechaVencimiento >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR) order by fechaVencimiento desc;", " order by fechaVencimiento desc;"};
-
-        System.out.println("SELECT * FROM historico.multas_all WHERE " + Variables.tipoBusqueda[typ] + "=" + Varios.entrecomillar(aux) + " " + opciones[opt]);
         return "SELECT * FROM historico.multas_all WHERE " + Variables.tipoBusqueda[typ] + "=" + Varios.entrecomillar(aux) + " " + opciones[opt];
     }
 
@@ -130,7 +128,6 @@ public class VistaMulta {
             " like " + Varios.entrecomillar("%" + aux) + " order by " + Variables.tipoBusqueda[typ] + " limit 100"};
         String[] tipo = {"", "historico.sancionado", "historico.vehiculo", "historico.sancion"};
 
-        System.out.println("SELECT * FROM " + tipo[typ] + " WHERE " + Variables.tipoBusqueda[typ] + "" + avanzado[avg]);
         return "SELECT * FROM " + tipo[typ] + " WHERE " + Variables.tipoBusqueda[typ] + "" + avanzado[avg];
     }
 }

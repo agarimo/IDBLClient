@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
  *
  * @author Agarimo
  */
-public class ModeloSancion {
+public class ModeloSancionado {
     
     public int id;
     public SimpleStringProperty nif = new SimpleStringProperty();
