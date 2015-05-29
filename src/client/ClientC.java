@@ -271,7 +271,7 @@ public class ClientC {
     private Label lbArticuloV;
 
     @FXML
-    private Label lbLineaV;
+    private TextField lbLineaV;
 
     @FXML
     private Pane panelAviso;
