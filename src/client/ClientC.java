@@ -294,7 +294,7 @@ public class ClientC {
     private String selectedLista = null;
     private String link;
     private List listadoMultas = new ArrayList();
-    public  List listadoAvg = new ArrayList();
+    public List listadoAvg = new ArrayList();
 
     //<editor-fold defaultstate="collapsed" desc="CONROL BUSQUEDA">
     String getBusqueda() {
@@ -304,7 +304,6 @@ public class ClientC {
             aux = validaNif(aux);
         }
 
-        tfBuscar.setText("");
         return aux;
     }
 
@@ -711,6 +710,7 @@ public class ClientC {
 
             alert.showAndWait();
         }
+        tfBuscar.setText("");
     }
 
     private void mostrarDatosMulta(MultaS aux) {
@@ -846,10 +846,10 @@ public class ClientC {
     public void cargarAvanzado(String aux) {
         pgBuscando.setVisible(true);
         lbBuscando.setVisible(true);
-        
+
         listadoAvg = SqlIDBL.listaMultasA(VistaAvanzado.SQLBuscarA(aux, typ, avg), Variables.tipoBusqueda[typ], typ);
         cargarDatosLista(listadoAvg);
-        
+
         pgBuscando.setVisible(false);
         lbBuscando.setVisible(false);
     }
