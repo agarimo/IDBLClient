@@ -322,7 +322,7 @@ public class ClientC {
     private String validaNif(String trim) {
         CalculaNif cn = new CalculaNif();
 
-        if (trim.length() == 9) {
+        if (trim.length() >= 9) {
             return trim;
         } else {
             return cn.calcular(trim);
@@ -703,12 +703,18 @@ public class ClientC {
         cargarDatosTabla(listadoMultas);
 
         if (listadoMultas.isEmpty()) {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Información");
-            alert.setHeaderText(null);
-            alert.setContentText("No se han encontrado registros.");
+            listadoMultas = SqlIDBL.listaMultas(VistaMulta.SQLBuscar(tfBuscar.getText().toUpperCase().trim(), typ, opt));
+            cargarDatosTabla(listadoMultas);
+            
+            if (listadoMultas.isEmpty()) {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Información");
+                alert.setHeaderText(null);
+                alert.setContentText("No se han encontrado registros.");
 
-            alert.showAndWait();
+                alert.showAndWait();
+            }
+
         }
         tfBuscar.setText("");
     }

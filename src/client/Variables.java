@@ -19,8 +19,6 @@ public class Variables {
         driver();
         con = new Conexion();
         setConexion();
-//        ficheros();
-//        cargaXML();
     }
 
     private static void driver() {
@@ -32,7 +30,7 @@ public class Variables {
     }
 
     private static void setConexion(){
-        con.setDireccion("192.168.1.40");
+        con.setDireccion("192.168.6.20");
         con.setUsuario("client");
         con.setPass("user01");
         con.setPuerto("3306");
