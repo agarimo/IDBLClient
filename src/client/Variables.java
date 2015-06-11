@@ -11,9 +11,11 @@ import util.Conexion;
 public class Variables {
 
     public static Conexion con;
-    public static boolean modoAdmin=false;
-    public static String passwordAdmin="admin01";
+    public static boolean modoAdmin = false;
+    public static String passwordAdmin = "admin01";
     public static String[] tipoBusqueda = {"-", "nif", "matricula", "expediente"};
+    public static String cadenaCif = "ABCDEFGHJKLMNPQRSUVW";
+    public static String cadenaNie = "XYZ";
 
     public static void iniciaVariables() {
         driver();
@@ -29,11 +31,11 @@ public class Variables {
         }
     }
 
-    private static void setConexion(){
-        con.setDireccion("192.168.6.20");
+    private static void setConexion() {
+        con.setDireccion("192.168.1.40");
         con.setUsuario("client");
         con.setPass("user01");
         con.setPuerto("3306");
-        modoAdmin=false;
+        modoAdmin = false;
     }
 }

@@ -201,6 +201,9 @@ public class ClientC {
     @FXML
     private Label lbCif;
 
+     @FXML
+    private Label lbPoblacion;
+     
     @FXML
     private TitledPane pBusquedaAvanzada;
 
@@ -271,6 +274,9 @@ public class ClientC {
     private Label lbArticuloV;
 
     @FXML
+    private Label lbOrganismoV;
+    
+    @FXML
     private TextField lbLineaV;
 
     @FXML
@@ -295,13 +301,30 @@ public class ClientC {
     private String link;
     private List listadoMultas = new ArrayList();
     public List listadoAvg = new ArrayList();
+    CalculaNif cal = new CalculaNif();
 
     //<editor-fold defaultstate="collapsed" desc="CONROL BUSQUEDA">
     String getBusqueda() {
         String aux = tfBuscar.getText().toUpperCase().trim();
 
         if (rbDesactivado.isSelected() && typ == 1) {
-            aux = validaNif(aux);
+            try {
+                if (Variables.cadenaCif.contains("" + aux.charAt(0))) {
+                    if (aux.length() == 8) {
+                        aux = cal.calcular(aux);
+                    }
+                } else if (Variables.cadenaNie.contains("" + aux.charAt(0))) {
+                    if (aux.length() == 8) {
+                        aux = cal.calcular(aux);
+                    }
+                } else {
+                    if (aux.length() <= 8) {
+                        aux = cal.calcular(aux);
+                    }
+                }
+            } catch (Exception e) {
+                //
+            }
         }
 
         return aux;
@@ -319,18 +342,8 @@ public class ClientC {
         }
     }
 
-    private String validaNif(String trim) {
-        CalculaNif cn = new CalculaNif();
-
-        if (trim.length() >= 9) {
-            return trim;
-        } else {
-            return cn.calcular(trim);
-        }
-    }
-//</editor-fold>
+    //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="GENERAL">
-
     @FXML
     void setTipoBusqueda(ActionEvent event) {
         if (rbNif.isSelected()) {
@@ -619,6 +632,7 @@ public class ClientC {
         this.lbBoe.setText(aux.getBol().getnBoe());
         this.lbNombre.setText(aux.getSanc().getNombre());
         this.lbCif.setText(aux.getSan().getNif());
+        this.lbPoblacion.setText(aux.getSanc().getLocalidad());
         this.lbMatricula.setText(aux.getVeh().getMatricula());
         this.lbExpediente.setText(aux.getSanc().getExpediente());
         this.lbFase.setText(aux.getFase());
@@ -705,7 +719,7 @@ public class ClientC {
         if (listadoMultas.isEmpty()) {
             listadoMultas = SqlIDBL.listaMultas(VistaMulta.SQLBuscar(tfBuscar.getText().toUpperCase().trim(), typ, opt));
             cargarDatosTabla(listadoMultas);
-            
+
             if (listadoMultas.isEmpty()) {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Información");
@@ -724,6 +738,7 @@ public class ClientC {
         this.lbEurosV.setText(aux.getSanc().getCuantia());
         this.lbPuntosV.setText(aux.getSanc().getPuntos());
         this.lbArticuloV.setText(aux.getSanc().getArticulo());
+        this.lbOrganismoV.setText(aux.getBol().getOrigenS());
         this.lbLineaV.setText(aux.getSanc().getLinea());
     }
 
@@ -732,6 +747,7 @@ public class ClientC {
         this.lbEurosV.setText("");
         this.lbPuntosV.setText("");
         this.lbArticuloV.setText("");
+        this.lbOrganismo.setText("");
         this.lbLineaV.setText("");
     }
 

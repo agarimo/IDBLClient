@@ -117,6 +117,7 @@ public class VistaMulta {
 
     public static String SQLBuscar(String aux, int typ, int opt) {
         String[] opciones = {"-", " AND fechaVencimiento >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR) order by fechaVencimiento desc;", " order by fechaVencimiento desc;"};
+        System.out.println("SELECT * FROM historico.multas_all WHERE " + Variables.tipoBusqueda[typ] + "=" + Varios.entrecomillar(aux) + " " + opciones[opt]);
         return "SELECT * FROM historico.multas_all WHERE " + Variables.tipoBusqueda[typ] + "=" + Varios.entrecomillar(aux) + " " + opciones[opt];
     }
 
