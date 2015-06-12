@@ -648,6 +648,10 @@ public class ClientC {
         this.link = link;
 
         if (link.contains("sede.dgt.gob.es")) {
+            
+            if(link.contains("https: ")){
+                link=link.replace("https: ", "https://");
+            }
             btVerWeb.setDisable(false);
             btVerWeb.setText("Ver en la web");
             this.link = link.replace("sede.dgt.gob.es", "sedeapl.dgt.gob.es");
