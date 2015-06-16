@@ -751,7 +751,7 @@ public class ClientC {
         this.lbEurosV.setText("");
         this.lbPuntosV.setText("");
         this.lbArticuloV.setText("");
-        this.lbOrganismo.setText("");
+        this.lbOrganismoV.setText("");
         this.lbLineaV.setText("");
     }
 
