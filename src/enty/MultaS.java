@@ -1,4 +1,4 @@
-package entidades;
+package enty;
 
 import java.util.Date;
 
@@ -97,6 +97,4 @@ public class MultaS {
     public String toString() {
         return "MultaS{" + "id=" + id + ", bol=" + bol + ", veh=" + veh + ", san=" + san + ", sanc=" + sanc + ", fase=" + fase + ", plazo=" + plazo + ", fechaEntrada=" + fechaEntrada + ", fechaVencimiento=" + fechaVencimiento + '}';
     }
-    
-    
 }

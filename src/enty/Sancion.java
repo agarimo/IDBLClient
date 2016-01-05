@@ -1,4 +1,4 @@
-package entidades;
+package enty;
 
 import java.util.Date;
 import java.util.Objects;
@@ -149,39 +149,8 @@ public final class Sancion {
         return true;
     }
 
-    public String crearSancion() {
-        String query;
-        if (fechaMulta != null) {
-            query = "INSERT into historico.sancion (idSancion,expediente,fechaMulta,articulo,cuantia,puntos,nombre,localidad,linea,link) values("
-                    + util.Varios.entrecomillar(idSancion) + ","
-                    + util.Varios.entrecomillar(expediente) + ","
-                    + util.Varios.entrecomillar(util.Dates.imprimeFecha(fechaMulta)) + ","
-                    + util.Varios.entrecomillar(articulo) + ","
-                    + util.Varios.entrecomillar(cuantia) + ","
-                    + util.Varios.entrecomillar(puntos) + ","
-                    + util.Varios.entrecomillar(nombre) + ","
-                    + util.Varios.entrecomillar(localidad) + ","
-                    + util.Varios.entrecomillar(linea) + ","
-                    + util.Varios.entrecomillar(link)
-                    + ");";
-        } else {
-            query = "INSERT into historico.sancion (idSancion,expediente,articulo,cuantia,puntos,nombre,localidad,linea,link) values("
-                    + util.Varios.entrecomillar(idSancion) + ","
-                    + util.Varios.entrecomillar(expediente) + ","
-                    + util.Varios.entrecomillar(articulo) + ","
-                    + util.Varios.entrecomillar(cuantia) + ","
-                    + util.Varios.entrecomillar(puntos) + ","
-                    + util.Varios.entrecomillar(nombre) + ","
-                    + util.Varios.entrecomillar(localidad) + ","
-                    + util.Varios.entrecomillar(linea) + ","
-                    + util.Varios.entrecomillar(link)
-                    + ");";
-        }
-        return query;
-    }
-
     public String buscarSancion() {
-        String query = "SELECT idSancion FROM historico.sancion WHERE expediente=" + util.Varios.entrecomillar(this.expediente) + ";";
+        String query = "SELECT idSancion FROM idbl.sancion WHERE expediente=" + util.Varios.entrecomillar(this.expediente) + ";";
 
         return query;
     }

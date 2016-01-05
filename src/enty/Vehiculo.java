@@ -1,4 +1,4 @@
-package entidades;
+package enty;
 
 
 /**
@@ -38,16 +38,8 @@ public class Vehiculo {
         this.matricula = matricula;
     }
     
-    public String crearVehiculo(){
-        String query="INSERT into historico.vehiculo (matricula) values("
-                +util.Varios.entrecomillar(matricula)
-                +");";
-        
-        return query;
-    }
-    
     public String buscarVehiculo(){
-        String query="SELECT idVehiculo FROM historico.vehiculo WHERE matricula="+util.Varios.entrecomillar(matricula)+";";
+        String query="SELECT idVehiculo FROM idbl.vehiculo WHERE matricula="+util.Varios.entrecomillar(matricula)+";";
 
         return query;
     }

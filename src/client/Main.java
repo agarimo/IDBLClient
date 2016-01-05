@@ -11,16 +11,16 @@ import javafx.stage.Stage;
  *
  * @author Agarimo
  */
-public class IDBLClient extends Application {
+public class Main extends Application {
 
     public static Stage stage;
     public static HostServicesDelegate hostServices;
 
     @Override
     public void start(Stage stage) throws Exception {
-        Variables.iniciaVariables();
+        Var.iniciaVariables();
         hostServices= HostServicesDelegate.getInstance(this);
-        IDBLClient.stage = stage;
+        Main.stage = stage;
         Parent root = FXMLLoader.load(getClass().getResource("Client.fxml"));
 
         Scene scene = new Scene(root);

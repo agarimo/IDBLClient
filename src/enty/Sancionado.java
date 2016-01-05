@@ -1,6 +1,6 @@
-package entidades;
+package enty;
 
-import client.Variables;
+import client.Var;
 import util.Varios;
 
 
@@ -64,18 +64,8 @@ public class Sancionado {
         this.nombre = nombre;
     }
     
-    public String SQLCrear() {
-        String query = "INSERT into historico.sancionado (nif,nombre,tipoJuridico,nombre) values("
-                + util.Varios.entrecomillar(nif) + ","
-                + util.Varios.entrecomillar(tipoJuridico) + ","
-                + util.Varios.entrecomillar(nombre)
-                + ");";
-
-        return query;
-    }
-    
     public String SQLBuscar(){
-        String query="SELECT idSancionado FROM historico.sancionado WHERE nif="+util.Varios.entrecomillar(nif)+";";
+        String query="SELECT idSancionado FROM idbl.sancionado WHERE nif="+util.Varios.entrecomillar(nif)+";";
         
         return query;
     }

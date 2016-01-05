@@ -1,6 +1,6 @@
-package entidades;
+package enty;
 
-import client.Variables;
+import client.Var;
 import util.Varios;
 
 /**
@@ -50,11 +50,11 @@ public class VistaAvanzado {
      public static String SQLBuscarA(String aux, int typ, int avg) {
         String[] avanzado = {"-",
             "=" + Varios.entrecomillar(aux),
-            " like " + Varios.entrecomillar(aux + "%") + " order by " + Variables.tipoBusqueda[typ] + " limit 100",
-            " like " + Varios.entrecomillar("%" + aux + "%") + " order by " + Variables.tipoBusqueda[typ] + " limit 100",
-            " like " + Varios.entrecomillar("%" + aux) + " order by " + Variables.tipoBusqueda[typ] + " limit 100"};
-        String[] tipo = {"", "historico.sancionado", "historico.vehiculo", "historico.sancion"};
+            " like " + Varios.entrecomillar(aux + "%") + " order by " + Var.tipoBusqueda[typ] + " limit 100",
+            " like " + Varios.entrecomillar("%" + aux + "%") + " order by " + Var.tipoBusqueda[typ] + " limit 100",
+            " like " + Varios.entrecomillar("%" + aux) + " order by " + Var.tipoBusqueda[typ] + " limit 100"};
+        String[] tipo = {"", "idbl.sancionado", "idbl.vehiculo", "idbl.sancion"};
 
-        return "SELECT * FROM " + tipo[typ] + " WHERE " + Variables.tipoBusqueda[typ] + "" + avanzado[avg];
+        return "SELECT * FROM " + tipo[typ] + " WHERE " + Var.tipoBusqueda[typ] + "" + avanzado[avg];
     }
 }

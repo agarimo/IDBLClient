@@ -8,7 +8,7 @@ import util.Conexion;
  *
  * @author Agarimo
  */
-public class Variables {
+public class Var {
 
     public static Conexion con;
     public static boolean modoAdmin = false;
@@ -27,12 +27,12 @@ public class Variables {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Variables.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Var.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     private static void setConexion() {
-        con.setDireccion("192.168.6.20");
+        con.setDireccion("localhost");
         con.setUsuario("client");
         con.setPass("user01");
         con.setPuerto("3306");

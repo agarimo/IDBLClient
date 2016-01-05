@@ -1,12 +1,12 @@
 package client;
 
-import entidades.Boletin;
-import entidades.MultaS;
-import entidades.Sancion;
-import entidades.Sancionado;
-import entidades.Vehiculo;
-import entidades.VistaAvanzado;
-import entidades.VistaMulta;
+import enty.Boletin;
+import enty.MultaS;
+import enty.Sancion;
+import enty.Sancionado;
+import enty.Vehiculo;
+import enty.VistaAvanzado;
+import enty.VistaMulta;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class SqlIDBL {
         VistaMulta aux;
 
         try {
-            bd = new Sql(Variables.con);
+            bd = new Sql(Var.con);
             rs = bd.ejecutarQueryRs(query);
 
             while (rs.next()) {
@@ -61,7 +61,7 @@ public class SqlIDBL {
         VistaAvanzado aux = null;
 
         try {
-            bd = new Sql(Variables.con);
+            bd = new Sql(Var.con);
             rs = bd.ejecutarQueryRs(query);
             System.out.println(query);
 
@@ -105,8 +105,8 @@ public class SqlIDBL {
         MultaS multa = null;
 
         try {
-            bd = new Sql(Variables.con);
-            rs = bd.ejecutarQueryRs("SELECT * FROM historico.multa WHERE idMulta=" + aux);
+            bd = new Sql(Var.con);
+            rs = bd.ejecutarQueryRs("SELECT * FROM idbl.multa WHERE idMulta=" + aux);
 
             if (rs.next()) {
                 multa = new MultaS();
@@ -121,7 +121,7 @@ public class SqlIDBL {
                 multa.setFechaVencimiento(rs.getDate("fechaVencimiento"));
             }
 
-            rs = bd.ejecutarQueryRs("SELECT * FROM historico.boletin where idBoletin=" + multa.getBol().getId());
+            rs = bd.ejecutarQueryRs("SELECT * FROM idbl.boletin where idBoletin=" + multa.getBol().getId());
 
             if (rs.next()) {
                 multa.getBol().setnBoe(rs.getString("nBoe"));
@@ -129,26 +129,26 @@ public class SqlIDBL {
                 multa.getBol().setFechaPublicacion(rs.getDate("fechaPublicacion"));
             }
 
-            rs = bd.ejecutarQueryRs("select * from historico.origen where idOrigen=" + multa.getBol().getOrigen());
+            rs = bd.ejecutarQueryRs("select * from idbl.origen where idOrigen=" + multa.getBol().getOrigen());
 
             if (rs.next()) {
                 multa.getBol().setOrigenS(rs.getString("nombreOrigen"));
             }
 
-            rs = bd.ejecutarQueryRs("select * from historico.vehiculo where idVehiculo=" + multa.getVeh().getId());
+            rs = bd.ejecutarQueryRs("select * from idbl.vehiculo where idVehiculo=" + multa.getVeh().getId());
 
             if (rs.next()) {
                 multa.getVeh().setMatricula(rs.getString("matricula"));
             }
 
-            rs = bd.ejecutarQueryRs("select * from historico.sancionado where idSancionado=" + multa.getSan().getId());
+            rs = bd.ejecutarQueryRs("select * from idbl.sancionado where idSancionado=" + multa.getSan().getId());
 
             if (rs.next()) {
                 multa.getSan().setNif(rs.getString("nif"));
                 multa.getSan().setTipoJuridico(rs.getString("tipoJuridico"));
             }
 
-            rs = bd.ejecutarQueryRs("select * from historico.sancion where idSancion=" + Varios.entrecomillar(multa.getSanc().getIdSancion()));
+            rs = bd.ejecutarQueryRs("select * from idbl.sancion where idSancion=" + Varios.entrecomillar(multa.getSanc().getIdSancion()));
 
             if (rs.next()) {
                 multa.getSanc().setExpediente(rs.getString("expediente"));
@@ -174,5 +174,4 @@ public class SqlIDBL {
         }
         return multa;
     }
-
 }

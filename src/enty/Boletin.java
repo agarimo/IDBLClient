@@ -1,4 +1,4 @@
-package entidades;
+package enty;
 
 import java.util.Date;
 
@@ -70,27 +70,16 @@ public class Boletin {
     public void setOrigenS(String origenS) {
         this.origenS = origenS;
     }
-    
-    public String crearBoletin() {
-        String query;
-        query = "INSERT into historico.boletin (nBoe,origen,fechaPublicacion) values("
-                + util.Varios.entrecomillar(nBoe) + ","
-                + origen + ","
-                + util.Varios.entrecomillar(util.Dates.imprimeFecha(fechaPublicacion))
-                + ");";
-
-        return query;
-    }
 
     public String buscarBoletin() {
         String query;
-        query = "SELECT idBoletin FROM historico.boletin WHERE nBoe=" + util.Varios.entrecomillar(nBoe);
+        query = "SELECT idBoletin FROM idbl.boletin WHERE nBoe=" + util.Varios.entrecomillar(nBoe);
         return query;
     }
 
     public String buscarBoletinCount() {
         String query;
-        query = "SELECT count(*) FROM historico.boletin WHERE nBoe=" + util.Varios.entrecomillar(nBoe);
+        query = "SELECT count(*) FROM idbl.boletin WHERE nBoe=" + util.Varios.entrecomillar(nBoe);
         return query;
     }
 

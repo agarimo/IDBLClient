@@ -1,9 +1,9 @@
 package client;
 
-import static client.IDBLClient.stage;
-import entidades.MultaS;
-import entidades.VistaAvanzado;
-import entidades.VistaMulta;
+import static client.Main.stage;
+import enty.MultaS;
+import enty.VistaAvanzado;
+import enty.VistaMulta;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -309,11 +309,11 @@ public class ClientC {
 
         if (rbDesactivado.isSelected() && typ == 1) {
             try {
-                if (Variables.cadenaCif.contains("" + aux.charAt(0))) {
+                if (Var.cadenaCif.contains("" + aux.charAt(0))) {
                     if (aux.length() == 8) {
                         aux = cal.calcular(aux);
                     }
-                } else if (Variables.cadenaNie.contains("" + aux.charAt(0))) {
+                } else if (Var.cadenaNie.contains("" + aux.charAt(0))) {
                     if (aux.length() == 8) {
                         aux = cal.calcular(aux);
                     }
@@ -367,7 +367,7 @@ public class ClientC {
 
     @FXML
     void setOpcionBusqueda(ActionEvent event) {
-        if (Variables.modoAdmin) {
+        if (Var.modoAdmin) {
             opt = 2;
         } else {
             opt = 1;
@@ -505,13 +505,13 @@ public class ClientC {
 
     @FXML
     void minimizar() {
-        IDBLClient.stage.setIconified(true);
+        Main.stage.setIconified(true);
     }
 
     @FXML
     void modoAdmin(ActionEvent event) {
-        if (Variables.modoAdmin) {
-            Variables.modoAdmin = false;
+        if (Var.modoAdmin) {
+            Var.modoAdmin = false;
             activaAdmin();
         } else {
             login();
@@ -520,7 +520,7 @@ public class ClientC {
     }
 
     void activaAdmin() {
-        if (Variables.modoAdmin) {
+        if (Var.modoAdmin) {
             pBusquedaAvanzada.setVisible(true);
             btModoAdmin.setText("Modo Normal");
             opt = 2;
@@ -584,8 +584,8 @@ public class ClientC {
         Optional<Pair<String, String>> result = dialog.showAndWait();
 
         result.ifPresent(usernamePassword -> {
-            if (usernamePassword.getValue().equals(Variables.passwordAdmin)) {
-                Variables.modoAdmin = true;
+            if (usernamePassword.getValue().equals(Var.passwordAdmin)) {
+                Var.modoAdmin = true;
             } else {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error");
@@ -607,7 +607,7 @@ public class ClientC {
     @FXML
     void verWeb(ActionEvent event) {
         System.out.println(link);
-        IDBLClient.hostServices.showDocument(link);
+        Main.hostServices.showDocument(link);
     }
 
     @FXML
@@ -873,7 +873,7 @@ public class ClientC {
         pgBuscando.setVisible(true);
         lbBuscando.setVisible(true);
 
-        listadoAvg = SqlIDBL.listaMultasA(VistaAvanzado.SQLBuscarA(aux, typ, avg), Variables.tipoBusqueda[typ], typ);
+        listadoAvg = SqlIDBL.listaMultasA(VistaAvanzado.SQLBuscarA(aux, typ, avg), Var.tipoBusqueda[typ], typ);
         cargarDatosLista(listadoAvg);
 
         pgBuscando.setVisible(false);
@@ -919,16 +919,16 @@ public class ClientC {
 
     @FXML
     void initialize() {
-        IDBLClient.stage.initStyle(StageStyle.TRANSPARENT);
-        IDBLClient.stage.setResizable(false);
-        IDBLClient.stage.setTitle("IDBL");
-        IDBLClient.stage.setOnCloseRequest((WindowEvent ev) -> {
+        Main.stage.initStyle(StageStyle.TRANSPARENT);
+        Main.stage.setResizable(false);
+        Main.stage.setTitle("IDBL");
+        Main.stage.setOnCloseRequest((WindowEvent ev) -> {
             if (!cerrarApp()) {
                 ev.consume();
             }
         });
 
-        if (Variables.modoAdmin) {
+        if (Var.modoAdmin) {
             rbTodo.setVisible(true);
         } else {
             rbTodo.setVisible(false);
