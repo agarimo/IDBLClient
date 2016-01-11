@@ -12,7 +12,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="win" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientC">
+<VBox fx:id="win" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ctrl.ClientC">
    <children>
       <MenuBar onMouseDragged="#moverVentana" onMousePressed="#cogerVentana" onMouseReleased="#soltarVentana" prefHeight="25.0" prefWidth="980.0">
         <menus>
@@ -166,7 +166,7 @@
                               </TableView>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="panelVista" prefHeight="573.0" prefWidth="728.0" visible="false">
+                        <AnchorPane fx:id="panelVista" prefHeight="573.0" prefWidth="728.0">
                            <children>
                               <TableView fx:id="tablaMultas" layoutX="3.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="280.0" prefWidth="745.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="17.0">
                                 <columns>
@@ -456,6 +456,6 @@
       </SplitPane>
    </children>
    <effect>
-      <InnerShadow choke="0.07" color="#2994ff" height="23.97" width="18.03" />
+      <InnerShadow color="#0d64d0" height="32.86" radius="15.93" width="32.86" />
    </effect>
 </VBox>

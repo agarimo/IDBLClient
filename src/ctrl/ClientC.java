@@ -1,23 +1,29 @@
-package client;
+package ctrl;
 
-import static client.Main.stage;
-import enty.MultaS;
-import enty.VistaAvanzado;
-import enty.VistaMulta;
+import static main.Main.stage;
+import model.MultaS;
+import model.VistaAvanzado;
+import model.VistaMulta;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -43,9 +49,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javafx.util.Pair;
+import main.Main;
+import main.Query;
+import main.Var;
 import model.ModeloMulta;
 import model.ModeloSancionado;
 import util.CalculaNif;
@@ -201,9 +212,9 @@ public class ClientC {
     @FXML
     private Label lbCif;
 
-     @FXML
+    @FXML
     private Label lbPoblacion;
-     
+
     @FXML
     private TitledPane pBusquedaAvanzada;
 
@@ -275,7 +286,7 @@ public class ClientC {
 
     @FXML
     private Label lbOrganismoV;
-    
+
     @FXML
     private TextField lbLineaV;
 
@@ -517,6 +528,20 @@ public class ClientC {
             login();
             activaAdmin();
         }
+
+//        try {
+//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Config.fxml"));
+//            Parent root1 = (Parent) fxmlLoader.load();
+//            Main.popup = new Stage();
+//            Main.popup.initModality(Modality.APPLICATION_MODAL);
+//            Main.popup.initStyle(StageStyle.UNDECORATED);
+//            Main.popup.setTitle("ABC");
+//            Main.popup.setScene(new Scene(root1));
+//            Main.popup.show();
+//
+//        } catch (IOException ex) {
+//            Logger.getLogger(ClientC.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     void activaAdmin() {
@@ -620,18 +645,18 @@ public class ClientC {
 
             alert.showAndWait();
         } else {
-            cargarDatosMulta(SqlIDBL.cargaMultaS(selectedMulta));
+            cargarDatosMulta(Query.cargaMultaS(selectedMulta));
             verPMulta();
         }
     }
 
     private void cargarDatosMulta(MultaS aux) {
-        this.lbOrganismo.setText(aux.getBol().getOrigenS());
+        this.lbOrganismo.setText(aux.getBol().getSOrigen());
         this.lbFechaP.setText(Dates.imprimeFecha(aux.getBol().getFechaPublicacion()));
         this.lbFechaV.setText(Dates.imprimeFecha(aux.getFechaVencimiento()));
         this.lbBoe.setText(aux.getBol().getnBoe());
         this.lbNombre.setText(aux.getSanc().getNombre());
-        this.lbCif.setText(aux.getSan().getNif());
+        this.lbCif.setText(aux.getSan().getCif());
         this.lbPoblacion.setText(aux.getSanc().getLocalidad());
         this.lbMatricula.setText(aux.getVeh().getMatricula());
         this.lbExpediente.setText(aux.getSanc().getExpediente());
@@ -641,16 +666,15 @@ public class ClientC {
         this.lbImporte.setText(aux.getSanc().getCuantia());
         this.lbPuntos.setText(aux.getSanc().getPuntos());
         this.lbLinea.setText(aux.getSanc().getLinea());
-        setLinkWeb(aux.getSanc().getLink());
     }
 
     private void setLinkWeb(String link) {
         this.link = link;
 
         if (link.contains("sede.dgt.gob.es")) {
-            
-            if(link.contains("https: ")){
-                link=link.replace("https: ", "https://");
+
+            if (link.contains("https: ")) {
+                link = link.replace("https: ", "https://");
             }
             btVerWeb.setDisable(false);
             btVerWeb.setText("Ver en la web");
@@ -717,11 +741,11 @@ public class ClientC {
     }
 
     private void cargarMultas(String aux) {
-        listadoMultas = SqlIDBL.listaMultas(VistaMulta.SQLBuscar(aux, typ, opt));
+        listadoMultas = Query.listaMultas(VistaMulta.SQLBuscar(aux, typ, opt));
         cargarDatosTabla(listadoMultas);
 
         if (listadoMultas.isEmpty()) {
-            listadoMultas = SqlIDBL.listaMultas(VistaMulta.SQLBuscar(tfBuscar.getText().toUpperCase().trim(), typ, opt));
+            listadoMultas = Query.listaMultas(VistaMulta.SQLBuscar(tfBuscar.getText().toUpperCase().trim(), typ, opt));
             cargarDatosTabla(listadoMultas);
 
             if (listadoMultas.isEmpty()) {
@@ -742,7 +766,7 @@ public class ClientC {
         this.lbEurosV.setText(aux.getSanc().getCuantia());
         this.lbPuntosV.setText(aux.getSanc().getPuntos());
         this.lbArticuloV.setText(aux.getSanc().getArticulo());
-        this.lbOrganismoV.setText(aux.getBol().getOrigenS());
+        this.lbOrganismoV.setText(aux.getBol().getSOrigen());
         this.lbLineaV.setText(aux.getSanc().getLinea());
     }
 
@@ -873,7 +897,7 @@ public class ClientC {
         pgBuscando.setVisible(true);
         lbBuscando.setVisible(true);
 
-        listadoAvg = SqlIDBL.listaMultasA(VistaAvanzado.SQLBuscarA(aux, typ, avg), Var.tipoBusqueda[typ], typ);
+        listadoAvg = Query.listaMultasA(VistaAvanzado.SQLBuscar(aux, typ, avg), Var.tipoBusqueda[typ], typ);
         cargarDatosLista(listadoAvg);
 
         pgBuscando.setVisible(false);
@@ -952,7 +976,7 @@ public class ClientC {
             = (ListChangeListener.Change<? extends ModeloMulta> c) -> {
                 getSelectedMulta();
                 if (selectedMulta > 0) {
-                    mostrarDatosMulta(SqlIDBL.cargaMultaS(selectedMulta));
+                    mostrarDatosMulta(Query.cargaMultaS(selectedMulta));
                 } else {
                     limpiarDatosMulta();
                 }
