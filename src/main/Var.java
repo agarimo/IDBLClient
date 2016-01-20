@@ -23,9 +23,11 @@
  */
 package main;
 
+import com.sun.javafx.application.HostServicesDelegate;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.stage.Stage;
 import util.Conexion;
 import util.Files;
 
@@ -34,6 +36,10 @@ import util.Files;
  * @author Agarimo
  */
 public class Var {
+    
+    public static Stage stage;
+    public static Stage popup;
+    public static HostServicesDelegate hostServices;
 
     public static Conexion con;
     public static String dbName = "idbl";

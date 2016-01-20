@@ -24,10 +24,13 @@
 package main;
 
 import com.sun.javafx.application.HostServicesDelegate;
+import ctrl.MainControl;
+import ctrl.Nav;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -36,21 +39,32 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-    public static Stage stage;
-    public static Stage popup;
-    public static HostServicesDelegate hostServices;
-
     @Override
     public void start(Stage stage) throws Exception {
         Var.iniciaVariables();
-        hostServices= HostServicesDelegate.getInstance(this);
-        Main.stage = stage;
-        Parent root = FXMLLoader.load(getClass().getResource("/view/Client.fxml"));
+        Var.hostServices = HostServicesDelegate.getInstance(this);
+        Var.stage = stage;
+        Var.stage.setMinHeight(600);
+        Var.stage.setMinWidth(800);
+        Var.stage.setScene(createScene(loadMainPane()));
+        Var.stage.show();
+    }
 
-        Scene scene = new Scene(root);
+    private Pane loadMainPane() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
 
-        stage.setScene(scene);
-        stage.show();
+        Pane mainPane = (Pane) loader.load(getClass().getResourceAsStream(Nav.MAIN));
+        MainControl mainController = loader.getController();
+        Nav.setMainController(mainController);
+
+        return mainPane;
+    }
+
+    private Scene createScene(Pane mainPane) {
+        Scene scene = new Scene(mainPane);
+//        scene.getStylesheets().setAll(getClass().getResource("/css/vista.css").toExternalForm());
+
+        return scene;
     }
 
     /**

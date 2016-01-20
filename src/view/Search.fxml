@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import org.controlsfx.control.textfield.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="200.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label prefHeight="40.0" prefWidth="200.0" text="Búsqueda : " VBox.vgrow="ALWAYS">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" />
+         </VBox.margin>
+      </Label>
+      <TextField prefHeight="24.0" prefWidth="180.0">
+         <VBox.margin>
+            <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </TextField>
+      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="28.0" prefWidth="18.0" style="-fx-graphic: url(https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_search_48px-20.png);">
+         <VBox.margin>
+            <Insets bottom="10.0" left="153.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </Button>
+      <Separator prefWidth="200.0">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </Separator>
+      <Label prefHeight="20.0" prefWidth="200.0" text="Tipo de Búsqueda :">
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </VBox.margin>
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <RadioButton mnemonicParsing="false" selected="true" text="NIF">
+         <VBox.margin>
+            <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+         </VBox.margin>
+         <toggleGroup>
+            <ToggleGroup fx:id="tipo" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton mnemonicParsing="false" text="MATRICULA" toggleGroup="$tipo">
+         <VBox.margin>
+            <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </RadioButton>
+      <RadioButton mnemonicParsing="false" text="EXPEDIENTE" toggleGroup="$tipo">
+         <VBox.margin>
+            <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </RadioButton>
+      <Label text="Modo de Búsqueda">
+         <font>
+            <Font size="16.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+         </VBox.margin>
+      </Label>
+      <RadioButton mnemonicParsing="false" selected="true" text="NORMAL">
+         <VBox.margin>
+            <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+         </VBox.margin>
+         <toggleGroup>
+            <ToggleGroup fx:id="modo" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton mnemonicParsing="false" text="COMIENZA POR" toggleGroup="$modo">
+         <VBox.margin>
+            <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </RadioButton>
+      <RadioButton mnemonicParsing="false" text="CONTIENE" toggleGroup="$modo">
+         <VBox.margin>
+            <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </RadioButton>
+   </children>
+</VBox>

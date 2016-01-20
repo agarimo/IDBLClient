@@ -25,31 +25,21 @@ package ctrl;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import main.Main;
 
 /**
  * FXML Controller class
  *
  * @author Agarimo
  */
-public class ConfigC implements Initializable {
+public class MultaControl implements Initializable {
 
     /**
      * Initializes the controller class.
-     * @param url
-     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }
-    
-    @FXML
-    void cerrar(ActionEvent event){
-        Main.popup.close();
-    }
+    }    
     
 }

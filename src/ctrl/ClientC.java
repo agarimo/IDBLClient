@@ -1,29 +1,22 @@
 package ctrl;
 
-import static main.Main.stage;
 import model.MultaS;
 import model.VistaAvanzado;
 import model.VistaMulta;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -49,14 +42,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javafx.util.Pair;
 import main.Main;
 import main.Query;
 import main.Var;
+import static main.Var.hostServices;
+import static main.Var.stage;
 import model.ModeloMulta;
 import model.ModeloSancionado;
 import util.CalculaNif;
@@ -516,7 +509,7 @@ public class ClientC {
 
     @FXML
     void minimizar() {
-        Main.stage.setIconified(true);
+        stage.setIconified(true);
     }
 
     @FXML
@@ -632,7 +625,7 @@ public class ClientC {
     @FXML
     void verWeb(ActionEvent event) {
         System.out.println(link);
-        Main.hostServices.showDocument(link);
+        hostServices.showDocument(link);
     }
 
     @FXML
@@ -943,10 +936,10 @@ public class ClientC {
 
     @FXML
     void initialize() {
-        Main.stage.initStyle(StageStyle.TRANSPARENT);
-        Main.stage.setResizable(false);
-        Main.stage.setTitle("IDBL");
-        Main.stage.setOnCloseRequest((WindowEvent ev) -> {
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setResizable(false);
+        stage.setTitle("IDBL");
+        stage.setOnCloseRequest((WindowEvent ev) -> {
             if (!cerrarApp()) {
                 ev.consume();
             }

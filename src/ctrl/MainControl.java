@@ -23,25 +23,56 @@
  */
 package ctrl;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.layout.Pane;
+import org.controlsfx.control.HiddenSidesPane;
 
 /**
  * FXML Controller class
  *
  * @author Agarimo
  */
-public class WinC implements Initializable {
+public class MainControl implements Initializable {
+
+    @FXML
+    private HiddenSidesPane vistaHolder;
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+        try {
+            Node content = FXMLLoader.load(Nav.class.getResource(Nav.MULTA));
+
+            vistaHolder.setContent(content);
+
+            Node left = FXMLLoader.load(Nav.class.getResource(Nav.SEARCH));
+            vistaHolder.setLeft(left);
+        } catch (IOException ex) {
+            Logger.getLogger(MainControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Replaces the vista displayed in the vista holder with a new vista.
+     *
+     * @param node the vista node to be swapped in.
+     * @throws java.io.IOException
+     */
+    public void setVista(Node node) throws IOException {
+        vistaHolder.setContent(node);
+    }
+
 }
