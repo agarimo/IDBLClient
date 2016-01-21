@@ -28,11 +28,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Side;
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.Button;
 import org.controlsfx.control.HiddenSidesPane;
 
 /**
@@ -44,6 +46,9 @@ public class MainControl implements Initializable {
 
     @FXML
     private HiddenSidesPane vistaHolder;
+
+    @FXML
+    private Button btBuscar;
 
     /**
      * Initializes the controller class.
@@ -60,6 +65,8 @@ public class MainControl implements Initializable {
 
             Node left = FXMLLoader.load(Nav.class.getResource(Nav.SEARCH));
             vistaHolder.setLeft(left);
+            
+            vistaHolder.setTriggerDistance(0);
         } catch (IOException ex) {
             Logger.getLogger(MainControl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -73,6 +80,15 @@ public class MainControl implements Initializable {
      */
     public void setVista(Node node) throws IOException {
         vistaHolder.setContent(node);
+    }
+
+    @FXML
+    void botonBuscar(ActionEvent event) {
+        if (vistaHolder.getPinnedSide() != null) {
+            vistaHolder.setPinnedSide(null);
+        } else {
+            vistaHolder.setPinnedSide(Side.LEFT);
+        }
     }
 
 }

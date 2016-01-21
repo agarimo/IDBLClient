@@ -10,7 +10,7 @@
    <children>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
-          <Button mnemonicParsing="false" text="Button" />
+          <Button fx:id="btBuscar" mnemonicParsing="false" onAction="#botonBuscar" prefHeight="40.0" prefWidth="40.0" text="A" />
         </items>
       </ToolBar>
       <org.controlsfx.control.HiddenSidesPane fx:id="vistaHolder" prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
