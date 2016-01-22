@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -7,6 +8,33 @@
 <?import javafx.scene.layout.*?>
 
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: blue;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="ctrl.MultaControl">
-    
-</AnchorPane>
+<VBox alignment="CENTER" minHeight="-Infinity" prefHeight="400.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TableView maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="192.0" prefWidth="760.0" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn maxWidth="-1.0" minWidth="247.0" prefWidth="-1.0" text="Organismo" />
+            <TableColumn maxWidth="80.0" minWidth="80.0" resizable="false" text="NIF" />
+          <TableColumn maxWidth="80.0" minWidth="80.0" resizable="false" text="MATRICULA" />
+          <TableColumn maxWidth="110.0" minWidth="110.0" prefWidth="110.0" resizable="false" text="Expediente" />
+            <TableColumn maxWidth="48.0" minWidth="48.0" prefWidth="48.0" resizable="false" text="Fase" />
+            <TableColumn maxWidth="90.0" minWidth="90.0" prefWidth="90.0" resizable="false" text="Publicación" />
+            <TableColumn maxWidth="90.0" minWidth="90.0" prefWidth="90.0" resizable="false" text="Vencimiento" />
+        </columns>
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" top="20.0" />
+         </VBox.margin>
+      </TableView>
+      <GridPane prefHeight="170.0" prefWidth="780.0" VBox.vgrow="ALWAYS">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+   </children>
+</VBox>
