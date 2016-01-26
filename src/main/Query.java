@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
+import model.ModeloMulta;
 import util.Sql;
 import util.Varios;
 
@@ -45,7 +46,51 @@ import util.Varios;
  * @author Agarimo
  */
 public class Query {
+    
+    public static List<ModeloMulta> listaModeloMulta(String query) {
+        List<ModeloMulta> list = new ArrayList();
+        Sql bd;
+        ResultSet rs;
+        ModeloMulta aux;
 
+        try {
+            bd = new Sql(Var.con);
+            rs = bd.ejecutarQueryRs(query);
+
+            while (rs.next()) {
+                aux= new ModeloMulta();
+                aux.id=rs.getInt("id");
+                aux.organismo.set(rs.getString("organismo"));
+                aux.cif.set(rs.getString("cif"));
+                aux.matricula.set(rs.getString("matricula"));
+                aux.expediente.set(rs.getString("expediente"));
+                aux.fase.set(rs.getString("fase"));
+                aux.fecha_publicacion.set(rs.getString("fecha_publicacion"));
+                aux.fecha_vencimiento.set(rs.getString("fecha_vencimiento"));
+                aux.nombre.set(rs.getString("nombre"));
+                aux.puntos.set(rs.getString("puntos"));
+                aux.cuantia.set(rs.getString("cuantia"));
+                aux.linea.set(rs.getString("linea"));
+                list.add(aux);
+            }
+
+            rs.close();
+            bd.close();
+
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("ERROR DE CONEXIÓN");
+            alert.setContentText(ex.getMessage());
+
+            alert.showAndWait();
+            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+    }
+
+    @Deprecated
     public static List<VistaMulta> listaMultas(String query) {
         List<VistaMulta> list = new ArrayList();
         Sql bd;
@@ -77,6 +122,7 @@ public class Query {
         return list;
     }
 
+    @Deprecated
     public static List<VistaAvanzado> listaMultasA(String query, String column, int typ) {
         List<VistaAvanzado> list = new ArrayList();
         Sql bd;
@@ -122,6 +168,7 @@ public class Query {
         return list;
     }
 
+    @Deprecated
     public static MultaS cargaMultaS(int aux) {
         Sql bd;
         ResultSet rs;

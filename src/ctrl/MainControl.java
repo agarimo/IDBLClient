@@ -60,7 +60,7 @@ public class MainControl implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             Node content = FXMLLoader.load(Nav.class.getResource(Nav.MULTA));
-
+            
             vistaHolder.setContent(content);
 
             Node left = FXMLLoader.load(Nav.class.getResource(Nav.SEARCH));

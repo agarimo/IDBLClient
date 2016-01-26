@@ -140,7 +140,6 @@ public class VistaMulta {
 
     public static String SQLBuscar(String aux, int typ, int opt) {
         String[] opciones = {"-", " AND fechaVencimiento >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR) order by fechaVencimiento desc;", " order by fechaVencimiento desc;"};
-        System.out.println("SELECT * FROM idbl.multas_all WHERE " + Var.tipoBusqueda[typ] + "=" + Varios.entrecomillar(aux) + " " + opciones[opt]);
         return "SELECT * FROM idbl.multas_all WHERE " + Var.tipoBusqueda[typ] + "=" + Varios.entrecomillar(aux) + " " + opciones[opt];
     }
 

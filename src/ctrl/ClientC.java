@@ -708,8 +708,8 @@ public class ClientC {
             model.matricula.set(aux.getMatricula());
             model.expediente.set(aux.getExpediente());
             model.fase.set(aux.getFase());
-            model.fecha.set(Dates.imprimeFecha(aux.getPublicacion()));
-            model.fechaV.set(Dates.imprimeFecha(aux.getVencimiento()));
+            model.fecha_publicacion.set(Dates.imprimeFecha(aux.getPublicacion()));
+            model.fecha_vencimiento.set(Dates.imprimeFecha(aux.getVencimiento()));
 
             multas.add(model);
         }

@@ -24,8 +24,31 @@
 package ctrl;
 
 import java.net.URL;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.util.Callback;
+import main.Query;
+import model.ModeloMulta;
+import util.Dates;
 
 /**
  * FXML Controller class
@@ -34,12 +57,294 @@ import javafx.fxml.Initializable;
  */
 public class MultaControl implements Initializable {
 
+    //<editor-fold defaultstate="collapsed" desc="FXML Var">
+    @FXML
+    private TableView tabla;
+
+    @FXML
+    private TableColumn organismoCL;
+
+    @FXML
+    private TableColumn cifCL;
+
+    @FXML
+    private TableColumn matriculaCL;
+
+    @FXML
+    private TableColumn expedienteCL;
+
+    @FXML
+    private TableColumn faseCL;
+
+    @FXML
+    private TableColumn publicacionCL;
+
+    @FXML
+    private TableColumn vencimientoCL;
+
+    @FXML
+    private Label lbLocalizadas;
+
+    @FXML
+    private Label lbNombre;
+
+    @FXML
+    private Label lbPuntos;
+
+    @FXML
+    private Label lbCuantia;
+
+    @FXML
+    private TextField tfLinea;
+
+    @FXML
+    private Button btDetalle;
+
+//</editor-fold>
+    ObservableList<ModeloMulta> multas;
+    ObservableValue<String> cargadas;
+
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        initializeTable();
         // TODO
-    }    
-    
+
+        multas.addAll(Query.listaModeloMulta("SELECT * FROM idbl.multas_all limit 20"));
+    }
+
+    private void initializeTable() {
+        organismoCL.setCellValueFactory(new PropertyValueFactory<>("organismo"));
+        organismoCL.setCellFactory(new Callback<TableColumn<ModeloMulta, String>, TableCell<ModeloMulta, String>>() {
+            @Override
+            public TableCell<ModeloMulta, String> call(TableColumn<ModeloMulta, String> arg0) {
+                return new TableCell<ModeloMulta, String>() {
+                    private Text text;
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setAlignment(Pos.CENTER_LEFT);
+                        setWrapText(true);
+
+                        if (item == null || empty) {
+                            setText(null);
+                            setStyle("");
+                        } else {
+                            text = new Text(item);
+                            text.setWrappingWidth(organismoCL.getWidth() - 20);
+                            setGraphic(text);
+                        }
+                    }
+                };
+            }
+        });
+        cifCL.setCellValueFactory(new PropertyValueFactory<>("cif"));
+        cifCL.setCellFactory(new Callback<TableColumn<ModeloMulta, String>, TableCell<ModeloMulta, String>>() {
+            @Override
+            public TableCell<ModeloMulta, String> call(TableColumn<ModeloMulta, String> arg0) {
+                return new TableCell<ModeloMulta, String>() {
+                    private Text text;
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setAlignment(Pos.CENTER);
+
+                        if (item == null || empty) {
+                            setText(null);
+                            setStyle("");
+                        } else {
+                            text = new Text(item);
+                            setGraphic(text);
+                        }
+                    }
+                };
+            }
+        });
+        matriculaCL.setCellValueFactory(new PropertyValueFactory<>("matricula"));
+        matriculaCL.setCellFactory(new Callback<TableColumn<ModeloMulta, String>, TableCell<ModeloMulta, String>>() {
+            @Override
+            public TableCell<ModeloMulta, String> call(TableColumn<ModeloMulta, String> arg0) {
+                return new TableCell<ModeloMulta, String>() {
+                    private Text text;
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setAlignment(Pos.CENTER);
+
+                        if (item == null || empty) {
+                            setText(null);
+                            setStyle("");
+                        } else {
+                            text = new Text(item);
+                            setGraphic(text);
+                        }
+                    }
+                };
+            }
+        });
+        expedienteCL.setCellValueFactory(new PropertyValueFactory<>("expediente"));
+        expedienteCL.setCellFactory(new Callback<TableColumn<ModeloMulta, String>, TableCell<ModeloMulta, String>>() {
+            @Override
+            public TableCell<ModeloMulta, String> call(TableColumn<ModeloMulta, String> arg0) {
+                return new TableCell<ModeloMulta, String>() {
+                    private Text text;
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setAlignment(Pos.CENTER);
+
+                        if (item == null || empty) {
+                            setText(null);
+                            setStyle("");
+                        } else {
+                            text = new Text(item);
+                            setGraphic(text);
+                        }
+                    }
+                };
+            }
+        });
+        faseCL.setCellValueFactory(new PropertyValueFactory<>("fase"));
+        faseCL.setCellFactory(new Callback<TableColumn<ModeloMulta, String>, TableCell<ModeloMulta, String>>() {
+            @Override
+            public TableCell<ModeloMulta, String> call(TableColumn<ModeloMulta, String> arg0) {
+                return new TableCell<ModeloMulta, String>() {
+                    private Text text;
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setAlignment(Pos.CENTER);
+
+                        if (item == null || empty) {
+                            setText(null);
+                            setStyle("");
+                        } else {
+                            text = new Text(item);
+                            setGraphic(text);
+                        }
+                    }
+                };
+            }
+        });
+        publicacionCL.setCellValueFactory(new PropertyValueFactory<>("fecha_publicacion"));
+        publicacionCL.setCellFactory(new Callback<TableColumn<ModeloMulta, String>, TableCell<ModeloMulta, String>>() {
+            @Override
+            public TableCell<ModeloMulta, String> call(TableColumn<ModeloMulta, String> arg0) {
+                return new TableCell<ModeloMulta, String>() {
+                    private Text text;
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setAlignment(Pos.CENTER);
+
+                        if (item == null || empty) {
+                            setText(null);
+                            setStyle("");
+                        } else {
+                            text = new Text(item);
+                            setGraphic(text);
+                        }
+                    }
+                };
+            }
+        });
+        vencimientoCL.setCellValueFactory(new PropertyValueFactory<>("fecha_vencimiento"));
+        vencimientoCL.setCellFactory(new Callback<TableColumn<ModeloMulta, String>, TableCell<ModeloMulta, String>>() {
+            @Override
+            public TableCell<ModeloMulta, String> call(TableColumn<ModeloMulta, String> arg0) {
+                return new TableCell<ModeloMulta, String>() {
+                    private Text text;
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setAlignment(Pos.CENTER);
+
+                        if (item == null || empty) {
+                            setText(null);
+                            setStyle("");
+                        } else {
+                            text = new Text(item);
+                            if (initializeTableCalculaPlazo(item) >= 0) {
+                                text.setFill(Color.GREEN);
+                            } else {
+                                text.setFill(Color.RED);
+                            }
+                            setGraphic(text);
+                        }
+                    }
+                };
+            }
+        });
+
+        multas = FXCollections.observableArrayList();
+        tabla.setItems(multas);
+
+        final ObservableList<ModeloMulta> aux = tabla.getSelectionModel().getSelectedItems();
+        aux.addListener(selectorTabla);
+
+    }
+
+    private int initializeTableCalculaPlazo(String date) {
+        Date curdate = Dates.curdate();
+        Date fecha = Dates.formatFecha(date, "yyyy-MM-dd");
+
+        return fecha.compareTo(curdate);
+    }
+
+    private void tableLoad(List<ModeloMulta> aux) {
+        multas.clear();
+        multas.addAll(aux);
+    }
+
+    private ModeloMulta tableGetSelected() {
+        try {
+            ModeloMulta aux = (ModeloMulta) tabla.getSelectionModel().getSelectedItem();
+            return aux;
+        } catch (NullPointerException ex) {
+            return null;
+        }
+    }
+
+    private void tableShowSelected(ModeloMulta aux) {
+        if (aux != null) {
+            lbNombre.setText(aux.getNombre());
+            lbPuntos.setText(aux.getPuntos());
+            lbCuantia.setText(aux.getCuantia());
+            tfLinea.setText(aux.getLinea());
+        } else {
+            lbNombre.setText("");
+            lbPuntos.setText("");
+            lbCuantia.setText("");
+            tfLinea.setText("");
+        }
+
+    }
+
+    @FXML
+    void verDetalle(ActionEvent event) {
+
+    }
+
+    //<editor-fold defaultstate="collapsed" desc="LISTENER">
+    /**
+     * Listener de la tabla multas
+     */
+    private final ListChangeListener<ModeloMulta> selectorTabla
+            = (ListChangeListener.Change<? extends ModeloMulta> c) -> {
+                tableShowSelected(tableGetSelected());
+            };
+
+//</editor-fold>
 }
