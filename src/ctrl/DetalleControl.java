@@ -25,7 +25,10 @@ package ctrl;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 
 /**
  * FXML Controller class
@@ -33,13 +36,22 @@ import javafx.fxml.Initializable;
  * @author Agarimo
  */
 public class DetalleControl implements Initializable {
+    
+    @FXML
+    private Button btCerrar;
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
     
+    @FXML
+    void cerrarVista(ActionEvent event){
+        Nav.actionDetalle();
+    }
 }

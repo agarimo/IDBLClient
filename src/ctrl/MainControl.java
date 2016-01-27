@@ -66,6 +66,9 @@ public class MainControl implements Initializable {
             Node left = FXMLLoader.load(Nav.class.getResource(Nav.SEARCH));
             vistaHolder.setLeft(left);
             
+            Node bottom = FXMLLoader.load(Nav.class.getResource(Nav.DETALLE));
+            vistaHolder.setBottom(bottom);
+            
             vistaHolder.setTriggerDistance(0);
         } catch (IOException ex) {
             Logger.getLogger(MainControl.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,6 +91,14 @@ public class MainControl implements Initializable {
             vistaHolder.setPinnedSide(null);
         } else {
             vistaHolder.setPinnedSide(Side.LEFT);
+        }
+    }
+    
+    void botonDetalle(){
+        if (vistaHolder.getPinnedSide() != null) {
+            vistaHolder.setPinnedSide(null);
+        } else {
+            vistaHolder.setPinnedSide(Side.BOTTOM);
         }
     }
 

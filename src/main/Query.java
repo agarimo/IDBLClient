@@ -38,6 +38,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import model.ModeloMulta;
+import model.ModeloMultaFull;
 import util.Sql;
 import util.Varios;
 
@@ -46,6 +47,60 @@ import util.Varios;
  * @author Agarimo
  */
 public class Query {
+    
+    public static ModeloMultaFull getModeloMultaFull(int id){
+        Sql bd;
+        ResultSet rs;
+        ModeloMultaFull aux = null;
+
+        try {
+            bd = new Sql(Var.con);
+            rs = bd.ejecutarQueryRs("SELECT * FROM "+Var.dbName+".vista_multa_full WHERE id="+id);
+
+            if (rs.next()) {
+                aux= new ModeloMultaFull();
+                aux.setId(rs.getInt("id"));
+                aux.setnBoe(rs.getString("n_boe"));
+                aux.setFase(rs.getString("fase"));
+                aux.setOrganismo(rs.getString("organismo"));
+                aux.setFechaPublicacion(rs.getString("fecha_publicacion"));
+                aux.setFechaVencimiento(rs.getString("fecha_vencimiento"));
+                aux.setCif(rs.getString("cif"));
+                aux.setNombre(rs.getString("nombre"));
+                aux.setLocalidad(rs.getString("localidad"));
+                aux.setMatricula(rs.getString("matricula"));
+                aux.setCodigo(rs.getString("codigo"));
+                aux.setExpediente(rs.getString("expediente"));
+                aux.setFechaMulta(rs.getString("fecha_multa"));
+                aux.setArticulo(rs.getString("articulo"));
+                aux.setCuantia(rs.getString("cuantia"));
+                aux.setPuntos(rs.getString("puntos"));
+                aux.setLinea(rs.getString("linea"));
+            }
+            
+            rs = bd.ejecutarQueryRs("SELECT id FROM "+Var.dbName+".documento WHERE id="+Varios.entrecomillar(aux.getnBoe()));
+            
+            if(rs.next()){
+                aux.setDocumento(true);
+            }else{
+                aux.setDocumento(false);
+            }
+
+            rs.close();
+            bd.close();
+
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("ERROR DE CONEXIÓN");
+            alert.setContentText(ex.getMessage());
+
+            alert.showAndWait();
+            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return aux;
+    }
     
     public static List<ModeloMulta> listaModeloMulta(String query) {
         List<ModeloMulta> list = new ArrayList();

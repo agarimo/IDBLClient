@@ -25,7 +25,6 @@ package ctrl;
 
 import java.net.URL;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ObservableValue;
@@ -122,8 +121,10 @@ public class MultaControl implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         initializeTable();
         // TODO
+        
+        
 
-        multas.addAll(Query.listaModeloMulta("SELECT * FROM idbl.multas_all limit 20"));
+        multas.addAll(Query.listaModeloMulta("SELECT * FROM idbl.vista_multa limit 20"));
     }
 
     private void initializeTable() {
@@ -342,6 +343,6 @@ public class MultaControl implements Initializable {
 
     @FXML
     void verDetalle(ActionEvent event) {
-
+        Nav.actionDetalle();
     }
 }

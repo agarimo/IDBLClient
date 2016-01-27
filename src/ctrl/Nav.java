@@ -59,4 +59,8 @@ public class Nav {
             e.printStackTrace();
         }
     }
+    
+    public static void actionDetalle(){
+        mainController.botonDetalle();
+    }
 }
