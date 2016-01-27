@@ -103,6 +103,14 @@ public class MultaControl implements Initializable {
 //</editor-fold>
     ObservableList<ModeloMulta> multas;
     ObservableValue<String> cargadas;
+    //<editor-fold defaultstate="collapsed" desc="LISTENER">
+    /**
+     * Listener de la tabla multas
+     */
+    private final ListChangeListener<ModeloMulta> selectorTabla = (ListChangeListener.Change<? extends ModeloMulta> c) -> {
+        tableShowSelected(tableGetSelected());
+    };
+//</editor-fold>
 
     /**
      * Initializes the controller class.
@@ -303,7 +311,7 @@ public class MultaControl implements Initializable {
         return fecha.compareTo(curdate);
     }
 
-    private void tableLoad(List<ModeloMulta> aux) {
+    public void tableLoad(List<ModeloMulta> aux) {
         multas.clear();
         multas.addAll(aux);
     }
@@ -336,15 +344,4 @@ public class MultaControl implements Initializable {
     void verDetalle(ActionEvent event) {
 
     }
-
-    //<editor-fold defaultstate="collapsed" desc="LISTENER">
-    /**
-     * Listener de la tabla multas
-     */
-    private final ListChangeListener<ModeloMulta> selectorTabla
-            = (ListChangeListener.Change<? extends ModeloMulta> c) -> {
-                tableShowSelected(tableGetSelected());
-            };
-
-//</editor-fold>
 }

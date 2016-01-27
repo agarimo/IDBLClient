@@ -25,7 +25,12 @@ package ctrl;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -33,6 +38,41 @@ import javafx.fxml.Initializable;
  * @author Agarimo
  */
 public class SearchControl implements Initializable {
+    
+    //<editor-fold defaultstate="collapsed" desc="FXML VAR">
+    @FXML
+    private VBox panelBusqueda;
+    
+    @FXML
+    private VBox panelTipo;
+    
+    @FXML
+    private VBox panelModo;
+    
+    @FXML
+    private TextField tfBuscar;
+    
+    @FXML
+    private Button btBuscar;
+    
+    @FXML
+    private RadioButton rbNif;
+    
+    @FXML
+    private RadioButton rbMatricula;
+    
+    @FXML
+    private RadioButton rbExpediente;
+    
+    @FXML
+    private RadioButton rbNormal;
+    
+    @FXML
+    private RadioButton rbComienza;
+    
+    @FXML
+    private RadioButton rbContiene;
+//</editor-fold>
 
     /**
      * Initializes the controller class.
@@ -41,6 +81,7 @@ public class SearchControl implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         
         // TODO
     }    
