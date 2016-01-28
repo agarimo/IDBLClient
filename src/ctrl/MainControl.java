@@ -101,5 +101,4 @@ public class MainControl implements Initializable {
             vistaHolder.setPinnedSide(Side.BOTTOM);
         }
     }
-
 }

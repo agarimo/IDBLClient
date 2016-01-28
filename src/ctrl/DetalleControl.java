@@ -29,6 +29,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
 /**
  * FXML Controller class
@@ -36,22 +37,92 @@ import javafx.scene.control.Button;
  * @author Agarimo
  */
 public class DetalleControl implements Initializable {
-    
+
+    //<editor-fold defaultstate="collapsed" desc="FXML VAR">
     @FXML
     private Button btCerrar;
+    
+    @FXML
+    private Button btDocumento;
+    
+    @FXML
+    private Button btPrint;
+    
+    @FXML
+    private Label lbNBoe;
+    
+    @FXML
+    private Label lbFase;
+    
+    @FXML
+    private Label lbFechaPublicacion;
+    
+    @FXML
+    private Label lbFechaVencimiento;
+    
+    @FXML
+    private Label lbOrganismo;
+    
+    @FXML
+    private Label lbCif;
+    
+    @FXML
+    private Label lbMatricula;
+    
+    @FXML
+    private Label lbLocalidad;
+    
+    @FXML
+    private Label lbNombre;
+    
+    @FXML
+    private Label lbCodigo;
+    
+    @FXML
+    private Label lbExpediente;
+    
+    @FXML
+    private Label lbCuantia;
+    
+    @FXML
+    private Label lbPuntos;
+    
+    @FXML
+    private Label lbFecha;
+    
+    @FXML
+    private Label lbArticulo;
+    
+    @FXML
+    private Label lbLinea;
+    
+    @FXML
+    private Label lbInfoDoc;
+//</editor-fold>
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        
+    }
+
+    @FXML
+    void cerrarVista(ActionEvent event) {
+        Nav.actionDetalle();
+    }
     
     @FXML
-    void cerrarVista(ActionEvent event){
-        Nav.actionDetalle();
+    void verDocumento(ActionEvent event){
+        
+    }
+    
+    @FXML
+    void printMulta(ActionEvent event){
+        
     }
 }
