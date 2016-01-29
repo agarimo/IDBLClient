@@ -1,9 +1,10 @@
 package ctrl;
 
-
 import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
+import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 
 /**
  * Utility class for controlling navigation between vistas.
@@ -22,18 +23,25 @@ public class Nav {
     public static final String CONFIG = "/view/Config.fxml";
     public static final String SEARCH = "/view/Search.fxml";
 
-    /**
-     * The main application layout controller.
-     */
     private static MainControl mainController;
+    private static MultaControl multaController;
+    private static DetalleControl detalleController;
+    private static SearchControl searchController;
 
-    /**
-     * Stores the main controller for later use in navigation tasks.
-     *
-     * @param mainController the main application layout controller.
-     */
-    public static void setMainController(MainControl mainController) {
-        Nav.mainController = mainController;
+    public static void setMainController(MainControl controller) {
+        Nav.mainController = controller;
+    }
+
+    public static void setMultaController(MultaControl controller) {
+        Nav.multaController = controller;
+    }
+
+    public static void setDetalleController(DetalleControl controller) {
+        Nav.detalleController = controller;
+    }
+
+    public static void setSearchController(SearchControl controller) {
+        Nav.searchController=controller;
     }
 
     /**
@@ -59,8 +67,12 @@ public class Nav {
             e.printStackTrace();
         }
     }
-    
-    public static void actionDetalle(){
+
+    public static void actionDetalle() {
         mainController.botonDetalle();
+    }
+    
+    public static void detalleSetMulta(int id){
+        detalleController.setMulta(id);
     }
 }

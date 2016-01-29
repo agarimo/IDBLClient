@@ -21,67 +21,62 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package main;
+package ctrl;
 
-import com.sun.javafx.application.HostServicesDelegate;
-import ctrl.MainControl;
-import ctrl.Nav;
 import java.io.IOException;
-import javafx.application.Application;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.print.PageLayout;
 import javafx.print.PageOrientation;
 import javafx.print.Paper;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+import javafx.print.PrinterJob;
+import javafx.scene.Node;
+import javafx.scene.transform.Scale;
+import main.Var;
 
 /**
  *
  * @author Agarimo
  */
-public class Main extends Application {
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        Var.iniciaVariables();
-        Var.hostServices = HostServicesDelegate.getInstance(this);
-        Var.stage = stage;
-        Var.stage.setMinHeight(600);
-        Var.stage.setMinWidth(800);
-        Var.stage.setScene(createScene(loadMainPane()));
-        Var.stage.show();
-    }
-
-    private Pane loadMainPane() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-
-        Pane mainPane = (Pane) loader.load(getClass().getResourceAsStream(Nav.MAIN));
-        MainControl mainController = loader.getController();
-        Nav.setMainController(mainController);
-
-        return mainPane;
-    }
-
-    private Scene createScene(Pane mainPane) {
-        Scene scene = new Scene(mainPane);
-//        scene.getStylesheets().setAll(getClass().getResource("/css/vista.css").toExternalForm());
-
-        return scene;
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-//        launch(args);
+public class Printer {
+    
+    public Printer(){
         
+    }
+
+    private Node loadNode() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+
+            Node node = (Node) loader.load(getClass().getResourceAsStream(Nav.DETALLE));
+            DetalleControl controller = loader.getController();
+            controller.setMulta(18524410);
+
+            return node;
+        } catch (IOException ex) {
+            Logger.getLogger(DetalleControl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    public void print() {
+        Node node = loadNode();
         javafx.print.Printer printer = javafx.print.Printer.getDefaultPrinter();
         PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.PORTRAIT, javafx.print.Printer.MarginType.DEFAULT);
-        System.out.println("Width: "+pageLayout.getPrintableWidth());
-        System.out.println("Height: "+pageLayout.getPrintableHeight());
-        
-        System.exit(0);
-             
+        double scaleX = pageLayout.getPrintableWidth() / 780;
+        double scaleY = pageLayout.getPrintableHeight() / 500;
+        node.getTransforms().add(new Scale(scaleX, scaleY));
+
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job != null) {
+            boolean successPrintDialog = job.showPrintDialog(Var.stage.getOwner());
+            if (successPrintDialog) {
+                boolean success = job.printPage(pageLayout, node);
+                if (success) {
+                    job.endJob();
+                }
+            }
+        }
     }
 }

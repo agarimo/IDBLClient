@@ -30,6 +30,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import main.Query;
+import model.ModeloMultaFull;
 
 /**
  * FXML Controller class
@@ -40,62 +44,65 @@ public class DetalleControl implements Initializable {
 
     //<editor-fold defaultstate="collapsed" desc="FXML VAR">
     @FXML
+    private VBox root;
+
+    @FXML
     private Button btCerrar;
-    
+
     @FXML
     private Button btDocumento;
-    
+
     @FXML
     private Button btPrint;
-    
+
     @FXML
     private Label lbNBoe;
-    
+
     @FXML
     private Label lbFase;
-    
+
     @FXML
     private Label lbFechaPublicacion;
-    
+
     @FXML
     private Label lbFechaVencimiento;
-    
+
     @FXML
     private Label lbOrganismo;
-    
+
     @FXML
     private Label lbCif;
-    
+
     @FXML
     private Label lbMatricula;
-    
+
     @FXML
     private Label lbLocalidad;
-    
+
     @FXML
     private Label lbNombre;
-    
+
     @FXML
     private Label lbCodigo;
-    
+
     @FXML
     private Label lbExpediente;
-    
+
     @FXML
     private Label lbCuantia;
-    
+
     @FXML
     private Label lbPuntos;
-    
+
     @FXML
     private Label lbFecha;
-    
+
     @FXML
     private Label lbArticulo;
-    
+
     @FXML
     private Label lbLinea;
-    
+
     @FXML
     private Label lbInfoDoc;
 //</editor-fold>
@@ -108,21 +115,84 @@ public class DetalleControl implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
+    }
+
+    public void setMulta(int id) {
+        setMulta(Query.getModeloMultaFull(id));
+    }
+
+    private void setMulta(ModeloMultaFull multa) {
+        lbNBoe.setText(multa.getnBoe());
+        lbFase.setText(multa.getFase());
+        lbFechaPublicacion.setText(multa.getFechaPublicacion());
+        lbFechaVencimiento.setText(multa.getFechaVencimiento());
+        lbOrganismo.setText(multa.getOrganismo());
+
+        lbCif.setText(multa.getCif());
+        lbMatricula.setText(multa.getMatricula());
+        lbLocalidad.setText(multa.getLocalidad());
+        lbNombre.setText(multa.getNombre());
+
+        lbCodigo.setText(multa.getCodigo());
+        lbExpediente.setText(multa.getExpediente());
+        lbCuantia.setText(multa.getCuantia());
+        lbPuntos.setText(multa.getPuntos());
+        lbFecha.setText(multa.getFechaMulta());
+        lbArticulo.setText(multa.getArticulo());
+        lbLinea.setText(multa.getLinea());
+
+        if (multa.isDocumento()) {
+            btDocumento.setDisable(false);
+            lbInfoDoc.setVisible(true);
+            lbInfoDoc.setText("Documento Disponible.");
+            lbInfoDoc.setTextFill(Color.GREEN);
+        } else {
+            btDocumento.setDisable(true);
+            lbInfoDoc.setVisible(true);
+            lbInfoDoc.setText("Documento no disponible.");
+            lbInfoDoc.setTextFill(Color.RED);
+        }
+    }
+
+    private void clear() {
+        lbNBoe.setText("");
+        lbFase.setText("");
+        lbFechaPublicacion.setText("");
+        lbFechaVencimiento.setText("");
+        lbOrganismo.setText("");
+
+        lbCif.setText("");
+        lbMatricula.setText("");
+        lbLocalidad.setText("");
+        lbNombre.setText("");
+
+        lbCodigo.setText("");
+        lbExpediente.setText("");
+        lbCuantia.setText("");
+        lbPuntos.setText("");
+        lbFecha.setText("");
+        lbArticulo.setText("");
+        lbLinea.setText("");
+
+        lbInfoDoc.setVisible(false);
     }
 
     @FXML
     void cerrarVista(ActionEvent event) {
         Nav.actionDetalle();
     }
-    
+
     @FXML
-    void verDocumento(ActionEvent event){
+    void verDocumento(ActionEvent event) {
+
+    }
+
+    @FXML
+    void printMulta(ActionEvent event) {
+        Printer pt = new Printer();
         
     }
     
-    @FXML
-    void printMulta(ActionEvent event){
-        
-    }
+    
 }

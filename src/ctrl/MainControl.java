@@ -59,20 +59,46 @@ public class MainControl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            Node content = FXMLLoader.load(Nav.class.getResource(Nav.MULTA));
-            
-            vistaHolder.setContent(content);
+            vistaHolder.setContent(loadMulta());
 
-            Node left = FXMLLoader.load(Nav.class.getResource(Nav.SEARCH));
-            vistaHolder.setLeft(left);
+            vistaHolder.setLeft(loadSearch());
             
-            Node bottom = FXMLLoader.load(Nav.class.getResource(Nav.DETALLE));
-            vistaHolder.setBottom(bottom);
+            vistaHolder.setBottom(loadDetalle());
             
             vistaHolder.setTriggerDistance(0);
         } catch (IOException ex) {
             Logger.getLogger(MainControl.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private Node loadMulta() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+
+        Node node = (Node) loader.load(getClass().getResourceAsStream(Nav.MULTA));
+        MultaControl controller = loader.getController();
+        Nav.setMultaController(controller);
+
+        return node;
+    }
+
+    private Node loadSearch() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+
+        Node node = (Node) loader.load(getClass().getResourceAsStream(Nav.SEARCH));
+        SearchControl controller = loader.getController();
+        Nav.setSearchController(controller);
+
+        return node;
+    }
+
+    private Node loadDetalle() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+
+        Node node = (Node) loader.load(getClass().getResourceAsStream(Nav.DETALLE));
+        DetalleControl controller = loader.getController();
+        Nav.setDetalleController(controller);
+
+        return node;
     }
 
     /**

@@ -35,6 +35,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -121,8 +122,6 @@ public class MultaControl implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         initializeTable();
         // TODO
-        
-        
 
         multas.addAll(Query.listaModeloMulta("SELECT * FROM idbl.vista_multa limit 20"));
     }
@@ -315,6 +314,7 @@ public class MultaControl implements Initializable {
     public void tableLoad(List<ModeloMulta> aux) {
         multas.clear();
         multas.addAll(aux);
+        lbLocalizadas.setText(Integer.toString(multas.size()));
     }
 
     private ModeloMulta tableGetSelected() {
@@ -343,6 +343,18 @@ public class MultaControl implements Initializable {
 
     @FXML
     void verDetalle(ActionEvent event) {
-        Nav.actionDetalle();
+
+        ModeloMulta aux = tableGetSelected();
+
+        if (aux != null) {
+            Nav.detalleSetMulta(aux.getId());
+            Nav.actionDetalle();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Debes seleccionar una sanción.");
+            alert.showAndWait();
+        }
+
     }
 }
