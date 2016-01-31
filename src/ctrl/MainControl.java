@@ -58,67 +58,72 @@ public class MainControl implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            vistaHolder.setContent(loadMulta());
-//            vistaHolder.setContent(loadTest());
+        vistaHolder.setLeft(loadSearch());
+        vistaHolder.setBottom(loadDetalle());
+        vistaHolder.setTriggerDistance(0);
+    }
 
-            vistaHolder.setLeft(loadSearch());
-            
-            vistaHolder.setBottom(loadDetalle());
-            
-            vistaHolder.setTriggerDistance(0);
+    public Node loadAvanzado() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+
+            Node node = (Node) loader.load(getClass().getResourceAsStream(Nav.AVANZADO));
+            AvanzadoControl controller = loader.getController();
+            Nav.setAvanzadoController(controller);
+
+            return node;
         } catch (IOException ex) {
             Logger.getLogger(MainControl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
     }
-    
-//    private Node loadTest() throws IOException {
-//        FXMLLoader loader = new FXMLLoader();
-//
-//        Node node = (Node) loader.load(getClass().getResourceAsStream(Nav.TEST));
-//        TestControl controller = loader.getController();
-//        Nav.setTestController(controller);
-//
-//        return node;
-//    }
-    
-    private Node loadMulta() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
 
-        Node node = (Node) loader.load(getClass().getResourceAsStream(Nav.MULTA));
-        MultaControl controller = loader.getController();
-        Nav.setMultaController(controller);
+    public Node loadDetalle() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
 
-        return node;
+            Node node = (Node) loader.load(getClass().getResourceAsStream(Nav.DETALLE));
+            DetalleControl controller = loader.getController();
+            Nav.setDetalleController(controller);
+
+            return node;
+        } catch (IOException ex) {
+            Logger.getLogger(MainControl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
-    private Node loadSearch() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
+    public Node loadMulta() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
 
-        Node node = (Node) loader.load(getClass().getResourceAsStream(Nav.SEARCH));
-        SearchControl controller = loader.getController();
-        Nav.setSearchController(controller);
+            Node node = (Node) loader.load(getClass().getResourceAsStream(Nav.MULTA));
+            MultaControl controller = loader.getController();
+            Nav.setMultaController(controller);
 
-        return node;
+            return node;
+        } catch (IOException ex) {
+            Logger.getLogger(MainControl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
-    private Node loadDetalle() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
+    public Node loadSearch() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
 
-        Node node = (Node) loader.load(getClass().getResourceAsStream(Nav.DETALLE));
-        DetalleControl controller = loader.getController();
-        Nav.setDetalleController(controller);
+            Node node = (Node) loader.load(getClass().getResourceAsStream(Nav.SEARCH));
+            SearchControl controller = loader.getController();
+            Nav.setSearchController(controller);
 
-        return node;
+            return node;
+        } catch (IOException ex) {
+            Logger.getLogger(MainControl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
-    /**
-     * Replaces the vista displayed in the vista holder with a new vista.
-     *
-     * @param node the vista node to be swapped in.
-     * @throws java.io.IOException
-     */
-    public void setVista(Node node) throws IOException {
+    public void setContent(Node node) {
         vistaHolder.setContent(node);
     }
 
@@ -130,8 +135,8 @@ public class MainControl implements Initializable {
             vistaHolder.setPinnedSide(Side.LEFT);
         }
     }
-    
-    void botonDetalle(){
+
+    void botonDetalle() {
         if (vistaHolder.getPinnedSide() != null) {
             vistaHolder.setPinnedSide(null);
         } else {

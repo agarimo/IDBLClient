@@ -23,38 +23,44 @@
  */
 package model;
 
-import util.Varios;
+import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
  * @author Agarimo
  */
-public enum Modo {
+public class ModeloAvanzado {
     
-    NORMAL(0),
-    COMIENZA(1),
-    CONTIENE(2);
-    
-    private final int value;
-    
-    private Modo(int value){
-        this.value=value;
+    private int id;
+    SimpleStringProperty codigo = new SimpleStringProperty();
+    SimpleStringProperty addData = new SimpleStringProperty();
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
-    public int getValue(){
-        return this.value;
+    public String getCodigo(){
+        return this.codigo.get();
     }
     
-    public String getQuery(String aux, Tipo tipo){
-        switch (this) {
-            case NORMAL:
-                return "=" + Varios.entrecomillar(aux);
-            case COMIENZA:
-                return " like " + Varios.entrecomillar(aux + "%") + " order by " + tipo.getColumn() + " limit 20";
-            case CONTIENE:
-                return " like " + Varios.entrecomillar("%" + aux + "%") + " order by " + tipo.getColumn() + " limit 20";
-            default:
-                return "";
-        }
+    public void setCodigo(String codigo){
+        this.codigo.set(codigo);
+    }
+    
+    public String getAddData(){
+        return this.addData.get();
+    }
+    
+    public void setAddData(String addData){
+        this.addData.set(addData);
+    }
+
+    @Override
+    public String toString() {
+        return this.codigo.get();
     }
 }

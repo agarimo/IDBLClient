@@ -46,7 +46,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
-import main.Query;
 import model.ModeloMulta;
 import util.Dates;
 
@@ -121,9 +120,6 @@ public class MultaControl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initializeTable();
-        // TODO
-
-        multas.addAll(Query.listaModeloMulta("SELECT * FROM idbl.vista_multa where id in (select id from idbl.multa_full where id_sancionado=7190183) limit 20"));
     }
 
     private void initializeTable() {
@@ -311,8 +307,9 @@ public class MultaControl implements Initializable {
         return fecha.compareTo(curdate);
     }
 
-    public void tableLoad(List<ModeloMulta> aux) {
+    public void tableLoad(String busqueda, List<ModeloMulta> aux) {
         multas.clear();
+        tableShowSelected(null);
         multas.addAll(aux);
         lbLocalizadas.setText(Integer.toString(multas.size()));
     }
@@ -338,21 +335,20 @@ public class MultaControl implements Initializable {
             lbCuantia.setText("");
             tfLinea.setText("");
         }
-
     }
 
     @FXML
     void verDetalle(ActionEvent event) {
-
         ModeloMulta aux = tableGetSelected();
 
         if (aux != null) {
-            Nav.detalleSetMulta(aux.getId());
-            Nav.actionDetalle();
+            Nav.detalleController.setMulta(aux.getId());
+            Nav.mainController.botonDetalle();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
-            alert.setHeaderText("Debes seleccionar una sanción.");
+            alert.setHeaderText("ERROR DE SELECCIÓN");
+            alert.setContentText("Debes seleccionar una sanción.");
             alert.showAndWait();
         }
 

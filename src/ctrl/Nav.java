@@ -1,10 +1,11 @@
 package ctrl;
 
 import javafx.fxml.FXMLLoader;
-
 import java.io.IOException;
+import java.util.List;
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
+import model.ModeloMulta;
 
 /**
  * Utility class for controlling navigation between vistas.
@@ -22,14 +23,24 @@ public class Nav {
     public static final String DETALLE = "/view/Detalle.fxml";
     public static final String CONFIG = "/view/Config.fxml";
     public static final String SEARCH = "/view/Search.fxml";
+    public static final String AVANZADO = "/view/Avanzado.fxml";
     public static final String REPORT = "/view/Report.fxml";
     public static final String TEST = "/view/Test.fxml";
 
-    private static MainControl mainController;
-    private static MultaControl multaController;
-    private static DetalleControl detalleController;
-    private static SearchControl searchController;
-    private static TestControl testController;
+    public static MainControl mainController;
+    public static MultaControl multaController;
+    public static DetalleControl detalleController;
+    public static SearchControl searchController;
+    public static AvanzadoControl avanzadoController;
+    public static TestControl testController;
+
+    public static void setAvanzadoController(AvanzadoControl controller) {
+        Nav.avanzadoController = controller;
+    }
+
+    public static void setDetalleController(DetalleControl controller) {
+        Nav.detalleController = controller;
+    }
 
     public static void setMainController(MainControl controller) {
         Nav.mainController = controller;
@@ -39,47 +50,11 @@ public class Nav {
         Nav.multaController = controller;
     }
 
-    public static void setDetalleController(DetalleControl controller) {
-        Nav.detalleController = controller;
-    }
-
     public static void setSearchController(SearchControl controller) {
-        Nav.searchController=controller;
-    }
-    
-    public static void setTestController (TestControl controller){
-        Nav.testController=controller;
+        Nav.searchController = controller;
     }
 
-    /**
-     * Loads the vista specified by the fxml file into the vistaHolder pane of
-     * the main application layout.
-     *
-     * Previously loaded vista for the same fxml file are not cached. The fxml
-     * is loaded anew and a new vista node hierarchy generated every time this
-     * method is invoked.
-     *
-     * A more sophisticated load function could potentially add some
-     * enhancements or optimizations, for example: cache FXMLLoaders cache
-     * loaded vista nodes, so they can be recalled or reused allow a user to
-     * specify vista node reuse or new creation allow back and forward history
-     * like a browser
-     *
-     * @param fxml the fxml file to be loaded.
-     */
-    public static void loadVista(String fxml) {
-        try {
-            mainController.setVista(FXMLLoader.load(Nav.class.getResource(fxml)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void actionDetalle() {
-        mainController.botonDetalle();
-    }
-    
-    public static void detalleSetMulta(int id){
-        detalleController.setMulta(id);
+    public static void setTestController(TestControl controller) {
+        Nav.testController = controller;
     }
 }

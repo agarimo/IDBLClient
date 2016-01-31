@@ -22,6 +22,7 @@
  * THE SOFTWARE.
  */
 package ctrl;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -48,12 +49,14 @@ import static main.Var.con;
 import model.Documento;
 import model.ModeloMultaFull;
 import util.Sql;
+
 /**
  * FXML Controller class
  *
  * @author Agarimo
  */
 public class DetalleControl implements Initializable {
+
     //<editor-fold defaultstate="collapsed" desc="FXML VAR">
     @FXML
     private VBox root;
@@ -105,7 +108,7 @@ public class DetalleControl implements Initializable {
 
     @FXML
     void cerrarVista(ActionEvent event) {
-        Nav.actionDetalle();
+        Nav.mainController.botonDetalle();
     }
 
     public void getDocument(String id) throws SQLException, FileNotFoundException, IOException {

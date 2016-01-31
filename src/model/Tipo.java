@@ -31,7 +31,7 @@ import main.Var;
  */
 public enum Tipo {
 
-    CIF(0),
+    NIF(0),
     MATRICULA(1),
     EXPEDIENTE(2);
 
@@ -44,15 +44,28 @@ public enum Tipo {
     public int getValue() {
         return this.value;
     }
+    
+    public String getColumnMulta() {
+        switch (this) {
+            case NIF:
+                return "id_sancionado";
+            case MATRICULA:
+                return "id_vehiculo";
+            case EXPEDIENTE:
+                return "id_sancion";
+            default:
+                return "";
+        }
+    }
 
     public String getTable() {
         switch (this) {
-            case CIF:
-                return Var.dbName + "sancionado";
+            case NIF:
+                return Var.dbName + ".sancionado";
             case MATRICULA:
-                return Var.dbName + "vehiculo";
+                return Var.dbName + ".vehiculo";
             case EXPEDIENTE:
-                return Var.dbName + "sancion";
+                return Var.dbName + ".sancion";
             default:
                 return "";
         }
@@ -60,7 +73,7 @@ public enum Tipo {
 
     public String getColumn() {
         switch (this) {
-            case CIF:
+            case NIF:
                 return "cif";
             case MATRICULA:
                 return "matricula";

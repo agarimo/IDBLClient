@@ -22,10 +22,13 @@
                   <Insets left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="tfBuscar" alignment="CENTER" onAction="#search" onInputMethodTextChanged="#textField" prefHeight="30.0" prefWidth="180.0" promptText="... Introduzca búsqueda ...">
+            <TextField fx:id="tfBuscar" alignment="CENTER" onAction="#search" prefHeight="30.0" prefWidth="180.0" promptText="... Introduzca búsqueda ...">
                <VBox.margin>
                   <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
             </TextField>
             <Button fx:id="btBuscar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#search" prefHeight="28.0" prefWidth="18.0" style="-fx-graphic: url(https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_search_48px-20.png);">
                <VBox.margin>
@@ -58,7 +61,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <RadioButton fx:id="rbCif" mnemonicParsing="false" onMouseClicked="#rbCif" selected="true" text="CIF">
+            <RadioButton fx:id="rbNif" mnemonicParsing="false" onMouseClicked="#rbNif" selected="true" text="NIF">
                <VBox.margin>
                   <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
                </VBox.margin>

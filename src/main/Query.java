@@ -37,8 +37,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
+import model.ModeloAvanzado;
 import model.ModeloMulta;
 import model.ModeloMultaFull;
+import model.Tipo;
 import util.Sql;
 import util.Varios;
 
@@ -47,18 +49,18 @@ import util.Varios;
  * @author Agarimo
  */
 public class Query {
-    
-    public static ModeloMultaFull getModeloMultaFull(int id){
+
+    public static ModeloMultaFull getModeloMultaFull(int id) {
         Sql bd;
         ResultSet rs;
         ModeloMultaFull aux = null;
 
         try {
             bd = new Sql(Var.con);
-            rs = bd.ejecutarQueryRs("SELECT * FROM "+Var.dbName+".vista_multa_full WHERE id="+id);
+            rs = bd.ejecutarQueryRs("SELECT * FROM " + Var.dbName + ".vista_multa_full WHERE id=" + id);
 
             if (rs.next()) {
-                aux= new ModeloMultaFull();
+                aux = new ModeloMultaFull();
                 aux.setId(rs.getInt("id"));
                 aux.setnBoe(rs.getString("n_boe"));
                 aux.setFase(rs.getString("fase"));
@@ -77,12 +79,12 @@ public class Query {
                 aux.setPuntos(rs.getString("puntos"));
                 aux.setLinea(rs.getString("linea"));
             }
-            
-            rs = bd.ejecutarQueryRs("SELECT id FROM "+Var.dbName+".documento WHERE id="+Varios.entrecomillar(aux.getnBoe()));
-            
-            if(rs.next()){
+
+            rs = bd.ejecutarQueryRs("SELECT id FROM " + Var.dbName + ".documento WHERE id=" + Varios.entrecomillar(aux.getnBoe()));
+
+            if (rs.next()) {
                 aux.setDocumento(true);
-            }else{
+            } else {
                 aux.setDocumento(false);
             }
 
@@ -101,7 +103,7 @@ public class Query {
 
         return aux;
     }
-    
+
     public static List<ModeloMulta> listaModeloMulta(String query) {
         List<ModeloMulta> list = new ArrayList();
         Sql bd;
@@ -113,8 +115,8 @@ public class Query {
             rs = bd.ejecutarQueryRs(query);
 
             while (rs.next()) {
-                aux= new ModeloMulta();
-                aux.id=rs.getInt("id");
+                aux = new ModeloMulta();
+                aux.id = rs.getInt("id");
                 aux.organismo.set(rs.getString("organismo"));
                 aux.cif.set(rs.getString("cif"));
                 aux.matricula.set(rs.getString("matricula"));
@@ -126,6 +128,60 @@ public class Query {
                 aux.puntos.set(rs.getString("puntos"));
                 aux.cuantia.set(rs.getString("cuantia"));
                 aux.linea.set(rs.getString("linea"));
+                list.add(aux);
+            }
+
+            rs.close();
+            bd.close();
+
+        } catch (SQLException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("ERROR DE CONEXIÓN");
+            alert.setContentText(ex.getMessage());
+
+            alert.showAndWait();
+            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+    }
+
+    public static List<ModeloAvanzado> listaModeloAvanzado(String query, Tipo tipo) {
+        List<ModeloAvanzado> list = new ArrayList();
+        Sql bd;
+        ResultSet rs;
+        ModeloAvanzado aux;
+
+        try {
+            bd = new Sql(Var.con);
+            rs = bd.ejecutarQueryRs(query);
+
+            while (rs.next()) {
+                switch (tipo) {
+                    case NIF:
+                        aux = new ModeloAvanzado();
+                        aux.setId(rs.getInt("id"));
+                        aux.setCodigo(rs.getString("cif"));
+                        aux.setAddData(rs.getString("nombre"));
+                        break;
+                    case MATRICULA:
+                        aux = new ModeloAvanzado();
+                        aux.setId(rs.getInt("id"));
+                        aux.setCodigo(rs.getString("matricula"));
+                        aux.setAddData("");
+                        break;
+                    case EXPEDIENTE:
+                        aux = new ModeloAvanzado();
+                        aux.setId(rs.getInt("id"));
+                        aux.setCodigo(rs.getString("expediente"));
+                        aux.setAddData(rs.getString("codigo"));
+                        break;
+                    default:
+                        aux = new ModeloAvanzado();
+                        break;
+                }
+
                 list.add(aux);
             }
 

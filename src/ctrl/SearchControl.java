@@ -24,18 +24,24 @@
 package ctrl;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import main.Query;
+import main.Var;
+import model.ModeloAvanzado;
+import model.ModeloMulta;
 import model.Modo;
 import model.Tipo;
+import util.CalculaNif;
 
 /**
  * FXML Controller class
@@ -43,91 +49,160 @@ import model.Tipo;
  * @author Agarimo
  */
 public class SearchControl implements Initializable {
-    
+
     //<editor-fold defaultstate="collapsed" desc="FXML VAR">
     @FXML
     private VBox panelBusqueda;
-    
     @FXML
     private VBox panelTipo;
-    
     @FXML
     private VBox panelModo;
-    
     @FXML
     private TextField tfBuscar;
-    
     @FXML
     private Button btBuscar;
-    
     @FXML
-    private RadioButton rbCif;
-    
+    private RadioButton rbNif;
     @FXML
     private RadioButton rbMatricula;
-    
     @FXML
     private RadioButton rbExpediente;
-    
     @FXML
     private RadioButton rbNormal;
-    
     @FXML
     private RadioButton rbComienza;
-    
     @FXML
     private RadioButton rbContiene;
 //</editor-fold>
-    
     Tipo tipo;
     Modo modo;
-    boolean activo;
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         panelModo.setVisible(false);
-        tipo = Tipo.CIF;
+        tipo = Tipo.NIF;
         modo = Modo.NORMAL;
-        activo=false;
     }
-    
+
     @FXML
-    void search(ActionEvent event){
-        
+    void rbComienza(MouseEvent event) {
+        this.modo = Modo.COMIENZA;
     }
-    
+
     @FXML
-    void rbCif(MouseEvent event){
-        this.tipo=Tipo.CIF;
+    void rbContiene(MouseEvent event) {
+        this.modo = Modo.CONTIENE;
     }
-    
+
     @FXML
-    void rbMatricula(MouseEvent event){
-        this.tipo=Tipo.MATRICULA;
+    void rbExpediente(MouseEvent event) {
+        this.tipo = Tipo.EXPEDIENTE;
     }
-    
+
     @FXML
-    void rbExpediente(MouseEvent event){
-        this.tipo=Tipo.EXPEDIENTE;
+    void rbMatricula(MouseEvent event) {
+        this.tipo = Tipo.MATRICULA;
     }
-    
+
     @FXML
-    void rbNormal(MouseEvent event){
-        this.modo=Modo.NORMAL;
+    void rbNif(MouseEvent event) {
+        this.tipo = Tipo.NIF;
     }
-    
+
     @FXML
-    void rbComienza(MouseEvent event){
-        this.modo=Modo.COMIENZA;
+    void rbNormal(MouseEvent event) {
+        this.modo = Modo.NORMAL;
     }
-    
+
     @FXML
-    void rbContiene(MouseEvent event){
-        this.modo=Modo.CONTIENE;
+    void search(ActionEvent event) {
+
+        String busqueda = searchGetBusqueda();
+        tfBuscar.setText(busqueda);
+        String query = searchGetQuery(busqueda);
+
+        if (modo == Modo.NORMAL) {
+            Nav.mainController.botonBuscar(new ActionEvent());
+            List<ModeloMulta> list = Query.listaModeloMulta(query);
+            tfBuscar.setText("");
+
+            if (list.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("INFORMACIÓN");
+                alert.setHeaderText("ENTRADA SIN REGISTROS.");
+                alert.setContentText("No existe ningún registro para : " + busqueda);
+                alert.showAndWait();
+            } else {
+                Nav.mainController.setContent(Nav.mainController.loadMulta());
+                Nav.multaController.tableLoad(busqueda, list);
+
+            }
+        } else {
+            Nav.mainController.botonBuscar(new ActionEvent());
+            List<ModeloAvanzado> list = Query.listaModeloAvanzado(query, tipo);
+            tfBuscar.setText("");
+            Nav.mainController.setContent(Nav.mainController.loadAvanzado());
+            Nav.avanzadoController.tableLoad(list);
+
+        }
     }
+
+    private String searchGetBusqueda() {
+        String aux = tfBuscar.getText().toUpperCase().trim();
+
+        if (tipo == Tipo.NIF) {
+            CalculaNif cn = new CalculaNif();
+
+            if (cn.letrasCif.contains("" + aux.charAt(0))) {
+                if (aux.length() == 8) {
+                    aux = cn.calcular(aux);
+                }
+            } else if (cn.letrasNie.contains("" + aux.charAt(0))) {
+                if (aux.length() <= 8) {
+                    aux = cn.calcular(aux);
+                }
+            } else {
+                if (aux.length() <= 8) {
+                    aux = cn.calcular(aux);
+                }
+            }
+            return aux;
+        } else {
+            return aux;
+        }
+    }
+
+    private String searchGetQuery(String busqueda) {
+        String query;
+        query = "SELECT * FROM " + Var.dbName + ".vista_multa WHERE id IN (" + searchGetCommonQuery(busqueda) + ");";
+
+        return query;
+    }
+
+    private String searchGetCommonQuery(String busqueda) {
+        String query;
+
+        if (Var.modoAdmin) {
+            query = "SELECT id FROM " + Var.dbName + ".multa_full WHERE " + tipo.getColumnMulta() + "=(" + searchGetSpecificQuery(busqueda) + ")";
+        } else {
+            query = "SELECT id FROM " + Var.dbName + ".multa_limited WHERE " + tipo.getColumnMulta() + "=(" + searchGetSpecificQuery(busqueda) + ")";
+        }
+
+        return query;
+    }
+
+    private String searchGetSpecificQuery(String busqueda) {
+        return "SELECT id FROM " + tipo.getTable() + " WHERE " + tipo.getColumn() + modo.getQuery(busqueda, tipo);
+    }
+
+    public void setVisibleAvanzado(boolean bol) {
+        panelModo.setVisible(bol);
+    }
+
 }
