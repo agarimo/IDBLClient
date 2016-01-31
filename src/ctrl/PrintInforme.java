@@ -30,6 +30,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.print.PageLayout;
 import javafx.print.PageOrientation;
 import javafx.print.Paper;
+import javafx.print.Printer;
 import javafx.print.PrinterJob;
 import javafx.scene.Node;
 import javafx.scene.transform.Scale;
@@ -39,19 +40,23 @@ import main.Var;
  *
  * @author Agarimo
  */
-public class Printer {
+public class PrintInforme {
+
+    private Node node;
+    private ReportControl controller;
+
     
-    public Printer(){
-        
+    public PrintInforme(int id){
+        node=loadNode(id);
     }
 
-    private Node loadNode() {
+    private Node loadNode(int id) {
         try {
             FXMLLoader loader = new FXMLLoader();
 
-            Node node = (Node) loader.load(getClass().getResourceAsStream(Nav.DETALLE));
-            DetalleControl controller = loader.getController();
-            controller.setMulta(18524410);
+            node = (Node) loader.load(getClass().getResourceAsStream(Nav.REPORT));
+            controller = loader.getController();
+            controller.setMulta(id);
 
             return node;
         } catch (IOException ex) {
@@ -61,9 +66,8 @@ public class Printer {
     }
 
     public void print() {
-        Node node = loadNode();
-        javafx.print.Printer printer = javafx.print.Printer.getDefaultPrinter();
-        PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.PORTRAIT, javafx.print.Printer.MarginType.DEFAULT);
+        Printer printer = Printer.getDefaultPrinter();
+        PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.PORTRAIT, Printer.MarginType.DEFAULT);
         double scaleX = pageLayout.getPrintableWidth() / 780;
         double scaleY = pageLayout.getPrintableHeight() / 500;
         node.getTransforms().add(new Scale(scaleX, scaleY));

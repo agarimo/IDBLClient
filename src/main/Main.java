@@ -26,7 +26,10 @@ package main;
 import com.sun.javafx.application.HostServicesDelegate;
 import ctrl.MainControl;
 import ctrl.Nav;
+import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.print.PageLayout;
@@ -74,14 +77,14 @@ public class Main extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        launch(args);
+        File aux= new File("aux.config");
         
-        javafx.print.Printer printer = javafx.print.Printer.getDefaultPrinter();
-        PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.PORTRAIT, javafx.print.Printer.MarginType.DEFAULT);
-        System.out.println("Width: "+pageLayout.getPrintableWidth());
-        System.out.println("Height: "+pageLayout.getPrintableHeight());
+        try {
+            aux.createNewFile();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        System.exit(0);
-             
+        launch(args);
     }
 }

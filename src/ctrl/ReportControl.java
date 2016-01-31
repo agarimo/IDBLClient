@@ -32,14 +32,20 @@ import javafx.fxml.Initializable;
  *
  * @author Agarimo
  */
-public class InformeMultaControl implements Initializable {
+public class ReportControl implements Initializable {
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
+    
+    public void setMulta(int id){
+        
+    }
     
 }

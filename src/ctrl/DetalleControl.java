@@ -190,8 +190,8 @@ public class DetalleControl implements Initializable {
 
     @FXML
     void printMulta(ActionEvent event) {
-        Printer pt = new Printer();
-        
+        PrintInforme pt = new PrintInforme(18524410);
+        pt.print();
     }
     
     

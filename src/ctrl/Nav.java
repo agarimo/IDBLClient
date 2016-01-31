@@ -22,6 +22,7 @@ public class Nav {
     public static final String DETALLE = "/view/Detalle.fxml";
     public static final String CONFIG = "/view/Config.fxml";
     public static final String SEARCH = "/view/Search.fxml";
+    public static final String REPORT = "/view/Report.fxml";
 
     private static MainControl mainController;
     private static MultaControl multaController;
