@@ -26,15 +26,9 @@ package main;
 import com.sun.javafx.application.HostServicesDelegate;
 import ctrl.MainControl;
 import ctrl.Nav;
-import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.print.PageLayout;
-import javafx.print.PageOrientation;
-import javafx.print.Paper;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -52,6 +46,11 @@ public class Main extends Application {
         Var.stage = stage;
         Var.stage.setMinHeight(600);
         Var.stage.setMinWidth(800);
+
+        Var.stage.setOnCloseRequest(event -> {
+            Var.clearFiles();
+        });
+        
         Var.stage.setScene(createScene(loadMainPane()));
         Var.stage.show();
     }
@@ -77,14 +76,6 @@ public class Main extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        File aux= new File("aux.config");
-        
-        try {
-            aux.createNewFile();
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
         launch(args);
     }
 }

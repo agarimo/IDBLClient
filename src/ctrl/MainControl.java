@@ -60,6 +60,7 @@ public class MainControl implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             vistaHolder.setContent(loadMulta());
+//            vistaHolder.setContent(loadTest());
 
             vistaHolder.setLeft(loadSearch());
             
@@ -70,6 +71,16 @@ public class MainControl implements Initializable {
             Logger.getLogger(MainControl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+//    private Node loadTest() throws IOException {
+//        FXMLLoader loader = new FXMLLoader();
+//
+//        Node node = (Node) loader.load(getClass().getResourceAsStream(Nav.TEST));
+//        TestControl controller = loader.getController();
+//        Nav.setTestController(controller);
+//
+//        return node;
+//    }
     
     private Node loadMulta() throws IOException {
         FXMLLoader loader = new FXMLLoader();

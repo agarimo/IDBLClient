@@ -47,7 +47,7 @@ public class Var {
     public static boolean modoAdmin = false;
     public static String passwordAdmin = "admin01";
 
-    public static File ficheroPdf;
+    public static File runtimeData;
 
     public static String[] tipoBusqueda = {"-", "nif", "matricula", "expediente"};
     public static String cadenaCif = "ABCDEFGHJKLMNPQRSUVW";
@@ -77,11 +77,11 @@ public class Var {
     }
 
     private static void setFiles() {
-        ficheroPdf = new File("temp");
-        ficheroPdf.mkdirs();
+        runtimeData = new File("tempData");
+        runtimeData.mkdirs();
     }
 
-    private static void clearFiles() {
-        Files.borraDirectorio(ficheroPdf);
+    public static void clearFiles() {
+        Files.borraDirectorio(runtimeData);
     }
 }

@@ -23,11 +23,13 @@ public class Nav {
     public static final String CONFIG = "/view/Config.fxml";
     public static final String SEARCH = "/view/Search.fxml";
     public static final String REPORT = "/view/Report.fxml";
+    public static final String TEST = "/view/Test.fxml";
 
     private static MainControl mainController;
     private static MultaControl multaController;
     private static DetalleControl detalleController;
     private static SearchControl searchController;
+    private static TestControl testController;
 
     public static void setMainController(MainControl controller) {
         Nav.mainController = controller;
@@ -43,6 +45,10 @@ public class Nav {
 
     public static void setSearchController(SearchControl controller) {
         Nav.searchController=controller;
+    }
+    
+    public static void setTestController (TestControl controller){
+        Nav.testController=controller;
     }
 
     /**

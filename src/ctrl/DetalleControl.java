@@ -22,107 +22,179 @@
  * THE SOFTWARE.
  */
 package ctrl;
-
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import main.Query;
+import main.Var;
+import static main.Var.con;
+import model.Documento;
 import model.ModeloMultaFull;
-
+import util.Sql;
 /**
  * FXML Controller class
  *
  * @author Agarimo
  */
 public class DetalleControl implements Initializable {
-
     //<editor-fold defaultstate="collapsed" desc="FXML VAR">
     @FXML
     private VBox root;
-
     @FXML
     private Button btCerrar;
-
     @FXML
     private Button btDocumento;
-
     @FXML
     private Button btPrint;
-
     @FXML
     private Label lbNBoe;
-
     @FXML
     private Label lbFase;
-
     @FXML
     private Label lbFechaPublicacion;
-
     @FXML
     private Label lbFechaVencimiento;
-
     @FXML
     private Label lbOrganismo;
-
     @FXML
     private Label lbCif;
-
     @FXML
     private Label lbMatricula;
-
     @FXML
     private Label lbLocalidad;
-
     @FXML
     private Label lbNombre;
-
     @FXML
     private Label lbCodigo;
-
     @FXML
     private Label lbExpediente;
-
     @FXML
     private Label lbCuantia;
-
     @FXML
     private Label lbPuntos;
-
     @FXML
     private Label lbFecha;
-
     @FXML
     private Label lbArticulo;
-
     @FXML
     private Label lbLinea;
-
     @FXML
     private Label lbInfoDoc;
+    @FXML
+    private ProgressIndicator pgProgreso;
 //</editor-fold>
+    private ModeloMultaFull multa;
+    private Documento document;
 
-    /**
-     * Initializes the controller class.
-     *
-     * @param url
-     * @param rb
-     */
+    @FXML
+    void cerrarVista(ActionEvent event) {
+        Nav.actionDetalle();
+    }
+
+    public void getDocument(String id) throws SQLException, FileNotFoundException, IOException {
+        document = new Documento(id);
+        Sql bd = new Sql(con);
+
+        String sql = "SELECT id,codigo,data FROM " + Var.dbName + ".documento WHERE id=" + document.getId() + ";";
+        System.out.println(sql);
+        PreparedStatement stmt = bd.con.prepareStatement(sql);
+        ResultSet resultSet = stmt.executeQuery();
+
+        if (resultSet.next()) {
+            document.setCodigo(resultSet.getString(2));
+            document.setFile(new File(Var.runtimeData, document.getCodigo() + ".pdf"));
+
+            try (FileOutputStream fos = new FileOutputStream(document.getFile())) {
+                byte[] buffer = new byte[1];
+                InputStream is = resultSet.getBinaryStream(3);
+                while (is.read(buffer) > 0) {
+                    fos.write(buffer);
+                }
+                fos.close();
+            }
+        }
+
+        bd.close();
+        document.setIsReady(true);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
     }
 
-    public void setMulta(int id) {
-        setMulta(Query.getModeloMultaFull(id));
+    @FXML
+    void printMulta(ActionEvent event) {
+        PrintInforme pt = new PrintInforme(multa.getId());
+        pt.print();
     }
 
-    private void setMulta(ModeloMultaFull multa) {
+    public void setMulta(int id) {
+        btDocumento.setDisable(true);
+        pgProgreso.setVisible(true);
+        multa = Query.getModeloMultaFull(id);
+        setMulta();
+
+        if (multa.isDocumento()) {
+
+            Thread a = new Thread(() -> {
+
+                try {
+
+                    getDocument(multa.getnBoe());
+
+                } catch (Exception ex) {
+                    Platform.runLater(() -> {
+                        lbInfoDoc.setText("Error en documento.");
+                        lbInfoDoc.setTextFill(Color.RED);
+                        pgProgreso.setVisible(false);
+
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("ERROR");
+                        alert.setHeaderText("ERROR DESCARGANDO EL DOCUMENTO");
+                        alert.setContentText(ex.getMessage());
+
+                        alert.showAndWait();
+                    });
+                }
+
+                if (document.isReady()) {
+                    Platform.runLater(() -> {
+                        this.setDescargado();
+                    });
+                }
+
+            });
+            a.start();
+        }
+    }
+
+    public void setDescargado() {
+        pgProgreso.setVisible(false);
+        btDocumento.setDisable(false);
+        lbInfoDoc.setVisible(true);
+        lbInfoDoc.setText("Documento disponible.");
+        lbInfoDoc.setTextFill(Color.GREEN);
+    }
+
+    private void setMulta() {
         lbNBoe.setText(multa.getnBoe());
         lbFase.setText(multa.getFase());
         lbFechaPublicacion.setText(multa.getFechaPublicacion());
@@ -143,10 +215,10 @@ public class DetalleControl implements Initializable {
         lbLinea.setText(multa.getLinea());
 
         if (multa.isDocumento()) {
-            btDocumento.setDisable(false);
+            btDocumento.setDisable(true);
             lbInfoDoc.setVisible(true);
-            lbInfoDoc.setText("Documento Disponible.");
-            lbInfoDoc.setTextFill(Color.GREEN);
+            lbInfoDoc.setText("Descargando Documento.");
+            lbInfoDoc.setTextFill(Color.ORANGE);
         } else {
             btDocumento.setDisable(true);
             lbInfoDoc.setVisible(true);
@@ -155,44 +227,9 @@ public class DetalleControl implements Initializable {
         }
     }
 
-    private void clear() {
-        lbNBoe.setText("");
-        lbFase.setText("");
-        lbFechaPublicacion.setText("");
-        lbFechaVencimiento.setText("");
-        lbOrganismo.setText("");
-
-        lbCif.setText("");
-        lbMatricula.setText("");
-        lbLocalidad.setText("");
-        lbNombre.setText("");
-
-        lbCodigo.setText("");
-        lbExpediente.setText("");
-        lbCuantia.setText("");
-        lbPuntos.setText("");
-        lbFecha.setText("");
-        lbArticulo.setText("");
-        lbLinea.setText("");
-
-        lbInfoDoc.setVisible(false);
-    }
-
-    @FXML
-    void cerrarVista(ActionEvent event) {
-        Nav.actionDetalle();
-    }
-
     @FXML
     void verDocumento(ActionEvent event) {
-
+        Var.hostServices.showDocument(document.getFile().getAbsolutePath());
     }
 
-    @FXML
-    void printMulta(ActionEvent event) {
-        PrintInforme pt = new PrintInforme(18524410);
-        pt.print();
-    }
-    
-    
 }

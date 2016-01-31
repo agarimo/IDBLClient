@@ -22,58 +22,52 @@
  * THE SOFTWARE.
  */
 package model;
-import java.io.File;
+
+import main.Var;
+
 /**
  *
  * @author Agarimo
  */
-public class Documento {
+public enum Tipo {
 
-    private int id;
-    private String codigo;
-    private File file;
-    private boolean isReady;
+    CIF(0),
+    MATRICULA(1),
+    EXPEDIENTE(2);
 
-    public Documento(String id) {
-        this.id = Integer.parseInt(id);
-        isReady = false;
+    private final int value;
+
+    private Tipo(int aux) {
+        this.value = aux;
     }
 
-    public String getCodigo() {
-        return this.codigo;
+    public int getValue() {
+        return this.value;
     }
 
-    public File getFile() {
-        return this.file;
+    public String getTable() {
+        switch (this) {
+            case CIF:
+                return Var.dbName + "sancionado";
+            case MATRICULA:
+                return Var.dbName + "vehiculo";
+            case EXPEDIENTE:
+                return Var.dbName + "sancion";
+            default:
+                return "";
+        }
     }
 
-    public int getId() {
-        return this.id;
+    public String getColumn() {
+        switch (this) {
+            case CIF:
+                return "cif";
+            case MATRICULA:
+                return "matricula";
+            case EXPEDIENTE:
+                return "expediente";
+            default:
+                return "";
+        }
     }
-
-    public boolean isReady() {
-        return this.isReady;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setIsReady(boolean isReady) {
-        this.isReady = isReady;
-    }
-
-    @Override
-    public String toString() {
-        return this.codigo;
-    }
-
 }

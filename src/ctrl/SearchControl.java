@@ -25,12 +25,17 @@ package ctrl;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import model.Modo;
+import model.Tipo;
 
 /**
  * FXML Controller class
@@ -56,7 +61,7 @@ public class SearchControl implements Initializable {
     private Button btBuscar;
     
     @FXML
-    private RadioButton rbNif;
+    private RadioButton rbCif;
     
     @FXML
     private RadioButton rbMatricula;
@@ -73,6 +78,10 @@ public class SearchControl implements Initializable {
     @FXML
     private RadioButton rbContiene;
 //</editor-fold>
+    
+    Tipo tipo;
+    Modo modo;
+    boolean activo;
 
     /**
      * Initializes the controller class.
@@ -81,9 +90,44 @@ public class SearchControl implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        
-        // TODO
-    }    
+        panelModo.setVisible(false);
+        tipo = Tipo.CIF;
+        modo = Modo.NORMAL;
+        activo=false;
+    }
     
+    @FXML
+    void search(ActionEvent event){
+        
+    }
+    
+    @FXML
+    void rbCif(MouseEvent event){
+        this.tipo=Tipo.CIF;
+    }
+    
+    @FXML
+    void rbMatricula(MouseEvent event){
+        this.tipo=Tipo.MATRICULA;
+    }
+    
+    @FXML
+    void rbExpediente(MouseEvent event){
+        this.tipo=Tipo.EXPEDIENTE;
+    }
+    
+    @FXML
+    void rbNormal(MouseEvent event){
+        this.modo=Modo.NORMAL;
+    }
+    
+    @FXML
+    void rbComienza(MouseEvent event){
+        this.modo=Modo.COMIENZA;
+    }
+    
+    @FXML
+    void rbContiene(MouseEvent event){
+        this.modo=Modo.CONTIENE;
+    }
 }

@@ -73,9 +73,9 @@ public class VistaAvanzado {
      public static String SQLBuscar(String aux, int typ, int avg) {
         String[] avanzado = {"-",
             "=" + Varios.entrecomillar(aux),
-            " like " + Varios.entrecomillar(aux + "%") + " order by " + Var.tipoBusqueda[typ] + " limit 100",
-            " like " + Varios.entrecomillar("%" + aux + "%") + " order by " + Var.tipoBusqueda[typ] + " limit 100",
-            " like " + Varios.entrecomillar("%" + aux) + " order by " + Var.tipoBusqueda[typ] + " limit 100"};
+            " like " + Varios.entrecomillar(aux + "%") + " order by " + Var.tipoBusqueda[typ] + " limit 50",
+            " like " + Varios.entrecomillar("%" + aux + "%") + " order by " + Var.tipoBusqueda[typ] + " limit 50",
+            " like " + Varios.entrecomillar("%" + aux) + " order by " + Var.tipoBusqueda[typ] + " limit 50"};
         String[] tipo = {"", Var.dbName+".sancionado", Var.dbName+".vehiculo", Var.dbName+".sancion"};
 
         return "SELECT * FROM " + tipo[typ] + " WHERE " + Var.tipoBusqueda[typ] + "" + avanzado[avg];

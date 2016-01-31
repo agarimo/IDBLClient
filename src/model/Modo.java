@@ -22,58 +22,39 @@
  * THE SOFTWARE.
  */
 package model;
-import java.io.File;
+
+import util.Varios;
+
 /**
  *
  * @author Agarimo
  */
-public class Documento {
-
-    private int id;
-    private String codigo;
-    private File file;
-    private boolean isReady;
-
-    public Documento(String id) {
-        this.id = Integer.parseInt(id);
-        isReady = false;
+public enum Modo {
+    
+    NORMAL(0),
+    COMIENZA(1),
+    CONTIENE(2);
+    
+    private final int value;
+    
+    private Modo(int value){
+        this.value=value;
     }
-
-    public String getCodigo() {
-        return this.codigo;
+    
+    public int getValue(){
+        return this.value;
     }
-
-    public File getFile() {
-        return this.file;
+    
+    public String getQuery(String aux, Tipo tipo){
+        switch (this) {
+            case NORMAL:
+                return "=" + Varios.entrecomillar(aux);
+            case COMIENZA:
+                return " like " + Varios.entrecomillar(aux + "%") + " order by " + tipo.getColumn() + " limit 50";
+            case CONTIENE:
+                return " like " + Varios.entrecomillar("%" + aux + "%") + " order by " + tipo.getColumn() + " limit 50";
+            default:
+                return "";
+        }
     }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public boolean isReady() {
-        return this.isReady;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setIsReady(boolean isReady) {
-        this.isReady = isReady;
-    }
-
-    @Override
-    public String toString() {
-        return this.codigo;
-    }
-
 }

@@ -123,7 +123,7 @@ public class MultaControl implements Initializable {
         initializeTable();
         // TODO
 
-        multas.addAll(Query.listaModeloMulta("SELECT * FROM idbl.vista_multa limit 20"));
+        multas.addAll(Query.listaModeloMulta("SELECT * FROM idbl.vista_multa where id in (select id from idbl.multa_full where id_sancionado=7190183) limit 20"));
     }
 
     private void initializeTable() {
