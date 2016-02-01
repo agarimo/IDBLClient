@@ -83,4 +83,17 @@ public enum Tipo {
                 return "";
         }
     }
+    
+    public String getItemsAvanzado() {
+        switch (this) {
+            case NIF:
+                return "id,cif AS codigo,nombre AS addData";
+            case MATRICULA:
+                return "id,matricula AS codigo,matricula AS addData";
+            case EXPEDIENTE:
+                return "id,expediente AS codigo,codigo AS addData";
+            default:
+                return "";
+        }
+    }
 }

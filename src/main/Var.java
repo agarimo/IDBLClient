@@ -43,15 +43,18 @@ public class Var {
 
     public static Conexion con;
     public static String dbName = "idbl";
+    public static int limiteQuery=50;
 
     public static boolean modoAdmin = false;
     public static String passwordAdmin = "admin01";
 
     public static File runtimeData;
+    
+    public static boolean isRunning;
 
-    public static String[] tipoBusqueda = {"-", "nif", "matricula", "expediente"};
-    public static String cadenaCif = "ABCDEFGHJKLMNPQRSUVW";
-    public static String cadenaNie = "XYZ";
+//    public static String[] tipoBusqueda = {"-", "nif", "matricula", "expediente"};
+//    public static String cadenaCif = "ABCDEFGHJKLMNPQRSUVW";
+//    public static String cadenaNie = "XYZ";
 
     public static void iniciaVariables() {
         driver();
@@ -70,6 +73,7 @@ public class Var {
     private static void setConexion() {
         con = new Conexion();
         con.setDireccion("192.168.1.40");
+        con.setDireccion("oficina.redcedeco.net");
         con.setUsuario("client");
         con.setPass("user01");
         con.setPuerto("3306");

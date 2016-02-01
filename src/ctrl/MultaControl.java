@@ -307,10 +307,10 @@ public class MultaControl implements Initializable {
         return fecha.compareTo(curdate);
     }
 
-    public void tableLoad(String busqueda, List<ModeloMulta> aux) {
+    public void tableLoad(List<ModeloMulta> list) {
         multas.clear();
         tableShowSelected(null);
-        multas.addAll(aux);
+        multas.addAll(list);
         lbLocalizadas.setText(Integer.toString(multas.size()));
     }
 
@@ -351,6 +351,5 @@ public class MultaControl implements Initializable {
             alert.setContentText("Debes seleccionar una sanción.");
             alert.showAndWait();
         }
-
     }
 }

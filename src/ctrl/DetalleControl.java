@@ -151,11 +151,11 @@ public class DetalleControl implements Initializable {
 
     public void setMulta(int id) {
         btDocumento.setDisable(true);
-        pgProgreso.setVisible(true);
         multa = Query.getModeloMultaFull(id);
         setMulta();
 
         if (multa.isDocumento()) {
+            pgProgreso.setVisible(true);
 
             Thread a = new Thread(() -> {
 

@@ -23,6 +23,7 @@
  */
 package model;
 
+import main.Var;
 import util.Varios;
 
 /**
@@ -50,9 +51,9 @@ public enum Modo {
             case NORMAL:
                 return "=" + Varios.entrecomillar(aux);
             case COMIENZA:
-                return " like " + Varios.entrecomillar(aux + "%") + " order by " + tipo.getColumn() + " limit 20";
+                return " like " + Varios.entrecomillar(aux + "%") + " order by " + tipo.getColumn() + " limit "+Var.limiteQuery;
             case CONTIENE:
-                return " like " + Varios.entrecomillar("%" + aux + "%") + " order by " + tipo.getColumn() + " limit 20";
+                return " like " + Varios.entrecomillar("%" + aux + "%") + " order by " + tipo.getColumn() + " limit "+Var.limiteQuery;
             default:
                 return "";
         }

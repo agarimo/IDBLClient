@@ -68,8 +68,8 @@ public class PrintInforme {
     public void print() {
         Printer printer = Printer.getDefaultPrinter();
         PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.PORTRAIT, Printer.MarginType.DEFAULT);
-        double scaleX = pageLayout.getPrintableWidth() / 780;
-        double scaleY = pageLayout.getPrintableHeight() / 500;
+        double scaleX = pageLayout.getPrintableWidth() / 487;
+        double scaleY = pageLayout.getPrintableHeight() / 734;
         node.getTransforms().add(new Scale(scaleX, scaleY));
 
         PrinterJob job = PrinterJob.createPrinterJob();

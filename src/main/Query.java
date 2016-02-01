@@ -23,13 +23,6 @@
  */
 package main;
 
-import model.Boletin;
-import model.MultaS;
-import model.Sancion;
-import model.Sancionado;
-import model.Vehiculo;
-import model.VistaAvanzado;
-import model.VistaMulta;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -40,6 +33,7 @@ import javafx.scene.control.Alert;
 import model.ModeloAvanzado;
 import model.ModeloMulta;
 import model.ModeloMultaFull;
+import model.Modo;
 import model.Tipo;
 import util.Sql;
 import util.Varios;
@@ -50,8 +44,45 @@ import util.Varios;
  */
 public class Query {
 
+    public static Sql bd;
+
+    //<editor-fold defaultstate="collapsed" desc="QUERY BÚSQUEDA AVANZADA">
+    public static String searchQueryAvanced(int id, Tipo tipo) {
+        return "SELECT * FROM " + Var.dbName + ".vista_multa WHERE id IN (" + searchCommonQueryAvanced(id, tipo) + ");";
+    }
+
+    private static String searchCommonQueryAvanced(int id, Tipo tipo) {
+        return "SELECT id FROM " + Var.dbName + ".multa_full WHERE " + tipo.getColumnMulta() + "=" + id;
+    }
+
+    public static String searchSpecificQueryAvanced(String busqueda, Tipo tipo, Modo modo) {
+        return "SELECT " + tipo.getItemsAvanzado() + " FROM " + tipo.getTable() + " WHERE " + tipo.getColumn() + modo.getQuery(busqueda, tipo);
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="QUERY BUSQUEDA NORMAL">
+    public static String searchQuery(String busqueda, Tipo tipo, Modo modo) {
+        return "SELECT * FROM " + Var.dbName + ".vista_multa WHERE id IN (" + searchCommonQuery(busqueda, tipo, modo) + ");";
+    }
+
+    private static String searchCommonQuery(String busqueda, Tipo tipo, Modo modo) {
+        String query;
+
+        if (Var.modoAdmin) {
+            query = "SELECT id FROM " + Var.dbName + ".multa_full WHERE " + tipo.getColumnMulta() + "=(" + searchSpecificQuery(busqueda, tipo, modo) + ")";
+        } else {
+            query = "SELECT id FROM " + Var.dbName + ".multa_limited WHERE " + tipo.getColumnMulta() + "=(" + searchSpecificQuery(busqueda, tipo, modo) + ")";
+        }
+
+        return query;
+    }
+
+    private static String searchSpecificQuery(String busqueda, Tipo tipo, Modo modo) {
+        return "SELECT id FROM " + tipo.getTable() + " WHERE " + tipo.getColumn() + modo.getQuery(busqueda, tipo);
+    }
+    //</editor-fold>
+
     public static ModeloMultaFull getModeloMultaFull(int id) {
-        Sql bd;
         ResultSet rs;
         ModeloMultaFull aux = null;
 
@@ -106,7 +137,6 @@ public class Query {
 
     public static List<ModeloMulta> listaModeloMulta(String query) {
         List<ModeloMulta> list = new ArrayList();
-        Sql bd;
         ResultSet rs;
         ModeloMulta aux;
 
@@ -147,9 +177,8 @@ public class Query {
         return list;
     }
 
-    public static List<ModeloAvanzado> listaModeloAvanzado(String query, Tipo tipo) {
+    public static List<ModeloAvanzado> listaModeloAvanzado(String query) {
         List<ModeloAvanzado> list = new ArrayList();
-        Sql bd;
         ResultSet rs;
         ModeloAvanzado aux;
 
@@ -158,29 +187,10 @@ public class Query {
             rs = bd.ejecutarQueryRs(query);
 
             while (rs.next()) {
-                switch (tipo) {
-                    case NIF:
-                        aux = new ModeloAvanzado();
-                        aux.setId(rs.getInt("id"));
-                        aux.setCodigo(rs.getString("cif"));
-                        aux.setAddData(rs.getString("nombre"));
-                        break;
-                    case MATRICULA:
-                        aux = new ModeloAvanzado();
-                        aux.setId(rs.getInt("id"));
-                        aux.setCodigo(rs.getString("matricula"));
-                        aux.setAddData("");
-                        break;
-                    case EXPEDIENTE:
-                        aux = new ModeloAvanzado();
-                        aux.setId(rs.getInt("id"));
-                        aux.setCodigo(rs.getString("expediente"));
-                        aux.setAddData(rs.getString("codigo"));
-                        break;
-                    default:
-                        aux = new ModeloAvanzado();
-                        break;
-                }
+                aux = new ModeloAvanzado();
+                aux.setId(rs.getInt("id"));
+                aux.setCodigo(rs.getString("codigo"));
+                aux.setAddData(rs.getString("addData"));
 
                 list.add(aux);
             }
@@ -199,159 +209,5 @@ public class Query {
         }
 
         return list;
-    }
-
-    @Deprecated
-    public static List<VistaMulta> listaMultas(String query) {
-        List<VistaMulta> list = new ArrayList();
-        Sql bd;
-        ResultSet rs;
-        VistaMulta aux;
-
-        try {
-            bd = new Sql(Var.con);
-            rs = bd.ejecutarQueryRs(query);
-
-            while (rs.next()) {
-                aux = new VistaMulta(rs.getInt("idMulta"), rs.getString("organismo"), rs.getString("nif"), rs.getString("matricula"), rs.getString("expediente"), rs.getString("fase"), rs.getDate("fechaPublicacion"), rs.getDate("fechaVencimiento"));
-                list.add(aux);
-            }
-
-            rs.close();
-            bd.close();
-
-        } catch (SQLException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setHeaderText("ERROR DE CONEXIÓN");
-            alert.setContentText(ex.getMessage());
-
-            alert.showAndWait();
-            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return list;
-    }
-
-    @Deprecated
-    public static List<VistaAvanzado> listaMultasA(String query, String column, int typ) {
-        List<VistaAvanzado> list = new ArrayList();
-        Sql bd;
-        ResultSet rs;
-        VistaAvanzado aux = null;
-
-        try {
-            bd = new Sql(Var.con);
-            rs = bd.ejecutarQueryRs(query);
-            System.out.println(query);
-
-            while (rs.next()) {
-                switch (typ) {
-                    case 1:
-                        aux = new VistaAvanzado(rs.getInt("idSancionado"), rs.getString("nif"), rs.getString("nombre"));
-                        break;
-
-                    case 2:
-                        aux = new VistaAvanzado(rs.getInt("idVehiculo"), rs.getString("matricula"), rs.getString("matricula"));
-                        break;
-
-                    case 3:
-                        aux = new VistaAvanzado(rs.getInt("idSancion"), rs.getString("expediente"), rs.getString("nombre"));
-                        break;
-                }
-
-                list.add(aux);
-            }
-
-            rs.close();
-            bd.close();
-
-        } catch (SQLException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setHeaderText("ERROR DE CONEXIÓN");
-            alert.setContentText(ex.getMessage());
-
-            alert.showAndWait();
-            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return list;
-    }
-
-    @Deprecated
-    public static MultaS cargaMultaS(int aux) {
-        Sql bd;
-        ResultSet rs;
-        MultaS multa = null;
-
-        try {
-            bd = new Sql(Var.con);
-            rs = bd.ejecutarQueryRs("SELECT * FROM idbl.multa WHERE idMulta=" + aux);
-
-            if (rs.next()) {
-                multa = new MultaS();
-                multa.setId(rs.getInt("idMulta"));
-                multa.setBol(new Boletin(rs.getInt("idBoletin")));
-                multa.setVeh(new Vehiculo(rs.getInt("idMatricula")));
-                multa.setSan(new Sancionado(rs.getInt("idSancionado")));
-                multa.setSanc(new Sancion(rs.getString("idSancion")));
-                multa.setFase(rs.getString("fase"));
-                multa.setPlazo(rs.getInt("plazo"));
-                multa.setFechaEntrada(rs.getDate("fechaEntrada"));
-                multa.setFechaVencimiento(rs.getDate("fechaVencimiento"));
-            }
-
-            rs = bd.ejecutarQueryRs("SELECT * FROM idbl.boletin where idBoletin=" + multa.getBol().getId());
-
-            if (rs.next()) {
-                multa.getBol().setnBoe(rs.getString("nBoe"));
-                multa.getBol().setIdOrigen(rs.getInt("origen"));
-                multa.getBol().setFechaPublicacion(rs.getDate("fechaPublicacion"));
-            }
-
-            rs = bd.ejecutarQueryRs("select * from idbl.origen where idOrigen=" + multa.getBol().getIdOrigen());
-
-            if (rs.next()) {
-                multa.getBol().setSOrigen(rs.getString("nombreOrigen"));
-            }
-
-            rs = bd.ejecutarQueryRs("select * from idbl.vehiculo where idVehiculo=" + multa.getVeh().getId());
-
-            if (rs.next()) {
-                multa.getVeh().setMatricula(rs.getString("matricula"));
-            }
-
-            rs = bd.ejecutarQueryRs("select * from idbl.sancionado where idSancionado=" + multa.getSan().getId());
-
-            if (rs.next()) {
-                multa.getSan().setCif(rs.getString("nif"));
-                multa.getSan().setTipoJuridico(rs.getString("tipoJuridico"));
-            }
-
-            rs = bd.ejecutarQueryRs("select * from idbl.sancion where idSancion=" + Varios.entrecomillar(multa.getSanc().getId()));
-
-            if (rs.next()) {
-                multa.getSanc().setExpediente(rs.getString("expediente"));
-                multa.getSanc().setFechaMulta(rs.getDate("fechaMulta"));
-                multa.getSanc().setArticulo(rs.getString("articulo"));
-                multa.getSanc().setCuantia(rs.getString("cuantia"));
-                multa.getSanc().setPuntos(rs.getString("puntos"));
-                multa.getSanc().setNombre(rs.getString("nombre"));
-                multa.getSanc().setLinea(rs.getString("linea"));
-            }
-
-            rs.close();
-            bd.close();
-        } catch (SQLException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setHeaderText("ERROR DE CONEXIÓN");
-            alert.setContentText(ex.getMessage());
-
-            alert.showAndWait();
-            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return multa;
     }
 }

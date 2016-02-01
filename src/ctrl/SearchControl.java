@@ -36,8 +36,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import main.Query;
-import main.Var;
-import model.ModeloAvanzado;
 import model.ModeloMulta;
 import model.Modo;
 import model.Tipo;
@@ -85,7 +83,7 @@ public class SearchControl implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        panelModo.setVisible(false);
+//        panelModo.setVisible(false);
         tipo = Tipo.NIF;
         modo = Modo.NORMAL;
     }
@@ -125,7 +123,7 @@ public class SearchControl implements Initializable {
 
         String busqueda = searchGetBusqueda();
         tfBuscar.setText(busqueda);
-        String query = searchGetQuery(busqueda);
+        String query = Query.searchQuery(busqueda,tipo,modo);
 
         if (modo == Modo.NORMAL) {
             Nav.mainController.botonBuscar(new ActionEvent());
@@ -140,15 +138,15 @@ public class SearchControl implements Initializable {
                 alert.showAndWait();
             } else {
                 Nav.mainController.setContent(Nav.mainController.loadMulta());
-                Nav.multaController.tableLoad(busqueda, list);
+                Nav.multaController.tableLoad(list);
 
             }
         } else {
             Nav.mainController.botonBuscar(new ActionEvent());
-            List<ModeloAvanzado> list = Query.listaModeloAvanzado(query, tipo);
             tfBuscar.setText("");
             Nav.mainController.setContent(Nav.mainController.loadAvanzado());
-            Nav.avanzadoController.tableLoad(list);
+            Nav.avanzadoController.initializeSetVar(busqueda, tipo, modo);
+            Nav.avanzadoController.runSearch();
 
         }
     }
@@ -156,7 +154,7 @@ public class SearchControl implements Initializable {
     private String searchGetBusqueda() {
         String aux = tfBuscar.getText().toUpperCase().trim();
 
-        if (tipo == Tipo.NIF) {
+        if (tipo == Tipo.NIF && modo==Modo.NORMAL) {
             CalculaNif cn = new CalculaNif();
 
             if (cn.letrasCif.contains("" + aux.charAt(0))) {
@@ -178,31 +176,7 @@ public class SearchControl implements Initializable {
         }
     }
 
-    private String searchGetQuery(String busqueda) {
-        String query;
-        query = "SELECT * FROM " + Var.dbName + ".vista_multa WHERE id IN (" + searchGetCommonQuery(busqueda) + ");";
-
-        return query;
-    }
-
-    private String searchGetCommonQuery(String busqueda) {
-        String query;
-
-        if (Var.modoAdmin) {
-            query = "SELECT id FROM " + Var.dbName + ".multa_full WHERE " + tipo.getColumnMulta() + "=(" + searchGetSpecificQuery(busqueda) + ")";
-        } else {
-            query = "SELECT id FROM " + Var.dbName + ".multa_limited WHERE " + tipo.getColumnMulta() + "=(" + searchGetSpecificQuery(busqueda) + ")";
-        }
-
-        return query;
-    }
-
-    private String searchGetSpecificQuery(String busqueda) {
-        return "SELECT id FROM " + tipo.getTable() + " WHERE " + tipo.getColumn() + modo.getQuery(busqueda, tipo);
-    }
-
     public void setVisibleAvanzado(boolean bol) {
         panelModo.setVisible(bol);
     }
-
 }
