@@ -51,9 +51,9 @@ public enum Modo {
             case NORMAL:
                 return "=" + Varios.entrecomillar(aux);
             case COMIENZA:
-                return " like " + Varios.entrecomillar(aux + "%") + " order by " + tipo.getColumn() + " limit "+Var.limiteQuery;
+                return " like " + Varios.entrecomillar(aux + "%") + " order by " + tipo.getColumn() + " limit "+Var.queryLimit;
             case CONTIENE:
-                return " like " + Varios.entrecomillar("%" + aux + "%") + " order by " + tipo.getColumn() + " limit "+Var.limiteQuery;
+                return " like " + Varios.entrecomillar("%" + aux + "%") + " order by " + tipo.getColumn() + " limit "+Var.queryLimit;
             default:
                 return "";
         }

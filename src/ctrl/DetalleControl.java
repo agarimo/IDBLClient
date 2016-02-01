@@ -116,13 +116,12 @@ public class DetalleControl implements Initializable {
         Sql bd = new Sql(con);
 
         String sql = "SELECT id,codigo,data FROM " + Var.dbName + ".documento WHERE id=" + document.getId() + ";";
-        System.out.println(sql);
         PreparedStatement stmt = bd.con.prepareStatement(sql);
         ResultSet resultSet = stmt.executeQuery();
 
         if (resultSet.next()) {
             document.setCodigo(resultSet.getString(2));
-            document.setFile(new File(Var.runtimeData, document.getCodigo() + ".pdf"));
+            document.setFile(new File(Var.runtimeData, document.getId() + ".pdf"));
 
             try (FileOutputStream fos = new FileOutputStream(document.getFile())) {
                 byte[] buffer = new byte[1];
@@ -140,7 +139,7 @@ public class DetalleControl implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        pgProgreso.setVisible(false);
     }
 
     @FXML
@@ -152,16 +151,21 @@ public class DetalleControl implements Initializable {
     public void setMulta(int id) {
         btDocumento.setDisable(true);
         multa = Query.getModeloMultaFull(id);
-        setMulta();
+        showMulta();
+        File doc = new File(Var.runtimeData, multa.getnBoe() + ".pdf");
 
         if (multa.isDocumento()) {
-            pgProgreso.setVisible(true);
 
             Thread a = new Thread(() -> {
 
                 try {
-
-                    getDocument(multa.getnBoe());
+                    if (!doc.exists()) {
+                        getDocument(multa.getnBoe());
+                    } else {
+                        document.setCodigo("YA GENERADO");
+                        document.setFile(new File(Var.runtimeData, multa.getnBoe() + ".pdf"));
+                        document.setIsReady(true);
+                    }
 
                 } catch (Exception ex) {
                     Platform.runLater(() -> {
@@ -197,7 +201,7 @@ public class DetalleControl implements Initializable {
         lbInfoDoc.setTextFill(Color.GREEN);
     }
 
-    private void setMulta() {
+    private void showMulta() {
         lbNBoe.setText(multa.getnBoe());
         lbFase.setText(multa.getFase());
         lbFechaPublicacion.setText(multa.getFechaPublicacion());
@@ -218,11 +222,13 @@ public class DetalleControl implements Initializable {
         lbLinea.setText(multa.getLinea());
 
         if (multa.isDocumento()) {
+            pgProgreso.setVisible(true);
             btDocumento.setDisable(true);
             lbInfoDoc.setVisible(true);
             lbInfoDoc.setText("Descargando Documento.");
             lbInfoDoc.setTextFill(Color.ORANGE);
         } else {
+            pgProgreso.setVisible(false);
             btDocumento.setDisable(true);
             lbInfoDoc.setVisible(true);
             lbInfoDoc.setText("Documento no disponible.");

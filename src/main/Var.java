@@ -25,9 +25,17 @@ package main;
 
 import com.sun.javafx.application.HostServicesDelegate;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.stage.Stage;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 import util.Conexion;
 import util.Files;
 
@@ -36,33 +44,29 @@ import util.Files;
  * @author Agarimo
  */
 public class Var {
-    
+
     public static Stage stage;
     public static Stage popup;
     public static HostServicesDelegate hostServices;
 
     public static Conexion con;
-    public static String dbName = "idbl";
-    public static int limiteQuery=50;
 
-    public static boolean modoAdmin = false;
-    public static String passwordAdmin = "admin01";
+    public static String configFile = "config.xml";
+    public static String dbName = "idbl";
+
+    public static boolean modoAdmin;
+    public static String passwordAdmin;
+    public static String queryLimit;
 
     public static File runtimeData;
-    
     public static boolean isRunning;
 
-//    public static String[] tipoBusqueda = {"-", "nif", "matricula", "expediente"};
-//    public static String cadenaCif = "ABCDEFGHJKLMNPQRSUVW";
-//    public static String cadenaNie = "XYZ";
-
-    public static void iniciaVariables() {
-        driver();
-        setConexion();
-        setFiles();
+    public static void initVar() {
+        initVarDriver();
+        initVarLoadConfig();
     }
 
-    private static void driver() {
+    private static void initVarDriver() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
@@ -70,22 +74,122 @@ public class Var {
         }
     }
 
-    private static void setConexion() {
-        con = new Conexion();
-        con.setDireccion("192.168.1.40");
-        con.setDireccion("oficina.redcedeco.net");
-        con.setUsuario("client");
-        con.setPass("user01");
-        con.setPuerto("3306");
-        modoAdmin = false;
-    }
+    private static void initVarLoadConfig() {
+        File config = new File("config.xml");
 
-    private static void setFiles() {
+        if (config.exists()) {
+            XMLLoad(configFile);
+        } else {
+            try {
+                XMLDefault();
+            } catch (IOException ex) {
+                Logger.getLogger(Var.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
         runtimeData = new File("tempData");
         runtimeData.mkdirs();
     }
 
-    public static void clearFiles() {
+    public static void xitClearFiles() {
         Files.borraDirectorio(runtimeData);
     }
+
+    public static void xitGuardarConfig() {
+        XMLSave(configFile);
+    }
+
+    //<editor-fold defaultstate="collapsed" desc="XML">
+    private static void XMLDefault() throws IOException {
+        File file = new File("config.xml");
+        file.createNewFile();
+        String ruta = "src/resources/default.xml";
+        XMLLoad(ruta);
+        XMLSave(ruta);
+    }
+
+    private static void XMLLoad(String ruta) {
+        try {
+            con = new Conexion();
+            SAXBuilder builder = new SAXBuilder();
+            File xmlFile = new File(ruta);
+
+            Document document = (Document) builder.build(xmlFile);
+            Element config = document.getRootElement();
+
+            Element conexion = config.getChild("conexion");
+            con.setDireccion(conexion.getChildText("db-host"));
+            con.setPuerto(conexion.getChildText("db-port"));
+            con.setUsuario(conexion.getChildText("db-username"));
+            con.setPass(conexion.getChildText("db-password"));
+
+            Element admin = config.getChild("modoAdmin");
+
+            String activo = admin.getChildText("activo");
+            modoAdmin = activo.equals("true");
+
+            String pass = admin.getChildText("password");
+            passwordAdmin = pass;
+
+            String limit = admin.getChildText("query-limit");
+            queryLimit = limit;
+
+        } catch (JDOMException | IOException ex) {
+            Logger.getLogger(Var.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private static void XMLSave(String ruta) {
+        try {
+            Element ele;
+            SAXBuilder builder = new SAXBuilder();
+            File xmlFile = new File(ruta);
+
+            Document document = (Document) builder.build(xmlFile);
+            Element config = document.getRootElement();
+
+            Element conexion = config.getChild("conexion");
+
+            ele = conexion.getChild("db-host");
+            ele.setText(con.getDireccion());
+
+            ele = conexion.getChild("db-port");
+            ele.setText(con.getPuerto());
+
+            ele = conexion.getChild("db-username");
+            ele.setText(con.getUsuario());
+
+            ele = conexion.getChild("db-password");
+            ele.setText(con.getPass());
+
+            Element admin = config.getChild("modoAdmin");
+
+            ele = admin.getChild("activo");
+
+            modoAdmin = true;
+
+            if (modoAdmin) {
+                ele.setText("true");
+            } else {
+                ele.setText("false");
+            }
+
+            ele = admin.getChild("password");
+            ele.setText(passwordAdmin);
+
+            ele = admin.getChild("query-limit");
+            ele.setText(queryLimit);
+
+            XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+            try {
+                outputter.output(document, new FileOutputStream(configFile));
+            } catch (Exception e) {
+                e.getMessage();
+            }
+
+        } catch (JDOMException | IOException ex) {
+            Logger.getLogger(Var.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+//</editor-fold>
 }

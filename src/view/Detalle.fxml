@@ -68,7 +68,7 @@
             </TitledPane>
             <Label fx:id="lbInfoDoc" alignment="CENTER" contentDisplay="CENTER" layoutX="56.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="141.0">
                <HBox.margin>
-                  <Insets />
+                  <Insets bottom="5.0" />
                </HBox.margin>
                <graphic>
                   <ProgressIndicator fx:id="pgProgreso" prefHeight="36.0" prefWidth="141.0" visible="false" />

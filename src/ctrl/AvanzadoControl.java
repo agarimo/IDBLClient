@@ -100,7 +100,7 @@ public class AvanzadoControl implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        lbLimite.setText("Límite de la QUERY establecido en " + Var.limiteQuery + " registros.");
+        lbLimite.setText("Límite de la QUERY establecido en " + Var.queryLimit + " registros.");
         pgProgreso.setVisible(false);
         lbInfoProgreso.setVisible(false);
         btAceptar.setDisable(true);

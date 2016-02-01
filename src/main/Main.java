@@ -41,14 +41,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Var.iniciaVariables();
+        Var.initVar();
         Var.hostServices = HostServicesDelegate.getInstance(this);
         Var.stage = stage;
         Var.stage.setMinHeight(600);
         Var.stage.setMinWidth(800);
 
         Var.stage.setOnCloseRequest(event -> {
-            Var.clearFiles();
+            Var.xitClearFiles();
         });
         
         Var.stage.setScene(createScene(loadMainPane()));

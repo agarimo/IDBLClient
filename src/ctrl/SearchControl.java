@@ -36,6 +36,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import main.Query;
+import main.Var;
 import model.ModeloMulta;
 import model.Modo;
 import model.Tipo;
@@ -83,7 +84,7 @@ public class SearchControl implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        panelModo.setVisible(false);
+        setVisibleAvanzado(Var.modoAdmin);
         tipo = Tipo.NIF;
         modo = Modo.NORMAL;
     }
@@ -123,7 +124,7 @@ public class SearchControl implements Initializable {
 
         String busqueda = searchGetBusqueda();
         tfBuscar.setText(busqueda);
-        String query = Query.searchQuery(busqueda,tipo,modo);
+        String query = Query.searchQuery(busqueda, tipo, modo);
 
         if (modo == Modo.NORMAL) {
             Nav.mainController.botonBuscar(new ActionEvent());
@@ -154,7 +155,7 @@ public class SearchControl implements Initializable {
     private String searchGetBusqueda() {
         String aux = tfBuscar.getText().toUpperCase().trim();
 
-        if (tipo == Tipo.NIF && modo==Modo.NORMAL) {
+        if (tipo == Tipo.NIF && modo == Modo.NORMAL) {
             CalculaNif cn = new CalculaNif();
 
             if (cn.letrasCif.contains("" + aux.charAt(0))) {
