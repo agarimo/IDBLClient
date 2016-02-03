@@ -113,27 +113,27 @@ public class DetalleControl implements Initializable {
 
     public void getDocument(String id) throws SQLException, FileNotFoundException, IOException {
         document = new Documento(id);
-        Sql bd = new Sql(con);
-
-        String sql = "SELECT id,codigo,data FROM " + Var.dbName + ".documento WHERE id=" + document.getId() + ";";
-        PreparedStatement stmt = bd.getCon().prepareStatement(sql);
-        ResultSet resultSet = stmt.executeQuery();
-
-        if (resultSet.next()) {
-            document.setCodigo(resultSet.getString(2));
-            document.setFile(new File(Var.runtimeData, document.getId() + ".pdf"));
-
-            try (FileOutputStream fos = new FileOutputStream(document.getFile())) {
-                byte[] buffer = new byte[1];
-                InputStream is = resultSet.getBinaryStream(3);
-                while (is.read(buffer) > 0) {
-                    fos.write(buffer);
-                }
-                fos.close();
-            }
-        }
-
-        bd.close();
+//        Sql bd = new Sql(con);
+//
+//        String sql = "SELECT id,codigo,data FROM " + Var.dbName + ".documento WHERE id=" + document.getId() + ";";
+//        PreparedStatement stmt = bd.getCon().prepareStatement(sql);
+//        ResultSet resultSet = stmt.executeQuery();
+//
+//        if (resultSet.next()) {
+//            document.setCodigo(resultSet.getString(2));
+//            document.setFile(new File(Var.runtimeData, document.getId() + ".pdf"));
+//
+//            try (FileOutputStream fos = new FileOutputStream(document.getFile())) {
+//                byte[] buffer = new byte[1];
+//                InputStream is = resultSet.getBinaryStream(3);
+//                while (is.read(buffer) > 0) {
+//                    fos.write(buffer);
+//                }
+//                fos.close();
+//            }
+//        }
+//
+//        bd.close();
         document.setIsReady(true);
     }
 
@@ -238,7 +238,14 @@ public class DetalleControl implements Initializable {
 
     @FXML
     void verDocumento(ActionEvent event) {
-        Var.hostServices.showDocument(document.getFile().getAbsolutePath());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("INFORMACIÓN");
+        alert.setHeaderText("Característica no soportada.");
+        alert.setContentText("La visualización de documentos \n"
+                + "no se encuentra disponible.");
+
+        alert.showAndWait();
+//        Var.hostServices.showDocument(document.getFile().getAbsolutePath());
     }
 
 }

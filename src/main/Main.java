@@ -26,12 +26,19 @@ package main;
 import com.sun.javafx.application.HostServicesDelegate;
 import ctrl.MainControl;
 import ctrl.Nav;
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import static main.Var.configFile;
+import static main.Var.defaultFile;
+import util.Files;
 
 /**
  *
@@ -41,13 +48,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        if (!isDefault()) {
+            getDefault();
+        }
         Var.initVar();
         Var.hostServices = HostServicesDelegate.getInstance(this);
         Var.stage = stage;
-//        Var.stage.setMinHeight(560);
-//        Var.stage.setMinWidth(790);
-//        Var.stage.setMaxHeight(560);
-//        Var.stage.setMaxWidth(790);
         Var.stage.setResizable(false);
 
         Var.stage.setOnCloseRequest(event -> {
@@ -76,10 +82,59 @@ public class Main extends Application {
         return scene;
     }
 
+    private boolean isDefault() {
+        File file = new File(configFile);
+        return file.exists();
+    }
+
+    private void getDefault() {
+        File file = new File(configFile);
+        InputStream inputStream = null;
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            inputStream = getClass().getResourceAsStream(defaultFile);
+            br = new BufferedReader(new InputStreamReader(inputStream));
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+            }
+
+            file.createNewFile();
+            Files.escribeArchivo(file, sb.toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         launch(args);
+
+//        Var var = new Var();
+//        var.XMLGetDefaultFile();
+//        
+//        System.exit(0);
     }
 }

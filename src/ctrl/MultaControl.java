@@ -55,6 +55,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import main.Var;
+import static main.Var.defaultFile;
 import model.ModeloMulta;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -376,7 +377,8 @@ public class MultaControl implements Initializable {
     void printReport(ActionEvent event){
         try {
             Sql bd = new Sql(Var.con);
-            JasperReport report = (JasperReport) JRLoader.loadObject(new File("src/resources/ReporteMultas.jasper"));
+//            JasperReport report = (JasperReport) JRLoader.loadObject(new File("src/resources/ReporteMultas.jasper"));
+            JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream("/resources/ReporteMultas.jasper"));
             
             Map<String,Object> parametros = new HashMap<>();
             parametros.put("LISTA_MULTAS", printReportGetList());

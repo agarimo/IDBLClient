@@ -25,9 +25,13 @@ package main;
 
 import com.sun.javafx.application.HostServicesDelegate;
 import ctrl.Nav;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.stage.Stage;
@@ -53,6 +57,7 @@ public class Var {
     public static Conexion con;
 
     public static String configFile = "config.xml";
+    public static String defaultFile = "/resources/default.xml";
     public static String dbName = "idbl";
 
     public static boolean modoAdmin;
@@ -76,36 +81,17 @@ public class Var {
     }
 
     private static void initVarLoadConfig() {
-        File config = new File("config.xml");
-
-        if (config.exists()) {
-            XMLLoad(configFile);
-        } else {
-            try {
-                XMLDefault();
-            } catch (IOException ex) {
-                Logger.getLogger(Var.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
+        XMLLoad(configFile);
         runtimeData = new File("tempData");
         runtimeData.mkdirs();
     }
-    
-    public static void xit(){
+
+    public static void xit() {
         Files.borraDirectorio(runtimeData);
         XMLSave(configFile);
     }
 
     //<editor-fold defaultstate="collapsed" desc="XML">
-    private static void XMLDefault() throws IOException {
-        File file = new File("config.xml");
-        file.createNewFile();
-        String ruta = "src/resources/default.xml";
-        XMLLoad(ruta);
-        XMLSave(ruta);
-    }
-
     private static void XMLLoad(String ruta) {
         try {
             con = new Conexion();
@@ -163,8 +149,6 @@ public class Var {
             Element admin = config.getChild("modoAdmin");
 
             ele = admin.getChild("activo");
-
-            modoAdmin = true;
 
             if (modoAdmin) {
                 ele.setText("true");
