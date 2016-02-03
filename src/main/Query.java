@@ -49,7 +49,7 @@ public class Query {
 
     //<editor-fold defaultstate="collapsed" desc="QUERY BÚSQUEDA AVANZADA">
     public static String searchQueryAvanced(int id, Tipo tipo) {
-        return "SELECT * FROM " + Var.dbName + ".vista_multa WHERE id IN (" + searchCommonQueryAvanced(id, tipo) + ");";
+        return "SELECT * FROM " + Var.dbName + ".vista_multa WHERE id IN (" + searchCommonQueryAvanced(id, tipo) + ") order by fecha_vencimiento DESC;";
     }
 
     private static String searchCommonQueryAvanced(int id, Tipo tipo) {
@@ -63,7 +63,7 @@ public class Query {
 
     //<editor-fold defaultstate="collapsed" desc="QUERY BUSQUEDA NORMAL">
     public static String searchQuery(String busqueda, Tipo tipo, Modo modo) {
-        return "SELECT * FROM " + Var.dbName + ".vista_multa WHERE id IN (" + searchCommonQuery(busqueda, tipo, modo) + ");";
+        return "SELECT * FROM " + Var.dbName + ".vista_multa WHERE id IN (" + searchCommonQuery(busqueda, tipo, modo) + ") order by fecha_vencimiento DESC;";
     }
 
     private static String searchCommonQuery(String busqueda, Tipo tipo, Modo modo) {

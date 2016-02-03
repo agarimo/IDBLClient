@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
   <conexion>
-    <db-host>oficina.redcedeco.net</db-host>
+    <db-host>192.168.1.40</db-host>
     <db-port>3306</db-port>
     <db-username>appLogin</db-username>
     <db-password>Vr7EyFHy</db-password>
   </conexion>
   <modoAdmin>
-    <activo>true</activo>
+    <activo>false</activo>
     <password>user01</password>
     <query-limit>50</query-limit>
   </modoAdmin>

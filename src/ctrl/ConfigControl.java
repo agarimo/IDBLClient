@@ -184,6 +184,7 @@ public class ConfigControl implements Initializable {
         Var.modoAdmin = true;
         lbEstadoAdmin.setText("Activo");
         lbEstadoAdmin.setTextFill(Color.GREEN);
+        Nav.adminMode(true);
     }
 
     @FXML
@@ -191,6 +192,7 @@ public class ConfigControl implements Initializable {
         Var.modoAdmin = false;
         lbEstadoAdmin.setText("Inactivo");
         lbEstadoAdmin.setTextFill(Color.RED);
+        Nav.adminMode(false);
     }
 
     @FXML
