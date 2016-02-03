@@ -117,7 +117,7 @@ public class ConfigControl implements Initializable {
 
         tfHost.setPromptText(Var.con.getDireccion());
         tfPort.setPromptText(Var.con.getPuerto());
-        tfPort.setText(Var.queryLimit);
+        tfQuery.setText(Var.queryLimit);
 
         btCancelar.requestFocus();
     }
