@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import model.ModeloAvanzado;
 import model.ModeloMulta;
@@ -123,12 +124,7 @@ public class Query {
             bd.close();
 
         } catch (SQLException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setHeaderText("ERROR DE CONEXIÓN");
-            alert.setContentText(ex.getMessage());
-
-            alert.showAndWait();
+            error(ex);
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -165,12 +161,7 @@ public class Query {
             bd.close();
 
         } catch (SQLException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setHeaderText("ERROR DE CONEXIÓN");
-            alert.setContentText(ex.getMessage());
-
-            alert.showAndWait();
+            error(ex);
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -199,15 +190,21 @@ public class Query {
             bd.close();
 
         } catch (SQLException ex) {
+            error(ex);
+            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+    }
+
+    private static void error(SQLException ex) {
+        Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText("ERROR DE CONEXIÓN");
             alert.setContentText(ex.getMessage());
 
             alert.showAndWait();
-            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return list;
+        });
     }
 }

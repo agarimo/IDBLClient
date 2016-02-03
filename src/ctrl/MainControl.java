@@ -23,6 +23,11 @@
  */
 package ctrl;
 
+import de.jensd.fx.glyphs.GlyphsDude;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
+import de.jensd.fx.glyphs.materialicons.MaterialIcon;
+import de.jensd.fx.glyphs.octicons.OctIcon;
+import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,7 +39,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
+import main.Main;
+import main.Var;
+import static main.Var.modoAdmin;
+import static main.Var.popup;
 import org.controlsfx.control.HiddenSidesPane;
 
 /**
@@ -50,6 +67,12 @@ public class MainControl implements Initializable {
     @FXML
     private Button btBuscar;
 
+    @FXML
+    private Button btConfig;
+
+    @FXML
+    private Button btCerrar;
+
     /**
      * Initializes the controller class.
      *
@@ -61,6 +84,19 @@ public class MainControl implements Initializable {
         vistaHolder.setLeft(loadSearch());
         vistaHolder.setBottom(loadDetalle());
         vistaHolder.setTriggerDistance(0);
+        Nav.adminMode(modoAdmin);
+        
+        String color="#4f59ea";
+        
+//        Text a = GlyphsDude.createIcon(MaterialDesignIcon.POWER, "28");
+//        a.setFill(Paint.valueOf(color));
+//        btCerrar.setGraphic(a);
+        
+        GlyphsDude.setIcon(btBuscar, MaterialIcon.DEHAZE,"28");
+        GlyphsDude.setIcon(btConfig, OctIcon.GEAR,"28");
+        GlyphsDude.setIcon(btCerrar, MaterialDesignIcon.POWER,"28");
+        
+        
     }
 
     public Node loadAvanzado() {
@@ -123,6 +159,23 @@ public class MainControl implements Initializable {
         }
     }
 
+    private void startPopup() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Nav.CONFIG));
+            Pane nodo = (Pane) fxmlLoader.load();
+            popup = new Stage();
+            popup.initOwner(Var.stage);
+            popup.setResizable(false);
+            popup.initModality(Modality.APPLICATION_MODAL);
+            popup.initStyle(StageStyle.UTILITY);
+            popup.setTitle("Configuración");
+            popup.setScene(new Scene(nodo));
+            popup.show();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void setContent(Node node) {
         vistaHolder.setContent(node);
     }
@@ -131,9 +184,21 @@ public class MainControl implements Initializable {
     void botonBuscar(ActionEvent event) {
         if (vistaHolder.getPinnedSide() != null) {
             vistaHolder.setPinnedSide(null);
+            GlyphsDude.setIcon(btBuscar, MaterialIcon.DEHAZE,"28");
         } else {
             vistaHolder.setPinnedSide(Side.LEFT);
+            GlyphsDude.setIcon(btBuscar, MaterialDesignIcon.BACKBURGER,"28");
         }
+    }
+
+    @FXML
+    void botonConfig(ActionEvent event) {
+        startPopup();
+    }
+
+    @FXML
+    void botonCerrar(ActionEvent event) {
+        Var.stage.fireEvent(new WindowEvent(Var.stage, WindowEvent.WINDOW_CLOSE_REQUEST));
     }
 
     void botonDetalle() {

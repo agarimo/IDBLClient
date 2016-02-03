@@ -11,9 +11,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ctrl.MultaControl">
+<VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="780.0" style="-fx-background-color: #c5cae9;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ctrl.MultaControl">
    <children>
-      <TableView fx:id="tabla" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="260.0" prefWidth="760.0" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
+      <TableView fx:id="tabla" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="260.0" prefWidth="760.0" style="-fx-background-color: #eaecf7;" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn fx:id="organismoCL" maxWidth="-Infinity" minWidth="240.0" prefWidth="240.0" text="Organismo" />
             <TableColumn fx:id="cifCL" maxWidth="80.0" minWidth="80.0" resizable="false" text="CIF" />
@@ -78,11 +78,19 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="780.0" spacing="10.0" VBox.vgrow="ALWAYS">
          <children>
-            <Label prefHeight="17.0" prefWidth="685.0" text="Datos : " HBox.hgrow="ALWAYS">
+            <Label prefHeight="35.0" prefWidth="518.0" text="Datos : " HBox.hgrow="ALWAYS">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
+            <Button fx:id="btPrint" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#printReport" prefHeight="40.0" prefWidth="130.0" text="Imprimir">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
             <Button fx:id="btDetalle" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#verDetalle" prefHeight="40.0" prefWidth="130.0" style="-fx-graphic: url(https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_description_48px-32.png);" text="Ver Detalle" VBox.vgrow="ALWAYS">
                <opaqueInsets>
                   <Insets />
@@ -102,13 +110,10 @@
             <Insets left="10.0" right="10.0" top="10.0" />
          </padding>
       </HBox>
-      <Separator halignment="LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="600.0">
+      <Separator halignment="LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="762.0">
          <VBox.margin>
-            <Insets bottom="10.0" left="10.0" right="170.0" />
+            <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
          </VBox.margin>
-         <effect>
-            <DropShadow />
-         </effect>
       </Separator>
       <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="760.0">
          <children>
@@ -174,7 +179,7 @@
             <Insets left="10.0" right="10.0" />
          </VBox.margin>
       </Label>
-      <TextField fx:id="tfLinea" alignment="CENTER" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="760.0" VBox.vgrow="ALWAYS">
+      <TextField fx:id="tfLinea" alignment="CENTER" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="760.0" style="-fx-background-color: #eaecf7;" VBox.vgrow="ALWAYS">
          <VBox.margin>
             <Insets bottom="20.0" left="10.0" right="10.0" top="5.0" />
          </VBox.margin>

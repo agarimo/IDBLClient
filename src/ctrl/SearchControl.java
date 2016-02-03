@@ -84,7 +84,7 @@ public class SearchControl implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setVisibleAvanzado(Var.modoAdmin);
+        adminMode(Var.modoAdmin);
         tipo = Tipo.NIF;
         modo = Modo.NORMAL;
     }
@@ -177,7 +177,9 @@ public class SearchControl implements Initializable {
         }
     }
 
-    public void setVisibleAvanzado(boolean bol) {
+    public void adminMode(boolean bol) {
         panelModo.setVisible(bol);
+        modo=Modo.NORMAL;
+        rbNormal.setSelected(true);
     }
 }

@@ -24,6 +24,7 @@
 package main;
 
 import com.sun.javafx.application.HostServicesDelegate;
+import ctrl.Nav;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -90,12 +91,9 @@ public class Var {
         runtimeData = new File("tempData");
         runtimeData.mkdirs();
     }
-
-    public static void xitClearFiles() {
+    
+    public static void xit(){
         Files.borraDirectorio(runtimeData);
-    }
-
-    public static void xitGuardarConfig() {
         XMLSave(configFile);
     }
 

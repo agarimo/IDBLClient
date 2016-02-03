@@ -248,7 +248,7 @@ public class AvanzadoControl implements Initializable {
     void btCancelar(ActionEvent event) {
         if (Var.isRunning) {
             try {
-                Query.bd.stmt.cancel();
+                Query.bd.getStmt().cancel();
                 Query.bd.close();
                 thread.stop();
             } catch (Exception ex) {

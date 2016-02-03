@@ -25,6 +25,7 @@ public class Nav {
     public static SearchControl searchController;
     public static AvanzadoControl avanzadoController;
 
+
     public static void setAvanzadoController(AvanzadoControl controller) {
         Nav.avanzadoController = controller;
     }
@@ -43,5 +44,9 @@ public class Nav {
 
     public static void setSearchController(SearchControl controller) {
         Nav.searchController = controller;
+    }
+
+    public static void adminMode(boolean active) {
+        searchController.adminMode(active);
     }
 }

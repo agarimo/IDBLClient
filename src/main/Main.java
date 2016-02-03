@@ -44,13 +44,17 @@ public class Main extends Application {
         Var.initVar();
         Var.hostServices = HostServicesDelegate.getInstance(this);
         Var.stage = stage;
-        Var.stage.setMinHeight(600);
-        Var.stage.setMinWidth(800);
+//        Var.stage.setMinHeight(560);
+//        Var.stage.setMinWidth(790);
+//        Var.stage.setMaxHeight(560);
+//        Var.stage.setMaxWidth(790);
+        Var.stage.setResizable(false);
 
         Var.stage.setOnCloseRequest(event -> {
-            Var.xitClearFiles();
+            System.out.println("Cerrando app");
+            Var.xit();
         });
-        
+
         Var.stage.setScene(createScene(loadMainPane()));
         Var.stage.show();
     }
@@ -67,7 +71,7 @@ public class Main extends Application {
 
     private Scene createScene(Pane mainPane) {
         Scene scene = new Scene(mainPane);
-//        scene.getStylesheets().setAll(getClass().getResource("/css/vista.css").toExternalForm());
+        scene.getStylesheets().setAll(getClass().getResource("/resources/modena.css").toExternalForm());
 
         return scene;
     }

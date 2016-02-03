@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="BOTTOM_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="780.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ctrl.DetalleControl">
+<VBox alignment="BOTTOM_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="780.0" style="-fx-background-color: #eaecf7;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ctrl.DetalleControl">
    <children>
       <HBox alignment="CENTER" prefHeight="151.0" prefWidth="760.0" spacing="10.0">
          <children>
@@ -68,7 +68,7 @@
             </TitledPane>
             <Label fx:id="lbInfoDoc" alignment="CENTER" contentDisplay="CENTER" layoutX="56.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="141.0">
                <HBox.margin>
-                  <Insets bottom="5.0" />
+                  <Insets bottom="5.0" top="3.0" />
                </HBox.margin>
                <graphic>
                   <ProgressIndicator fx:id="pgProgreso" prefHeight="36.0" prefWidth="141.0" visible="false" />
@@ -78,7 +78,7 @@
                <children>
                   <Button fx:id="btCerrar" mnemonicParsing="false" onAction="#cerrarVista" prefHeight="40.0" prefWidth="130.0" text="CERRAR">
                      <VBox.margin>
-                        <Insets />
+                        <Insets top="2.0" />
                      </VBox.margin>
                      <effect>
                         <DropShadow />
@@ -91,7 +91,7 @@
                      <effect>
                         <DropShadow />
                      </effect></Button>
-                  <Button fx:id="btPrint" mnemonicParsing="false" onAction="#printMulta" prefHeight="40.0" prefWidth="130.0" text="Imprimir">
+                  <Button fx:id="btPrint" mnemonicParsing="false" onAction="#printMulta" prefHeight="40.0" prefWidth="130.0" text="Imprimir" visible="false">
                      <VBox.margin>
                         <Insets top="2.0" />
                      </VBox.margin>

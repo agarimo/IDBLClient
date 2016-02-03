@@ -116,7 +116,7 @@ public class DetalleControl implements Initializable {
         Sql bd = new Sql(con);
 
         String sql = "SELECT id,codigo,data FROM " + Var.dbName + ".documento WHERE id=" + document.getId() + ";";
-        PreparedStatement stmt = bd.con.prepareStatement(sql);
+        PreparedStatement stmt = bd.getCon().prepareStatement(sql);
         ResultSet resultSet = stmt.executeQuery();
 
         if (resultSet.next()) {

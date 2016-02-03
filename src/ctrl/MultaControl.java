@@ -23,10 +23,18 @@
  */
 package ctrl;
 
+import java.io.File;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -46,8 +54,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
+import main.Var;
 import model.ModeloMulta;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import util.Dates;
+import util.Sql;
 
 /**
  * FXML Controller class
@@ -99,6 +116,8 @@ public class MultaControl implements Initializable {
     @FXML
     private Button btDetalle;
 
+    @FXML
+    private Button btPrint;
 //</editor-fold>
     ObservableList<ModeloMulta> multas;
     ObservableValue<String> cargadas;
@@ -351,5 +370,37 @@ public class MultaControl implements Initializable {
             alert.setContentText("Debes seleccionar una sanción.");
             alert.showAndWait();
         }
+    }
+    
+    @FXML
+    void printReport(ActionEvent event){
+        try {
+            Sql bd = new Sql(Var.con);
+            JasperReport report = (JasperReport) JRLoader.loadObject(new File("src/resources/ReporteMultas.jasper"));
+            
+            Map<String,Object> parametros = new HashMap<>();
+            parametros.put("LISTA_MULTAS", printReportGetList());
+            
+            JasperPrint jasperPrint = JasperFillManager.fillReport(report, parametros, bd.getCon());
+            
+            JasperExportManager.exportReportToPdfFile(jasperPrint, new File(Var.runtimeData,"report.pdf").getAbsolutePath());
+            JasperViewer.viewReport(jasperPrint,false);
+            
+        } catch (SQLException | JRException ex) {
+            Logger.getLogger(MultaControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private List printReportGetList(){
+        List list = new ArrayList();
+        ModeloMulta aux;
+        Iterator<ModeloMulta> it = multas.iterator();
+        
+        while(it.hasNext()){
+            aux=it.next();
+            list.add(aux.getId());
+        }
+        
+        return list;
     }
 }

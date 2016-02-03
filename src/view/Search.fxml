@@ -10,11 +10,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="200.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ctrl.SearchControl">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="200.0" style="-fx-background-color: #eaecf7;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ctrl.SearchControl">
    <children>
-      <VBox fx:id="panelBusqueda">
+      <VBox fx:id="panelBusqueda" style="-fx-background-color: #303F9F;">
          <children>
-            <Label prefHeight="40.0" prefWidth="200.0" text="Búsqueda : " VBox.vgrow="ALWAYS">
+            <Label prefHeight="40.0" prefWidth="200.0" style="-fx-text-fill: white;" text="Búsqueda : " textFill="WHITE" VBox.vgrow="ALWAYS">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -42,16 +42,11 @@
          <VBox.margin>
             <Insets bottom="5.0" />
          </VBox.margin>
-      </VBox>
-      <Separator prefWidth="200.0">
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
          <effect>
             <DropShadow />
          </effect>
-      </Separator>
-      <VBox fx:id="panelTipo">
+      </VBox>
+      <VBox fx:id="panelTipo" style="-fx-background-color: #eaecf7;">
          <children>
             <Label prefHeight="20.0" prefWidth="200.0" text="Tipo de Búsqueda :">
                <VBox.margin>
@@ -81,7 +76,7 @@
             </RadioButton>
          </children>
       </VBox>
-      <VBox fx:id="panelModo">
+      <VBox fx:id="panelModo" style="-fx-background-color: #eaecf7;">
          <children>
             <Label text="Modo de Búsqueda :">
                <font>
