@@ -362,7 +362,7 @@ public class MultaControl implements Initializable {
         ModeloMulta aux = tableGetSelected();
 
         if (aux != null) {
-            Nav.detalleController.setMulta(aux.getId());
+            Nav.detalleController.multaSet(aux.getId());
             Nav.mainController.botonDetalle();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);

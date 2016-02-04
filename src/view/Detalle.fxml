@@ -76,7 +76,7 @@
             </Label>
             <VBox prefHeight="200.0" prefWidth="130.0" spacing="10.0" HBox.hgrow="NEVER">
                <children>
-                  <Button fx:id="btCerrar" mnemonicParsing="false" onAction="#cerrarVista" prefHeight="40.0" prefWidth="130.0" text="CERRAR">
+                  <Button fx:id="btCerrar" mnemonicParsing="false" onAction="#xitDetail" prefHeight="40.0" prefWidth="130.0" text="CERRAR">
                      <VBox.margin>
                         <Insets top="2.0" />
                      </VBox.margin>
@@ -84,14 +84,14 @@
                         <DropShadow />
                      </effect>
                   </Button>
-                  <Button fx:id="btDocumento" mnemonicParsing="false" onAction="#verDocumento" prefHeight="40.0" prefWidth="130.0" text="Ver Documento">
+                  <Button fx:id="btDocumento" mnemonicParsing="false" onAction="#documentShow" prefHeight="40.0" prefWidth="130.0" text="Ver Documento">
                      <VBox.margin>
                         <Insets top="2.0" />
                      </VBox.margin>
                      <effect>
                         <DropShadow />
                      </effect></Button>
-                  <Button fx:id="btPrint" mnemonicParsing="false" onAction="#printMulta" prefHeight="40.0" prefWidth="130.0" text="Imprimir" visible="false">
+                  <Button fx:id="btPrint" mnemonicParsing="false" onAction="#printReport" prefHeight="40.0" prefWidth="130.0" text="Imprimir">
                      <VBox.margin>
                         <Insets top="2.0" />
                      </VBox.margin>

@@ -31,6 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import model.Documento;
 import model.ModeloAvanzado;
 import model.ModeloMulta;
 import model.ModeloMultaFull;
@@ -82,6 +83,13 @@ public class Query {
         return "SELECT id FROM " + tipo.getTable() + " WHERE " + tipo.getColumn() + modo.getQuery(busqueda, tipo);
     }
     //</editor-fold>
+    
+    public static Documento getDocumento(String id){
+        Documento aux=null;
+        
+        
+        return aux;
+    }
 
     public static ModeloMultaFull getModeloMultaFull(int id) {
         ResultSet rs;

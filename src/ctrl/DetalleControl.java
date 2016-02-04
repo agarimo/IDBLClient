@@ -22,18 +22,16 @@
  * THE SOFTWARE.
  */
 package ctrl;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -45,18 +43,22 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import main.Query;
 import main.Var;
-import static main.Var.con;
 import model.Documento;
 import model.ModeloMultaFull;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import util.Sql;
-
 /**
  * FXML Controller class
  *
  * @author Agarimo
  */
 public class DetalleControl implements Initializable {
-
     //<editor-fold defaultstate="collapsed" desc="FXML VAR">
     @FXML
     private VBox root;
@@ -106,13 +108,88 @@ public class DetalleControl implements Initializable {
     private ModeloMultaFull multa;
     private Documento document;
 
-    @FXML
-    void cerrarVista(ActionEvent event) {
-        Nav.mainController.botonDetalle();
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        pgProgreso.setVisible(false);
     }
 
-    public void getDocument(String id) throws SQLException, FileNotFoundException, IOException {
-        document = new Documento(id);
+    public void multaSet(int id) {
+        multa = Query.getModeloMultaFull(id);
+        
+        lbNBoe.setText(multa.getnBoe());
+        lbFase.setText(multa.getFase());
+        lbFechaPublicacion.setText(multa.getFechaPublicacion());
+        lbFechaVencimiento.setText(multa.getFechaVencimiento());
+        lbOrganismo.setText(multa.getOrganismo());
+        
+        lbCif.setText(multa.getCif());
+        lbMatricula.setText(multa.getMatricula());
+        lbLocalidad.setText(multa.getLocalidad());
+        lbNombre.setText(multa.getNombre());
+        
+        lbCodigo.setText(multa.getCodigo());
+        lbExpediente.setText(multa.getExpediente());
+        lbCuantia.setText(multa.getCuantia());
+        lbPuntos.setText(multa.getPuntos());
+        lbFecha.setText(multa.getFechaMulta());
+        lbArticulo.setText(multa.getArticulo());
+        lbLinea.setText(multa.getLinea());
+        
+        if (multa.isDocumento()) {
+            btDocumento.setDisable(false);
+            lbInfoDoc.setText("Documento disponible.");
+            lbInfoDoc.setTextFill(Color.GREEN);
+        } else {
+            btDocumento.setDisable(true);
+            lbInfoDoc.setText("Documento no disponible.");
+            lbInfoDoc.setTextFill(Color.RED);
+        }
+    }
+
+//        File doc = new File(Var.runtimeData, multa.getnBoe() + ".pdf");
+//
+//        if (multa.isDocumento()) {
+//
+//            Thread a = new Thread(() -> {
+//
+//                try {
+//                    if (!doc.exists()) {
+//                        pdfGet(multa.getnBoe());
+//                    } else {
+//                        document.setCodigo("YA GENERADO");
+//                        document.setFile(new File(Var.runtimeData, multa.getnBoe() + ".pdf"));
+//                        document.setIsReady(true);
+//                    }
+//
+//                } catch (Exception ex) {
+//                    Platform.runLater(() -> {
+//                        lbInfoDoc.setText("Error en documento.");
+//                        lbInfoDoc.setTextFill(Color.RED);
+//                        pgProgreso.setVisible(false);
+//
+//                        Alert alert = new Alert(Alert.AlertType.ERROR);
+//                        alert.setTitle("ERROR");
+//                        alert.setHeaderText("ERROR DESCARGANDO EL DOCUMENTO");
+//                        alert.setContentText(ex.getMessage());
+//
+//                        alert.showAndWait();
+//                    });
+//                }
+//
+//                if (document.isReady()) {
+//                    Platform.runLater(() -> {
+//                        this.pdfGetSetStatus();
+//                    });
+//                }
+//
+//            });
+//            a.start();
+//        }
+//    }
+
+    public void pdfGet() throws SQLException, FileNotFoundException, IOException {
+        document = Query.getDocumento(multa.getnBoe());
+        
 //        Sql bd = new Sql(con);
 //
 //        String sql = "SELECT id,codigo,data FROM " + Var.dbName + ".documento WHERE id=" + document.getId() + ";";
@@ -137,107 +214,10 @@ public class DetalleControl implements Initializable {
         document.setIsReady(true);
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        pgProgreso.setVisible(false);
-    }
-
     @FXML
-    void printMulta(ActionEvent event) {
-        PrintInforme pt = new PrintInforme(multa.getId());
-        pt.print();
-    }
+    void pdfShow(ActionEvent event) {
+        //TODO ftp al server y get Document.
 
-    public void setMulta(int id) {
-        btDocumento.setDisable(true);
-        multa = Query.getModeloMultaFull(id);
-        showMulta();
-        File doc = new File(Var.runtimeData, multa.getnBoe() + ".pdf");
-
-        if (multa.isDocumento()) {
-
-            Thread a = new Thread(() -> {
-
-                try {
-                    if (!doc.exists()) {
-                        getDocument(multa.getnBoe());
-                    } else {
-                        document.setCodigo("YA GENERADO");
-                        document.setFile(new File(Var.runtimeData, multa.getnBoe() + ".pdf"));
-                        document.setIsReady(true);
-                    }
-
-                } catch (Exception ex) {
-                    Platform.runLater(() -> {
-                        lbInfoDoc.setText("Error en documento.");
-                        lbInfoDoc.setTextFill(Color.RED);
-                        pgProgreso.setVisible(false);
-
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("ERROR");
-                        alert.setHeaderText("ERROR DESCARGANDO EL DOCUMENTO");
-                        alert.setContentText(ex.getMessage());
-
-                        alert.showAndWait();
-                    });
-                }
-
-                if (document.isReady()) {
-                    Platform.runLater(() -> {
-                        this.setDescargado();
-                    });
-                }
-
-            });
-            a.start();
-        }
-    }
-
-    public void setDescargado() {
-        pgProgreso.setVisible(false);
-        btDocumento.setDisable(false);
-        lbInfoDoc.setVisible(true);
-        lbInfoDoc.setText("Documento disponible.");
-        lbInfoDoc.setTextFill(Color.GREEN);
-    }
-
-    private void showMulta() {
-        lbNBoe.setText(multa.getnBoe());
-        lbFase.setText(multa.getFase());
-        lbFechaPublicacion.setText(multa.getFechaPublicacion());
-        lbFechaVencimiento.setText(multa.getFechaVencimiento());
-        lbOrganismo.setText(multa.getOrganismo());
-
-        lbCif.setText(multa.getCif());
-        lbMatricula.setText(multa.getMatricula());
-        lbLocalidad.setText(multa.getLocalidad());
-        lbNombre.setText(multa.getNombre());
-
-        lbCodigo.setText(multa.getCodigo());
-        lbExpediente.setText(multa.getExpediente());
-        lbCuantia.setText(multa.getCuantia());
-        lbPuntos.setText(multa.getPuntos());
-        lbFecha.setText(multa.getFechaMulta());
-        lbArticulo.setText(multa.getArticulo());
-        lbLinea.setText(multa.getLinea());
-
-        if (multa.isDocumento()) {
-            pgProgreso.setVisible(true);
-            btDocumento.setDisable(true);
-            lbInfoDoc.setVisible(true);
-            lbInfoDoc.setText("Descargando Documento.");
-            lbInfoDoc.setTextFill(Color.ORANGE);
-        } else {
-            pgProgreso.setVisible(false);
-            btDocumento.setDisable(true);
-            lbInfoDoc.setVisible(true);
-            lbInfoDoc.setText("Documento no disponible.");
-            lbInfoDoc.setTextFill(Color.RED);
-        }
-    }
-
-    @FXML
-    void verDocumento(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("INFORMACIÓN");
         alert.setHeaderText("Característica no soportada.");
@@ -246,6 +226,30 @@ public class DetalleControl implements Initializable {
 
         alert.showAndWait();
 //        Var.hostServices.showDocument(document.getFile().getAbsolutePath());
+    }
+
+    @FXML
+    void printReport(ActionEvent event) {
+        try {
+            Sql bd = new Sql(Var.con);
+            JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream("/resources/ReporteSancion.jasper"));
+
+            Map<String, Object> parametros = new HashMap<>();
+            parametros.put("ID_MULTA", Integer.toString(multa.getId()));
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(report, parametros, bd.getCon());
+
+            JasperExportManager.exportReportToPdfFile(jasperPrint, new File(Var.runtimeData, "report.pdf").getAbsolutePath());
+            JasperViewer.viewReport(jasperPrint, false);
+
+        } catch (SQLException | JRException ex) {
+            Logger.getLogger(MultaControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    void xitDetail(ActionEvent event) {
+        Nav.mainController.botonDetalle();
     }
 
 }
