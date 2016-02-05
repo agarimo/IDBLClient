@@ -146,47 +146,6 @@ public class DetalleControl implements Initializable {
         }
     }
 
-//        File doc = new File(Var.runtimeData, multa.getnBoe() + ".pdf");
-//
-//        if (multa.isDocumento()) {
-//
-//            Thread a = new Thread(() -> {
-//
-//                try {
-//                    if (!doc.exists()) {
-//                        pdfGet(multa.getnBoe());
-//                    } else {
-//                        document.setCodigo("YA GENERADO");
-//                        document.setFile(new File(Var.runtimeData, multa.getnBoe() + ".pdf"));
-//                        document.setIsReady(true);
-//                    }
-//
-//                } catch (Exception ex) {
-//                    Platform.runLater(() -> {
-//                        lbInfoDoc.setText("Error en documento.");
-//                        lbInfoDoc.setTextFill(Color.RED);
-//                        pgProgreso.setVisible(false);
-//
-//                        Alert alert = new Alert(Alert.AlertType.ERROR);
-//                        alert.setTitle("ERROR");
-//                        alert.setHeaderText("ERROR DESCARGANDO EL DOCUMENTO");
-//                        alert.setContentText(ex.getMessage());
-//
-//                        alert.showAndWait();
-//                    });
-//                }
-//
-//                if (document.isReady()) {
-//                    Platform.runLater(() -> {
-//                        this.pdfGetSetStatus();
-//                    });
-//                }
-//
-//            });
-//            a.start();
-//        }
-//    }
-
     public void pdfGet() throws SQLException, FileNotFoundException, IOException {
         document = Query.getDocumento(multa.getnBoe());
         

@@ -38,8 +38,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import static main.Var.configFile;
 import static main.Var.defaultFile;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPReply;
 import util.Files;
 
 /**
@@ -132,56 +130,6 @@ public class Main extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        launch(args);
-
-        // Datos para la conexion
-        String server = "192.168.6.20";
-        String username = "appLogin";
-        String password = "user01";
-
-        // Cliente de conexion a FTP
-        FTPClient ftp = new FTPClient();
-
-        int respuesta, i;
-        String[] lista;
-
-        try {
-            System.out.println("CONECTANDO AL SERVIDOR FTP");
-            // Conectando e identificandose con el servidos
-            ftp.connect(server);
-            ftp.login(username, password);
-            // Entrando a modo pasivo
-            ftp.enterLocalPassiveMode();
-
-            // Obteniendo respuesta del servidos
-            respuesta = ftp.getReplyCode();
-            System.out.println("RESPUESTA " + respuesta);
-
-            // Si la respuesta del servidor indica podemos pasar procedemos 
-            if (FTPReply.isPositiveCompletion(respuesta) == true) {
-                System.out.println("LISTANDO ARCHIVOS");
-                lista = ftp.listNames();
-                
-
-                for (i = 0; i < lista.length; i++) {
-
-                    System.out.println(lista[i]);
-                }
-                // Si no avisamos
-            } else {
-                System.out.println("ERROR DE CONEXION");
-            }
-
-            // en ambos casos terminaos sesion
-            ftp.logout();
-            // Y nos desconectamos
-            ftp.disconnect();
-
-            // Esta excepcion se lanza en caso de algun error durante el proceso 
-        } catch (IOException e) {
-            System.out.println("Error de conexion");
-        }
-
-        System.exit(0);
+        launch(args);
     }
 }
