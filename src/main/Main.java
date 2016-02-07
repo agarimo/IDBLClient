@@ -31,6 +31,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -39,6 +41,7 @@ import javafx.stage.Stage;
 import static main.Var.configFile;
 import static main.Var.defaultFile;
 import util.Files;
+import util.Ftp;
 
 /**
  *
@@ -53,6 +56,7 @@ public class Main extends Application {
         }
         Var.initVar();
         Var.hostServices = HostServicesDelegate.getInstance(this);
+        
         Var.stage = stage;
         Var.stage.setResizable(false);
 
@@ -63,6 +67,17 @@ public class Main extends Application {
 
         Var.stage.setScene(createScene(loadMainPane()));
         Var.stage.show();
+    }
+    
+    private void test(){
+        try {
+            Ftp ftp = new Ftp(Var.conFtp);
+            ftp.createDir("aaaa");
+            ftp.downloadFile("/2016-02-05/BOE-N-2016-64020.pdf", new File("test.pdf"));
+            ftp.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private Pane loadMainPane() throws IOException {

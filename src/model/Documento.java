@@ -22,7 +22,6 @@
  * THE SOFTWARE.
  */
 package model;
-import java.io.File;
 /**
  *
  * @author Agarimo
@@ -30,45 +29,31 @@ import java.io.File;
 public class Documento {
 
     private int id;
+    private String fecha;
     private String codigo;
-    private File file;
-    private boolean isReady;
 
     public Documento(String id) {
         this.id = Integer.parseInt(id);
-        isReady = false;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
     public String getCodigo() {
-        return this.codigo;
-    }
-
-    public File getFile() {
-        return this.file;
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public boolean isReady() {
-        return this.isReady;
+        return codigo;
     }
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setIsReady(boolean isReady) {
-        this.isReady = isReady;
+    public String getFile() {
+        return "/"+this.fecha+"/"+this.codigo+".pdf";
     }
 
     @Override

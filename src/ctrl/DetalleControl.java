@@ -22,8 +22,8 @@
  * THE SOFTWARE.
  */
 package ctrl;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -52,13 +53,16 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
+import util.Ftp;
 import util.Sql;
+
 /**
  * FXML Controller class
  *
  * @author Agarimo
  */
 public class DetalleControl implements Initializable {
+
     //<editor-fold defaultstate="collapsed" desc="FXML VAR">
     @FXML
     private VBox root;
@@ -115,18 +119,18 @@ public class DetalleControl implements Initializable {
 
     public void multaSet(int id) {
         multa = Query.getModeloMultaFull(id);
-        
+
         lbNBoe.setText(multa.getnBoe());
         lbFase.setText(multa.getFase());
         lbFechaPublicacion.setText(multa.getFechaPublicacion());
         lbFechaVencimiento.setText(multa.getFechaVencimiento());
         lbOrganismo.setText(multa.getOrganismo());
-        
+
         lbCif.setText(multa.getCif());
         lbMatricula.setText(multa.getMatricula());
         lbLocalidad.setText(multa.getLocalidad());
         lbNombre.setText(multa.getNombre());
-        
+
         lbCodigo.setText(multa.getCodigo());
         lbExpediente.setText(multa.getExpediente());
         lbCuantia.setText(multa.getCuantia());
@@ -134,57 +138,60 @@ public class DetalleControl implements Initializable {
         lbFecha.setText(multa.getFechaMulta());
         lbArticulo.setText(multa.getArticulo());
         lbLinea.setText(multa.getLinea());
-        
+
         if (multa.isDocumento()) {
+            document = Query.getDocumento(multa.getnBoe());
             btDocumento.setDisable(false);
             lbInfoDoc.setText("Documento disponible.");
             lbInfoDoc.setTextFill(Color.GREEN);
         } else {
+            document = null;
             btDocumento.setDisable(true);
             lbInfoDoc.setText("Documento no disponible.");
             lbInfoDoc.setTextFill(Color.RED);
         }
     }
 
-    public void pdfGet() throws SQLException, FileNotFoundException, IOException {
-        document = Query.getDocumento(multa.getnBoe());
-        
-//        Sql bd = new Sql(con);
-//
-//        String sql = "SELECT id,codigo,data FROM " + Var.dbName + ".documento WHERE id=" + document.getId() + ";";
-//        PreparedStatement stmt = bd.getCon().prepareStatement(sql);
-//        ResultSet resultSet = stmt.executeQuery();
-//
-//        if (resultSet.next()) {
-//            document.setCodigo(resultSet.getString(2));
-//            document.setFile(new File(Var.runtimeData, document.getId() + ".pdf"));
-//
-//            try (FileOutputStream fos = new FileOutputStream(document.getFile())) {
-//                byte[] buffer = new byte[1];
-//                InputStream is = resultSet.getBinaryStream(3);
-//                while (is.read(buffer) > 0) {
-//                    fos.write(buffer);
-//                }
-//                fos.close();
-//            }
-//        }
-//
-//        bd.close();
-        document.setIsReady(true);
-    }
-
     @FXML
     void pdfShow(ActionEvent event) {
-        //TODO ftp al server y get Document.
+        Thread a = new Thread(() -> {
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("INFORMACIÓN");
-        alert.setHeaderText("Característica no soportada.");
-        alert.setContentText("La visualización de documentos \n"
-                + "no se encuentra disponible.");
+            Platform.runLater(() -> {
+                lbInfoDoc.setTextFill(Color.ORANGE);
+                lbInfoDoc.setText("Descargando fichero");
+                pgProgreso.setVisible(true);
+            });
 
-        alert.showAndWait();
-//        Var.hostServices.showDocument(document.getFile().getAbsolutePath());
+            try {
+                File file = new File(Var.runtimeData, document.getCodigo() + ".pdf");
+                Ftp ftp = new Ftp(Var.conFtp);
+                ftp.downloadFile(document.getFile(), file);
+                ftp.close();
+                Platform.runLater(() -> {
+                    lbInfoDoc.setTextFill(Color.ORANGE);
+                    lbInfoDoc.setText("Abriendo fichero");
+                });
+
+                Var.hostServices.showDocument(file.getAbsolutePath());
+
+                Platform.runLater(() -> {
+                    lbInfoDoc.setText("");
+                    pgProgreso.setVisible(false);
+                });
+            } catch (IOException ex) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("Error obteniendo el documento.");
+                    alert.setContentText(ex.getLocalizedMessage());
+                    alert.showAndWait();
+                });
+            }
+        });
+
+        if (document != null) {
+            a.start();
+        }
     }
 
     @FXML

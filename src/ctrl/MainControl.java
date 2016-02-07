@@ -27,7 +27,6 @@ import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import de.jensd.fx.glyphs.octicons.OctIcon;
-import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,8 +41,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -86,8 +83,7 @@ public class MainControl implements Initializable {
         vistaHolder.setTriggerDistance(0);
         Nav.adminMode(modoAdmin);
         
-        String color="#4f59ea";
-        
+//        String color="#4f59ea";
 //        Text a = GlyphsDude.createIcon(MaterialDesignIcon.POWER, "28");
 //        a.setFill(Paint.valueOf(color));
 //        btCerrar.setGraphic(a);

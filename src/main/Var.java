@@ -24,14 +24,9 @@
 package main;
 
 import com.sun.javafx.application.HostServicesDelegate;
-import ctrl.Nav;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.stage.Stage;
@@ -42,6 +37,7 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import util.Conexion;
+import util.ConexionFtp;
 import util.Files;
 
 /**
@@ -55,6 +51,7 @@ public class Var {
     public static HostServicesDelegate hostServices;
 
     public static Conexion con;
+    public static ConexionFtp conFtp;
 
     public static String configFile = "config.xml";
     public static String defaultFile = "/resources/default.xml";
@@ -95,6 +92,7 @@ public class Var {
     private static void XMLLoad(String ruta) {
         try {
             con = new Conexion();
+            conFtp = new ConexionFtp();
             SAXBuilder builder = new SAXBuilder();
             File xmlFile = new File(ruta);
 
@@ -107,14 +105,17 @@ public class Var {
             con.setUsuario(conexion.getChildText("db-username"));
             con.setPass(conexion.getChildText("db-password"));
 
-            Element admin = config.getChild("modoAdmin");
+            Element ftp = config.getChild("ftp");
+            conFtp.setHost(ftp.getChildText("ftp-host"));
+            conFtp.setPort(Integer.parseInt(ftp.getChildText("ftp-port")));
+            conFtp.setUser(ftp.getChildText("ftp-user"));
+            conFtp.setPass(ftp.getChildText("ftp-pass"));
 
+            Element admin = config.getChild("modoAdmin");
             String activo = admin.getChildText("activo");
             modoAdmin = activo.equals("true");
-
             String pass = admin.getChildText("password");
             passwordAdmin = pass;
-
             String limit = admin.getChildText("query-limit");
             queryLimit = limit;
 
@@ -133,32 +134,34 @@ public class Var {
             Element config = document.getRootElement();
 
             Element conexion = config.getChild("conexion");
-
             ele = conexion.getChild("db-host");
             ele.setText(con.getDireccion());
-
             ele = conexion.getChild("db-port");
             ele.setText(con.getPuerto());
-
             ele = conexion.getChild("db-username");
             ele.setText(con.getUsuario());
-
             ele = conexion.getChild("db-password");
             ele.setText(con.getPass());
 
+            Element ftp = config.getChild("ftp");
+            ele = ftp.getChild("ftp-host");
+            ele.setText(conFtp.getHost());
+            ele = ftp.getChild("ftp-port");
+            ele.setText(Integer.toString(conFtp.getPort()));
+            ele = ftp.getChild("ftp-user");
+            ele.setText(conFtp.getUser());
+            ele = ftp.getChild("ftp-pass");
+            ele.setText(conFtp.getPass());
+
             Element admin = config.getChild("modoAdmin");
-
             ele = admin.getChild("activo");
-
             if (modoAdmin) {
                 ele.setText("true");
             } else {
                 ele.setText("false");
             }
-
             ele = admin.getChild("password");
             ele.setText(passwordAdmin);
-
             ele = admin.getChild("query-limit");
             ele.setText(queryLimit);
 

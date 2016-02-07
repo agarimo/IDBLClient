@@ -55,7 +55,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import main.Var;
-import static main.Var.defaultFile;
 import model.ModeloMulta;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
