@@ -164,9 +164,13 @@ public class DetalleControl implements Initializable {
 
             try {
                 File file = new File(Var.runtimeData, document.getCodigo() + ".pdf");
-                Ftp ftp = new Ftp(Var.conFtp);
-                ftp.downloadFile(document.getFile(), file);
-                ftp.close();
+
+                if (!file.exists()) {
+                    Ftp ftp = new Ftp(Var.conFtp);
+                    ftp.downloadFile(document.getFile(), file);
+                    ftp.close();
+                }
+
                 Platform.runLater(() -> {
                     lbInfoDoc.setTextFill(Color.ORANGE);
                     lbInfoDoc.setText("Abriendo fichero");

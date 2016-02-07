@@ -31,9 +31,21 @@ public class Documento {
     private int id;
     private String fecha;
     private String codigo;
+    
+    public Documento(){
+        
+    }
 
     public Documento(String id) {
         this.id = Integer.parseInt(id);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFecha() {

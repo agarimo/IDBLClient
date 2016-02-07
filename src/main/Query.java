@@ -83,11 +83,28 @@ public class Query {
         return "SELECT id FROM " + tipo.getTable() + " WHERE " + tipo.getColumn() + modo.getQuery(busqueda, tipo);
     }
     //</editor-fold>
-    
-    public static Documento getDocumento(String id){
-        Documento aux=null;
-        
-        
+
+    public static Documento getDocumento(String id) {
+        ResultSet rs;
+        Documento aux = null;
+
+        try {
+            bd = new Sql(Var.con);
+            rs = bd.ejecutarQueryRs("SELECT * FROM " + Var.dbName + ".documento WHERE id=" + id);
+
+            if (rs.next()) {
+                aux = new Documento();
+                aux.setId(rs.getInt("id"));
+                aux.setFecha(rs.getString("fecha"));
+                aux.setCodigo(rs.getString("codigo"));
+            }
+
+            bd.close();
+
+        } catch (SQLException ex) {
+            error(ex);
+            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return aux;
     }
 
@@ -137,6 +154,35 @@ public class Query {
         }
 
         return aux;
+    }
+    
+     public static List<Documento> listaDocumento(String query) {
+        List<Documento> list = new ArrayList();
+        ResultSet rs;
+        Documento aux;
+
+        try {
+            bd = new Sql(Var.con);
+            rs = bd.ejecutarQueryRs(query);
+
+            while (rs.next()) {
+                aux = new Documento();
+                aux.setId(rs.getInt("id"));
+                aux.setFecha(rs.getString("fecha"));
+                aux.setCodigo(rs.getString("codigo"));
+                
+                list.add(aux);
+            }
+
+            rs.close();
+            bd.close();
+
+        } catch (SQLException ex) {
+            error(ex);
+            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
     }
 
     public static List<ModeloMulta> listaModeloMulta(String query) {
