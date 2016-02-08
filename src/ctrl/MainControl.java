@@ -92,7 +92,6 @@ public class MainControl implements Initializable {
         GlyphsDude.setIcon(btConfig, OctIcon.GEAR,"28");
         GlyphsDude.setIcon(btCerrar, MaterialDesignIcon.POWER,"28");
         
-        
     }
 
     public Node loadAvanzado() {
