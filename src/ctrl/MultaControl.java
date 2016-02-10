@@ -330,7 +330,8 @@ public class MultaControl implements Initializable {
         return fecha.compareTo(curdate);
     }
 
-    public void tableLoad(List<ModeloMulta> list,String busqueda) {
+    public void tableLoad(List<ModeloMulta> list, String busqueda) {
+        this.busqueda = busqueda;
         multas.clear();
         tableShowSelected(null);
         multas.addAll(list);
@@ -344,7 +345,7 @@ public class MultaControl implements Initializable {
         } catch (NullPointerException ex) {
             op = new Op();
             op.setOpType(OpType.EXCEPTION);
-            op.setOpDetail("MultaControl.tableGetSelected - "+ex.getLocalizedMessage());
+            op.setOpDetail("MultaControl.tableGetSelected - " + ex.getLocalizedMessage());
             op.run();
             return null;
         }
@@ -402,7 +403,7 @@ public class MultaControl implements Initializable {
         } catch (SQLException | JRException ex) {
             op = new Op();
             op.setOpType(OpType.EXCEPTION);
-            op.setOpDetail("MultaControl.printReport - "+ex.getLocalizedMessage());
+            op.setOpDetail("MultaControl.printReport - " + ex.getLocalizedMessage());
             op.run();
             Logger.getLogger(MultaControl.class.getName()).log(Level.SEVERE, null, ex);
         }

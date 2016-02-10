@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
   <conexion>
-    <db-host>oficina.redcedeco.net</db-host>
+    <db-host>192.168.6.20</db-host>
     <db-port>3306</db-port>
     <db-username>appLogin</db-username>
     <db-password>Vr7EyFHy</db-password>
@@ -13,7 +13,7 @@
     <ftp-pass>Vr7EyFHy</ftp-pass>
   </ftp>
   <modoAdmin>
-    <activo>false</activo>
+    <activo>true</activo>
     <password>user01</password>
     <query-limit>50</query-limit>
   </modoAdmin>

@@ -58,20 +58,14 @@ public class Op {
 
     private String getQuery() {
         if (opType == OpType.EXCEPTION) {
-            return "INSERT INTO idbl_stats.exception (host_ip,host_name,user,os,adminMode,exception) values("
-                    + Varios.entrecomillar(Var.host.getIp()) + ","
-                    + Varios.entrecomillar(Var.host.getHostname()) + ","
-                    + Varios.entrecomillar(Var.host.getUser()) + ","
-                    + Varios.entrecomillar(Var.host.getOs()) + ","
+            return "INSERT INTO " + Var.dbNameStats + ".exception (id_host,adminMode,exception) values("
+                    + Var.host.getId() + ","
                     + Var.modoAdmin + ","
                     + Varios.entrecomillar(this.opDetail)
                     + ");";
         } else {
-            return "INSERT INTO idbl_stats.op (host_ip,host_name,user,os,adminMode,op_type,op_detail) values("
-                    + Varios.entrecomillar(Var.host.getIp()) + ","
-                    + Varios.entrecomillar(Var.host.getHostname()) + ","
-                    + Varios.entrecomillar(Var.host.getUser()) + ","
-                    + Varios.entrecomillar(Var.host.getOs()) + ","
+            return "INSERT INTO " + Var.dbNameStats + ".op (id_host,adminMode,op_type,op_detail) values("
+                    + Var.host.getId() + ","
                     + Var.modoAdmin + ","
                     + Varios.entrecomillar(this.opType.toString()) + ","
                     + Varios.entrecomillar(this.opDetail)
@@ -89,7 +83,10 @@ public class Op {
                 Logger.getLogger(Op.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        thread.start();
+
+        if (Var.logControl) {
+            thread.start();
+        }
     }
 
 }

@@ -205,7 +205,7 @@ public class AvanzadoControl implements Initializable {
             
             op = new Op();
             op.setOpType(OpType.ADVQUERY);
-            op.setOpDetail(query);
+            op.setOpDetail(query.replace("'", "\\'"));
             op.run();
 
             Platform.runLater(() -> {
@@ -246,7 +246,7 @@ public class AvanzadoControl implements Initializable {
 
             op = new Op();
             op.setOpType(OpType.QUERY);
-            op.setOpDetail(query);
+            op.setOpDetail(query.replace("'", "\\'"));
             op.run();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);

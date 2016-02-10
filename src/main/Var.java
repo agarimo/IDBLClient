@@ -40,14 +40,13 @@ import org.jdom2.output.XMLOutputter;
 import util.Conexion;
 import util.ConexionFtp;
 import util.Files;
+import util.Ftp;
 
 /**
  *
  * @author Agarimo
  */
 public class Var {
-    
-    public static Host host;
 
     public static Stage stage;
     public static Stage popup;
@@ -56,9 +55,13 @@ public class Var {
     public static Conexion con;
     public static ConexionFtp conFtp;
 
+    public static Host host;
+    public static boolean logControl;
+
     public static String configFile = "config.xml";
     public static String defaultFile = "/resources/default.xml";
     public static String dbName = "idbl";
+    public static String dbNameStats = "idbl_stats";
 
     public static boolean modoAdmin;
     public static String passwordAdmin;
@@ -70,7 +73,7 @@ public class Var {
     public static void initVar() {
         initVarDriver();
         initVarLoadConfig();
-        host = new Host();
+        initVarLoadComplementary();
     }
 
     private static void initVarDriver() {
@@ -85,6 +88,19 @@ public class Var {
         XMLLoad(configFile);
         runtimeData = new File("tempData");
         runtimeData.mkdirs();
+    }
+
+    private static void initVarLoadComplementary() {
+        host = new Host();
+        logControl = false;
+
+        try {
+            Ftp ftp = new Ftp(Var.conFtp);
+            logControl = ftp.searchFile("/misc/logControl.true");
+            ftp.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Var.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public static void xit() {

@@ -25,6 +25,12 @@ package model;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import main.Var;
+import util.Sql;
+import util.Varios;
 
 /**
  *
@@ -32,29 +38,52 @@ import java.net.UnknownHostException;
  */
 public class Host {
 
+    private int id;
     private String ip;
-    private String hostname;
+    private String name;
     private String os;
     private String user;
 
     public Host() {
+        this.id = 0;
         try {
             ip = InetAddress.getLocalHost().getHostAddress();
-            hostname = InetAddress.getLocalHost().getHostName();
+            name = InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException ex) {
             ip = "exception";
-            hostname = "exception";
+            name = "exception";
         }
         user = System.getProperty("user.name");
         os = System.getProperty("os.name");
+        registerHost();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setOs(String os) {
+        this.os = os;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public String getIp() {
         return ip;
     }
 
-    public String getHostname() {
-        return hostname;
+    public String getName() {
+        return name;
     }
 
     public String getOs() {
@@ -67,6 +96,54 @@ public class Host {
 
     @Override
     public String toString() {
-        return ip + " " + hostname + "/" + user + " on " + os;
+        return ip + " " + name + "/" + user + " on " + os;
+    }
+
+    private void registerHost() {
+        int aux = 0;
+
+        try {
+            Sql bd = new Sql(Var.con);
+            aux = bd.buscar(SQLBuscar());
+            
+            if (aux == -1) {
+                bd.ejecutar(SQLCrear());
+                aux = bd.ultimoRegistro();
+            }
+
+            bd.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Host.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (aux > 0) {
+            this.id = aux;
+        }else{
+            setDefault();
+        }
+    }
+    
+    private void setDefault(){
+        this.id=1;
+        this.ip="default";
+        this.name="default";
+        this.user="default";
+        this.os="default";
+    }
+
+    private String SQLBuscar() {
+        return "SELECT id FROM " + Var.dbNameStats + ".host "
+                + "WHERE host_ip=" + Varios.entrecomillar(ip) + " "
+                + "AND host_name=" + Varios.entrecomillar(name) + " "
+                + "AND host_user=" + Varios.entrecomillar(user) + ";";
+    }
+
+    private String SQLCrear() {
+        return "INSERT INTO " + Var.dbNameStats + ".host (host_ip,host_name,host_user,host_os) values("
+                + Varios.entrecomillar(this.ip) + ","
+                + Varios.entrecomillar(this.name) + ","
+                + Varios.entrecomillar(this.user) + ","
+                + Varios.entrecomillar(this.os)
+                + ");";
     }
 }

@@ -145,7 +145,7 @@ public class SearchControl implements Initializable {
 
                 op = new Op();
                 op.setOpType(OpType.QUERY);
-                op.setOpDetail(query);
+                op.setOpDetail(query.replace("'", "\\'"));
                 op.run();
             }
         } else {
