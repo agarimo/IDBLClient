@@ -35,7 +35,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -56,6 +55,8 @@ import javafx.scene.text.Text;
 import javafx.util.Callback;
 import main.Var;
 import model.ModeloMulta;
+import model.Op;
+import model.OpType;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -119,8 +120,10 @@ public class MultaControl implements Initializable {
     @FXML
     private Button btPrint;
 //</editor-fold>
-    ObservableList<ModeloMulta> multas;
-    ObservableValue<String> cargadas;
+
+    private Op op;
+    private String busqueda;
+    private ObservableList<ModeloMulta> multas;
     //<editor-fold defaultstate="collapsed" desc="LISTENER">
     /**
      * Listener de la tabla multas
@@ -138,6 +141,7 @@ public class MultaControl implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        busqueda = "";
         initializeTable();
     }
 
@@ -326,7 +330,7 @@ public class MultaControl implements Initializable {
         return fecha.compareTo(curdate);
     }
 
-    public void tableLoad(List<ModeloMulta> list) {
+    public void tableLoad(List<ModeloMulta> list,String busqueda) {
         multas.clear();
         tableShowSelected(null);
         multas.addAll(list);
@@ -338,6 +342,10 @@ public class MultaControl implements Initializable {
             ModeloMulta aux = (ModeloMulta) tabla.getSelectionModel().getSelectedItem();
             return aux;
         } catch (NullPointerException ex) {
+            op = new Op();
+            op.setOpType(OpType.EXCEPTION);
+            op.setOpDetail("MultaControl.tableGetSelected - "+ex.getLocalizedMessage());
+            op.run();
             return null;
         }
     }
@@ -371,37 +379,45 @@ public class MultaControl implements Initializable {
             alert.showAndWait();
         }
     }
-    
+
     @FXML
-    void printReport(ActionEvent event){
+    void printReport(ActionEvent event) {
         try {
             Sql bd = new Sql(Var.con);
-//            JasperReport report = (JasperReport) JRLoader.loadObject(new File("src/resources/ReporteMultas.jasper"));
             JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream("/resources/ReporteMultas.jasper"));
-            
-            Map<String,Object> parametros = new HashMap<>();
+
+            Map<String, Object> parametros = new HashMap<>();
             parametros.put("LISTA_MULTAS", printReportGetList());
-            
+
             JasperPrint jasperPrint = JasperFillManager.fillReport(report, parametros, bd.getCon());
-            
-            JasperExportManager.exportReportToPdfFile(jasperPrint, new File(Var.runtimeData,"report.pdf").getAbsolutePath());
-            JasperViewer.viewReport(jasperPrint,false);
-            
+
+            JasperExportManager.exportReportToPdfFile(jasperPrint, new File(Var.runtimeData, "report.pdf").getAbsolutePath());
+            JasperViewer.viewReport(jasperPrint, false);
+
+            op = new Op();
+            op.setOpType(OpType.PRINTALL);
+            op.setOpDetail("Printed " + busqueda);
+            op.run();
+
         } catch (SQLException | JRException ex) {
+            op = new Op();
+            op.setOpType(OpType.EXCEPTION);
+            op.setOpDetail("MultaControl.printReport - "+ex.getLocalizedMessage());
+            op.run();
             Logger.getLogger(MultaControl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private List printReportGetList(){
+
+    private List printReportGetList() {
         List list = new ArrayList();
         ModeloMulta aux;
         Iterator<ModeloMulta> it = multas.iterator();
-        
-        while(it.hasNext()){
-            aux=it.next();
+
+        while (it.hasNext()) {
+            aux = it.next();
             list.add(aux.getId());
         }
-        
+
         return list;
     }
 }

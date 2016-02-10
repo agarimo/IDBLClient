@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package main;
+package ctrl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,11 +31,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import main.Var;
 import model.Documento;
 import model.ModeloAvanzado;
 import model.ModeloMulta;
 import model.ModeloMultaFull;
 import model.Modo;
+import model.Op;
+import model.OpType;
 import model.Tipo;
 import util.Sql;
 import util.Varios;
@@ -252,6 +255,11 @@ public class Query {
     }
 
     private static void error(SQLException ex) {
+        Op op = new Op();
+        op.setOpType(OpType.EXCEPTION);
+        op.setOpDetail("Query.error - "+ex.getLocalizedMessage());
+        op.run();
+        
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");

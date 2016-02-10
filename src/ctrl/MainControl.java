@@ -49,6 +49,8 @@ import main.Main;
 import main.Var;
 import static main.Var.modoAdmin;
 import static main.Var.popup;
+import model.Op;
+import model.OpType;
 import org.controlsfx.control.HiddenSidesPane;
 
 /**
@@ -82,16 +84,15 @@ public class MainControl implements Initializable {
         vistaHolder.setBottom(loadDetalle());
         vistaHolder.setTriggerDistance(0);
         Nav.adminMode(modoAdmin);
-        
+
 //        String color="#4f59ea";
 //        Text a = GlyphsDude.createIcon(MaterialDesignIcon.POWER, "28");
 //        a.setFill(Paint.valueOf(color));
 //        btCerrar.setGraphic(a);
-        
-        GlyphsDude.setIcon(btBuscar, MaterialIcon.DEHAZE,"28");
-        GlyphsDude.setIcon(btConfig, OctIcon.GEAR,"28");
-        GlyphsDude.setIcon(btCerrar, MaterialDesignIcon.POWER,"28");
-        
+        GlyphsDude.setIcon(btBuscar, MaterialIcon.DEHAZE, "28");
+        GlyphsDude.setIcon(btConfig, OctIcon.GEAR, "28");
+        GlyphsDude.setIcon(btCerrar, MaterialDesignIcon.POWER, "28");
+
     }
 
     public Node loadAvanzado() {
@@ -104,6 +105,7 @@ public class MainControl implements Initializable {
 
             return node;
         } catch (IOException ex) {
+            error(ex.getLocalizedMessage());
             Logger.getLogger(MainControl.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
@@ -119,6 +121,7 @@ public class MainControl implements Initializable {
 
             return node;
         } catch (IOException ex) {
+            error(ex.getLocalizedMessage());
             Logger.getLogger(MainControl.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
@@ -134,6 +137,7 @@ public class MainControl implements Initializable {
 
             return node;
         } catch (IOException ex) {
+            error(ex.getLocalizedMessage());
             Logger.getLogger(MainControl.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
@@ -149,6 +153,7 @@ public class MainControl implements Initializable {
 
             return node;
         } catch (IOException ex) {
+            error(ex.getLocalizedMessage());
             Logger.getLogger(MainControl.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
@@ -167,6 +172,7 @@ public class MainControl implements Initializable {
             popup.setScene(new Scene(nodo));
             popup.show();
         } catch (IOException ex) {
+            error(ex.getLocalizedMessage());
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -179,10 +185,10 @@ public class MainControl implements Initializable {
     void botonBuscar(ActionEvent event) {
         if (vistaHolder.getPinnedSide() != null) {
             vistaHolder.setPinnedSide(null);
-            GlyphsDude.setIcon(btBuscar, MaterialIcon.DEHAZE,"28");
+            GlyphsDude.setIcon(btBuscar, MaterialIcon.DEHAZE, "28");
         } else {
             vistaHolder.setPinnedSide(Side.LEFT);
-            GlyphsDude.setIcon(btBuscar, MaterialDesignIcon.BACKBURGER,"28");
+            GlyphsDude.setIcon(btBuscar, MaterialDesignIcon.BACKBURGER, "28");
         }
     }
 
@@ -202,5 +208,12 @@ public class MainControl implements Initializable {
         } else {
             vistaHolder.setPinnedSide(Side.BOTTOM);
         }
+    }
+
+    private void error(String ex) {
+        Op op = new Op();
+        op.setOpType(OpType.EXCEPTION);
+        op.setOpDetail("MainControl.error - "+ex);
+        op.run();
     }
 }

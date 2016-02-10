@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
   <conexion>
-    <db-host>192.168.6.20</db-host>
+    <db-host>oficina.redcedeco.net</db-host>
     <db-port>3306</db-port>
     <db-username>appLogin</db-username>
     <db-password>Vr7EyFHy</db-password>

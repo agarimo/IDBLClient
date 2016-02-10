@@ -45,10 +45,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
-import main.Query;
 import main.Var;
 import model.ModeloAvanzado;
 import model.Modo;
+import model.Op;
+import model.OpType;
 import model.Tipo;
 
 /**
@@ -84,6 +85,7 @@ public class AvanzadoControl implements Initializable {
     private Label lbLimite;
 //</editor-fold>
 
+    Op op;
     String busqueda;
     Tipo tipo;
     Modo modo;
@@ -198,7 +200,13 @@ public class AvanzadoControl implements Initializable {
                 btAceptar.setDisable(true);
             });
 
-            tableLoad(Query.listaModeloAvanzado(Query.searchSpecificQueryAvanced(busqueda, tipo, modo)));
+            String query=Query.searchSpecificQueryAvanced(busqueda, tipo, modo);
+            tableLoad(Query.listaModeloAvanzado(query));
+            
+            op = new Op();
+            op.setOpType(OpType.ADVQUERY);
+            op.setOpDetail(query);
+            op.run();
 
             Platform.runLater(() -> {
                 pgProgreso.setVisible(false);
@@ -232,8 +240,14 @@ public class AvanzadoControl implements Initializable {
         ModeloAvanzado aux = (ModeloAvanzado) tabla.getSelectionModel().getSelectedItem();
 
         if (aux != null) {
+            String query = Query.searchQueryAvanced(aux.getId(), tipo);
             Nav.mainController.setContent(Nav.mainController.loadMulta());
-            Nav.multaController.tableLoad(Query.listaModeloMulta(Query.searchQueryAvanced(aux.getId(), tipo)));
+            Nav.multaController.tableLoad(Query.listaModeloMulta(query), aux.getCodigo());
+
+            op = new Op();
+            op.setOpType(OpType.QUERY);
+            op.setOpDetail(query);
+            op.run();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
@@ -242,6 +256,7 @@ public class AvanzadoControl implements Initializable {
 
             alert.showAndWait();
         }
+
     }
 
     @FXML
@@ -252,6 +267,10 @@ public class AvanzadoControl implements Initializable {
                 Query.bd.close();
                 thread.stop();
             } catch (Exception ex) {
+                op = new Op();
+                op.setOpType(OpType.EXCEPTION);
+                op.setOpDetail("AvanzadoControl-btCancelar "+ex.getLocalizedMessage());
+                op.run();
                 Logger.getLogger(AvanzadoControl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

@@ -21,31 +21,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package ctrl;
+package model;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
- * FXML Controller class
  *
  * @author Agarimo
  */
-public class ReportControl implements Initializable {
+public class Host {
 
-    /**
-     * Initializes the controller class.
-     * @param url
-     * @param rb
-     */
+    private String ip;
+    private String hostname;
+    private String os;
+    private String user;
+
+    public Host() {
+        try {
+            ip = InetAddress.getLocalHost().getHostAddress();
+            hostname = InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException ex) {
+            ip = "exception";
+            hostname = "exception";
+        }
+        user = System.getProperty("user.name");
+        os = System.getProperty("os.name");
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public String getHostname() {
+        return hostname;
+    }
+
+    public String getOs() {
+        return os;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    public String toString() {
+        return ip + " " + hostname + "/" + user + " on " + os;
     }
-    
-    public void setMulta(int id){
-        
-    }
-    
 }

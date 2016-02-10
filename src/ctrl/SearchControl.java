@@ -35,10 +35,11 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import main.Query;
 import main.Var;
 import model.ModeloMulta;
 import model.Modo;
+import model.Op;
+import model.OpType;
 import model.Tipo;
 import util.CalculaNif;
 
@@ -73,6 +74,7 @@ public class SearchControl implements Initializable {
     @FXML
     private RadioButton rbContiene;
 //</editor-fold>
+    Op op;
     Tipo tipo;
     Modo modo;
 
@@ -139,8 +141,12 @@ public class SearchControl implements Initializable {
                 alert.showAndWait();
             } else {
                 Nav.mainController.setContent(Nav.mainController.loadMulta());
-                Nav.multaController.tableLoad(list);
+                Nav.multaController.tableLoad(list, busqueda);
 
+                op = new Op();
+                op.setOpType(OpType.QUERY);
+                op.setOpDetail(query);
+                op.run();
             }
         } else {
             Nav.mainController.botonBuscar(new ActionEvent());
@@ -148,7 +154,6 @@ public class SearchControl implements Initializable {
             Nav.mainController.setContent(Nav.mainController.loadAvanzado());
             Nav.avanzadoController.initializeSetVar(busqueda, tipo, modo);
             Nav.avanzadoController.runSearch();
-
         }
     }
 
@@ -179,7 +184,7 @@ public class SearchControl implements Initializable {
 
     public void adminMode(boolean bol) {
         panelModo.setVisible(bol);
-        modo=Modo.NORMAL;
+        modo = Modo.NORMAL;
         rbNormal.setSelected(true);
     }
 }

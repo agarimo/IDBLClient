@@ -42,10 +42,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import main.Query;
 import main.Var;
 import model.Documento;
 import model.ModeloMultaFull;
+import model.Op;
+import model.OpType;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -111,6 +112,7 @@ public class DetalleControl implements Initializable {
 //</editor-fold>
     private ModeloMultaFull multa;
     private Documento document;
+    private Op op;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -155,7 +157,6 @@ public class DetalleControl implements Initializable {
     @FXML
     void pdfShow(ActionEvent event) {
         Thread a = new Thread(() -> {
-
             Platform.runLater(() -> {
                 lbInfoDoc.setTextFill(Color.ORANGE);
                 lbInfoDoc.setText("Descargando fichero");
@@ -182,13 +183,25 @@ public class DetalleControl implements Initializable {
                     lbInfoDoc.setText("");
                     pgProgreso.setVisible(false);
                 });
+
             } catch (IOException ex) {
+                op = new Op();
+                op.setOpType(OpType.EXCEPTION);
+                op.setOpDetail("DetalleControl.pdfShow - "+ex.getLocalizedMessage());
+                op.run();
+
                 Platform.runLater(() -> {
+                    lbInfoDoc.setTextFill(Color.RED);
+                    lbInfoDoc.setText("ERROR");
+                    pgProgreso.setVisible(false);
+
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("ERROR");
                     alert.setHeaderText("Error obteniendo el documento.");
                     alert.setContentText(ex.getLocalizedMessage());
                     alert.showAndWait();
+
+                    lbInfoDoc.setText("");
                 });
             }
         });
@@ -205,14 +218,22 @@ public class DetalleControl implements Initializable {
             JasperReport report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream("/resources/ReporteSancion.jasper"));
 
             Map<String, Object> parametros = new HashMap<>();
-            parametros.put("ID_MULTA", Integer.toString(multa.getId()));
+            parametros.put("ID_MULTA", multa.getId());
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(report, parametros, bd.getCon());
 
             JasperExportManager.exportReportToPdfFile(jasperPrint, new File(Var.runtimeData, "report.pdf").getAbsolutePath());
             JasperViewer.viewReport(jasperPrint, false);
 
+            op = new Op();
+            op.setOpType(OpType.PRINT);
+            op.setOpDetail("Printed " + multa.getCodigo());
+            op.run();
         } catch (SQLException | JRException ex) {
+            op = new Op();
+            op.setOpType(OpType.EXCEPTION);
+            op.setOpDetail("DetalleControl.printReport - "+ex.getLocalizedMessage());
+            op.run();
             Logger.getLogger(MultaControl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

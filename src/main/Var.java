@@ -23,6 +23,7 @@
  */
 package main;
 
+import model.Host;
 import com.sun.javafx.application.HostServicesDelegate;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -45,6 +46,8 @@ import util.Files;
  * @author Agarimo
  */
 public class Var {
+    
+    public static Host host;
 
     public static Stage stage;
     public static Stage popup;
@@ -67,6 +70,7 @@ public class Var {
     public static void initVar() {
         initVarDriver();
         initVarLoadConfig();
+        host = new Host();
     }
 
     private static void initVarDriver() {

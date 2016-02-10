@@ -29,8 +29,9 @@ import ctrl.Nav;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -47,13 +48,22 @@ import util.Files;
 public class Main extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void init() {
         if (!isDefault()) {
-            getDefault();
+            try {
+                getDefault();
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         Var.initVar();
         Var.hostServices = HostServicesDelegate.getInstance(this);
-        
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        System.out.println(Var.host);
+
         Var.stage = stage;
         Var.stage.setResizable(false);
 
@@ -88,43 +98,24 @@ public class Main extends Application {
         return file.exists();
     }
 
-    private void getDefault() {
+    private void getDefault() throws IOException {
+        System.out.println("getting default");
         File file = new File(configFile);
-        InputStream inputStream = null;
-        BufferedReader br = null;
+        BufferedReader br;
         StringBuilder sb = new StringBuilder();
 
-        try {
-            inputStream = getClass().getResourceAsStream(defaultFile);
-            br = new BufferedReader(new InputStreamReader(inputStream));
+        br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(defaultFile)));
 
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-                sb.append(System.lineSeparator());
-            }
-
-            file.createNewFile();
-            Files.escribeArchivo(file, sb.toString());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
+            sb.append(System.lineSeparator());
         }
+
+        br.close();
+
+        file.createNewFile();
+        Files.escribeArchivo(file, sb.toString());
     }
 
     /**
