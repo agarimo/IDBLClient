@@ -163,6 +163,13 @@
                <HBox.margin>
                   <Insets left="80.0" />
                </HBox.margin>
+               <effect>
+                  <DisplacementMap>
+                     <mapData>
+                        <FloatMap />
+                     </mapData>
+                  </DisplacementMap>
+               </effect>
             </Label>
             <Label fx:id="lbCuantia" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="70.0">
                <font>
