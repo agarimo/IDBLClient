@@ -23,6 +23,8 @@
  */
 package ctrl;
 
+import de.jensd.fx.glyphs.GlyphsDude;
+import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -42,6 +44,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import main.Var;
 import static main.Var.popup;
@@ -104,6 +108,11 @@ public class ConfigControl implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        String rojo="#FF0000";
+        
+        Text b = GlyphsDude.createIcon( MaterialIcon.CANCEL, "16");
+        b.setFill(Paint.valueOf(rojo));
+        btCancelar.setGraphic(b);
 
         if (Var.modoAdmin) {
             btOn.setSelected(true);

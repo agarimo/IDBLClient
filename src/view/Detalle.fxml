@@ -84,28 +84,37 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="130.0" spacing="10.0" HBox.hgrow="NEVER">
                <children>
-                  <Button fx:id="btCerrar" mnemonicParsing="false" onAction="#xitDetail" prefHeight="40.0" prefWidth="130.0" text="CERRAR">
+                  <Button fx:id="btCerrar" contentDisplay="CENTER" mnemonicParsing="false" onAction="#xitDetail" prefHeight="40.0" prefWidth="130.0">
                      <VBox.margin>
                         <Insets top="2.0" />
                      </VBox.margin>
                      <effect>
                         <DropShadow />
                      </effect>
+                     <tooltip>
+                        <Tooltip text="Cerrar Detalle" />
+                     </tooltip>
                   </Button>
-                  <Button fx:id="btDocumento" mnemonicParsing="false" onAction="#pdfShow" prefHeight="40.0" prefWidth="130.0" text="Ver Documento">
+                  <Button fx:id="btDocumento" contentDisplay="CENTER" mnemonicParsing="false" onAction="#pdfShow" prefHeight="40.0" prefWidth="130.0">
                      <VBox.margin>
                         <Insets top="2.0" />
                      </VBox.margin>
                      <effect>
                         <DropShadow />
-                     </effect></Button>
-                  <Button fx:id="btPrint" mnemonicParsing="false" onAction="#printReport" prefHeight="40.0" prefWidth="130.0" text="Imprimir">
+                     </effect>
+                     <tooltip>
+                        <Tooltip text="Descargar Documento." />
+                     </tooltip></Button>
+                  <Button fx:id="btPrint" contentDisplay="CENTER" mnemonicParsing="false" onAction="#printReport" prefHeight="40.0" prefWidth="130.0">
                      <VBox.margin>
                         <Insets top="2.0" />
                      </VBox.margin>
                      <effect>
                         <DropShadow />
-                     </effect></Button>
+                     </effect>
+                     <tooltip>
+                        <Tooltip text="Imprimir Multa" />
+                     </tooltip></Button>
                </children>
             </VBox>
          </children>

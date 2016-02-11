@@ -83,15 +83,18 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="btPrint" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#printReport" prefHeight="40.0" prefWidth="130.0" text="Imprimir">
+            <Button fx:id="btPrint" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#printReport" prefHeight="40.0" prefWidth="130.0">
                <effect>
                   <DropShadow />
                </effect>
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
+               <tooltip>
+                  <Tooltip text="Imprimir Multas" />
+               </tooltip>
             </Button>
-            <Button fx:id="btDetalle" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#verDetalle" prefHeight="40.0" prefWidth="130.0" style="-fx-graphic: url(https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_description_48px-32.png);" text="Ver Detalle" VBox.vgrow="ALWAYS">
+            <Button fx:id="btDetalle" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#verDetalle" prefHeight="40.0" prefWidth="130.0" VBox.vgrow="ALWAYS">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -101,6 +104,9 @@
                <effect>
                   <DropShadow />
                </effect>
+               <tooltip>
+                  <Tooltip text="Ver Detalle." />
+               </tooltip>
             </Button>
          </children>
          <VBox.margin>

@@ -17,7 +17,6 @@ public class Nav {
     public static final String CONFIG = "/view/Config.fxml";
     public static final String SEARCH = "/view/Search.fxml";
     public static final String AVANZADO = "/view/Avanzado.fxml";
-    public static final String REPORT = "/view/Report.fxml";
 
     public static MainControl mainController;
     public static MultaControl multaController;

@@ -30,9 +30,9 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </TextField>
-            <Button fx:id="btBuscar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#search" prefHeight="28.0" prefWidth="18.0" style="-fx-graphic: url(https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_search_48px-20.png);">
+            <Button fx:id="btBuscar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#search" prefHeight="30.0" prefWidth="40.0">
                <VBox.margin>
-                  <Insets bottom="10.0" left="153.0" right="10.0" top="10.0" />
+                  <Insets bottom="10.0" left="150.0" right="10.0" top="10.0" />
                </VBox.margin>
                <effect>
                   <DropShadow />

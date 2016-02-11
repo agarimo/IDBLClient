@@ -23,6 +23,8 @@
  */
 package ctrl;
 
+import de.jensd.fx.glyphs.GlyphsDude;
+import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -86,6 +88,7 @@ public class SearchControl implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        GlyphsDude.setIcon(btBuscar, MaterialIcon.SEARCH, "22");
         adminMode(Var.modoAdmin);
         tipo = Tipo.NIF;
         modo = Modo.NORMAL;

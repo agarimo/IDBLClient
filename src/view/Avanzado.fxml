@@ -36,14 +36,20 @@
             </TableView>
             <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="190.0" spacing="10.0">
                <children>
-                  <Button fx:id="btAceptar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btAceptar" prefHeight="40.0" prefWidth="130.0" text="Aceptar">
+                  <Button fx:id="btAceptar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btAceptar" prefHeight="40.0" prefWidth="130.0">
                      <effect>
                         <DropShadow />
-                     </effect></Button>
-                  <Button fx:id="btCancelar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btCancelar" prefHeight="40.0" prefWidth="130.0" text="Cancelar">
+                     </effect>
+                     <tooltip>
+                        <Tooltip fx:id="Aceptar" text="Empty Tooltip" />
+                     </tooltip></Button>
+                  <Button fx:id="btCancelar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btCancelar" prefHeight="40.0" prefWidth="130.0">
                      <effect>
                         <DropShadow />
-                     </effect></Button>
+                     </effect>
+                     <tooltip>
+                        <Tooltip fx:id="Cancelar" text="Empty Tooltip" />
+                     </tooltip></Button>
                   <ProgressIndicator fx:id="pgProgreso" prefHeight="80.0" prefWidth="185.0">
                      <VBox.margin>
                         <Insets top="50.0" />

@@ -173,8 +173,8 @@
             <InnerShadow color="#000000b2" height="40.0" radius="14.75" />
          </effect>
          <children>
-            <PasswordField fx:id="pfPass" alignment="CENTER" layoutX="26.0" layoutY="25.0" onAction="#validatePass" promptText="Introduzca contraseña" />
-            <Button fx:id="btCancelar" layoutX="69.0" layoutY="61.0" mnemonicParsing="false" onAction="#cerrar" text="Cancelar" />
+            <PasswordField fx:id="pfPass" alignment="CENTER" layoutX="26.0" layoutY="20.0" onAction="#validatePass" prefHeight="30.0" prefWidth="149.0" promptText="Introduzca contraseña" />
+            <Button fx:id="btCancelar" layoutX="50.0" layoutY="61.0" mnemonicParsing="false" onAction="#cerrar" prefHeight="25.0" prefWidth="100.0" text="Cancelar" />
          </children>
       </Pane>
    </children>

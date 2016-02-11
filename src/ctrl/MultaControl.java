@@ -23,6 +23,9 @@
  */
 package ctrl;
 
+import de.jensd.fx.glyphs.GlyphsDude;
+import de.jensd.fx.glyphs.materialicons.MaterialIcon;
+import de.jensd.fx.glyphs.octicons.OctIcon;
 import java.io.File;
 import java.net.URL;
 import java.sql.SQLException;
@@ -141,6 +144,8 @@ public class MultaControl implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        GlyphsDude.setIcon(btDetalle, MaterialIcon.FIND_IN_PAGE, "32");
+        GlyphsDude.setIcon(btPrint, MaterialIcon.PRINT, "32");
         busqueda = "";
         initializeTable();
     }

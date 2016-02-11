@@ -23,6 +23,8 @@
  */
 package ctrl;
 
+import de.jensd.fx.glyphs.GlyphsDude;
+import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -116,6 +118,9 @@ public class DetalleControl implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        GlyphsDude.setIcon(btCerrar, MaterialIcon.ARROW_DROP_DOWN, "32");
+        GlyphsDude.setIcon(btDocumento, MaterialIcon.CLOUD_DOWNLOAD, "32");
+        GlyphsDude.setIcon(btPrint, MaterialIcon.PRINT, "32");
         pgProgreso.setVisible(false);
     }
 

@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import static main.Var.configFile;
@@ -66,11 +67,14 @@ public class Main extends Application {
         Var.stage.setResizable(false);
 
         Var.stage.setOnCloseRequest(event -> {
-            System.out.println("Cerrando app");
             Var.xit();
         });
 
         Var.stage.setScene(createScene(loadMainPane()));
+        Image icon = new Image(getClass().getResourceAsStream("/resources/IDBL.png"));
+        Var.stage.getIcons().add(icon);
+        Var.stage.setTitle("IDBLClient 2.0");
+        
         Var.stage.show();
     }
 

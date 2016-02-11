@@ -23,6 +23,8 @@
  */
 package ctrl;
 
+import de.jensd.fx.glyphs.GlyphsDude;
+import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -43,6 +45,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import main.Var;
@@ -102,6 +105,17 @@ public class AvanzadoControl implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        String verde="#008000";
+        String rojo="#FF0000";
+        
+        Text a = GlyphsDude.createIcon( MaterialIcon.DONE, "32");
+        a.setFill(Paint.valueOf(verde));
+        btAceptar.setGraphic(a);
+        
+        Text b = GlyphsDude.createIcon( MaterialIcon.CLEAR, "32");
+        b.setFill(Paint.valueOf(rojo));
+        btCancelar.setGraphic(b);
+        
         lbLimite.setText("Límite de la QUERY establecido en " + Var.queryLimit + " registros.");
         pgProgreso.setVisible(false);
         lbInfoProgreso.setVisible(false);
