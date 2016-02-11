@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <config>
-    <conexion>
-        <db-host>oficina.redcedeco.net</db-host>
-        <db-port>3306</db-port>
-        <db-username>admin</db-username>
-        <db-password>IkuinenK@@m.s84</db-password>
-    </conexion>
-    <general>
-        <modo>admin</modo>
-    </general>
+  <conexion>
+    <db-host>192.168.6.20</db-host>
+    <db-port>3306</db-port>
+    <db-username>appLogin</db-username>
+    <db-password>Vr7EyFHy</db-password>
+  </conexion>
+  <ftp>
+    <ftp-host>192.168.6.20</ftp-host>
+    <ftp-port>21</ftp-port>
+    <ftp-user>appLogin</ftp-user>
+    <ftp-pass>Vr7EyFHy</ftp-pass>
+  </ftp>
+  <modoAdmin>
+    <activo>true</activo>
+    <password>user01</password>
+    <query-limit>50</query-limit>
+  </modoAdmin>
 </config>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ctrl.AvanzadoControl">
+   <children>
+      <Label text="Seleccione un registro para continuar.">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+         </VBox.margin>
+      </Label>
+      <HBox prefHeight="400.0" prefWidth="760.0">
+         <children>
+            <TableView fx:id="tabla" prefHeight="200.0" prefWidth="550.0">
+              <columns>
+                <TableColumn fx:id="codigoCL" prefWidth="75.0" text="codigo" />
+                <TableColumn fx:id="addDataCL" prefWidth="75.0" text="addData" />
+              </columns>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+            <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="190.0" spacing="10.0">
+               <children>
+                  <Button fx:id="btAceptar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btAceptar" prefHeight="40.0" prefWidth="130.0">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <tooltip>
+                        <Tooltip fx:id="Aceptar" text="Empty Tooltip" />
+                     </tooltip></Button>
+                  <Button fx:id="btCancelar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btCancelar" prefHeight="40.0" prefWidth="130.0">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <tooltip>
+                        <Tooltip fx:id="Cancelar" text="Empty Tooltip" />
+                     </tooltip></Button>
+                  <ProgressIndicator fx:id="pgProgreso" prefHeight="80.0" prefWidth="185.0">
+                     <VBox.margin>
+                        <Insets top="50.0" />
+                     </VBox.margin>
+                  </ProgressIndicator>
+                  <Label fx:id="lbInfoProgreso" text="...Buscando Registros..." />
+               </children>
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </HBox>
+      <Label fx:id="lbLimite" prefHeight="17.0" prefWidth="545.0" text="Límite de la QUERY establecido en XX registros.">
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" top="2.0" />
+         </VBox.margin>
+      </Label>
+   </children>
+</VBox>

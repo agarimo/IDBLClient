@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="773.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ctrl.MainControl">
+   <children>
+      <ToolBar maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="780.0" style="-fx-background-color: #303F9F;">
+        <items>
+          <Button fx:id="btBuscar" mnemonicParsing="false" onAction="#botonBuscar" prefHeight="40.0" prefWidth="40.0" />
+            <Separator halignment="RIGHT" prefHeight="40.0" prefWidth="620.0" visible="false" />
+            <Button fx:id="btConfig" mnemonicParsing="false" onAction="#botonConfig" prefHeight="40.0" prefWidth="40.0" />
+            <Separator orientation="VERTICAL" prefHeight="40.0" prefWidth="10.0" visible="false" />
+            <Button fx:id="btCerrar" layoutX="54.0" layoutY="10.0" mnemonicParsing="false" onAction="#botonCerrar" prefHeight="40.0" prefWidth="40.0" />
+        </items>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ToolBar>
+      <org.controlsfx.control.HiddenSidesPane fx:id="vistaHolder" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="780.0" style="-fx-background-color: #C5CAE9;" VBox.vgrow="ALWAYS" />
+   </children>
+</VBox>
