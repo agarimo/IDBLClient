@@ -37,10 +37,10 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
-import util.Conexion;
-import util.ConexionFtp;
-import util.Files;
-import util.Ftp;
+import sql.Conexion;
+import ftp.ConexionFtp;
+import files.Util;
+import ftp.Ftp;
 
 /**
  *
@@ -104,7 +104,7 @@ public class Var {
     }
 
     public static void xit() {
-        Files.borraDirectorio(runtimeData);
+        Util.borraDirectorio(runtimeData);
         XMLSave(configFile);
     }
 

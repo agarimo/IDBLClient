@@ -40,7 +40,7 @@ import model.Modo;
 import model.Op;
 import model.OpType;
 import model.Tipo;
-import util.Sql;
+import sql.Sql;
 import util.Varios;
 
 /**

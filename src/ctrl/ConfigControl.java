@@ -49,8 +49,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import main.Var;
 import static main.Var.popup;
-import util.Conexion;
-import util.Sql;
+import sql.Conexion;
+import sql.Sql;
 
 /**
  * FXML Controller class

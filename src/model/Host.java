@@ -29,7 +29,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import main.Var;
-import util.Sql;
+import sql.Sql;
 import util.Varios;
 
 /**

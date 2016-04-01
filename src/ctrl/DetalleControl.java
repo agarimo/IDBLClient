@@ -25,6 +25,7 @@ package ctrl;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
+import ftp.Ftp;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -56,8 +57,8 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
-import util.Ftp;
-import util.Sql;
+import sql.Sql;
+
 
 /**
  * FXML Controller class

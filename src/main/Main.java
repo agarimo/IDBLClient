@@ -40,7 +40,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import static main.Var.configFile;
 import static main.Var.defaultFile;
-import util.Files;
+import files.Util;
 
 /**
  *
@@ -117,7 +117,7 @@ public class Main extends Application {
         br.close();
 
         file.createNewFile();
-        Files.escribeArchivo(file, sb.toString());
+        Util.escribeArchivo(file, sb.toString());
     }
 
     /**
