@@ -165,20 +165,24 @@ public class SearchControl implements Initializable {
         String aux = tfBuscar.getText().toUpperCase().trim();
 
         if (tipo == Tipo.NIF && modo == Modo.NORMAL) {
-            CalculaNif cn = new CalculaNif();
+            try {
+                CalculaNif cn = new CalculaNif();
 
-            if (cn.letrasCif.contains("" + aux.charAt(0))) {
-                if (aux.length() == 8) {
+                if (cn.letrasCif.contains("" + aux.charAt(0))) {
+                    if (aux.length() == 8) {
+                        aux = cn.calcular(aux);
+                    }
+                } else if (cn.letrasNie.contains("" + aux.charAt(0))) {
+                    if (aux.length() <= 8) {
+                        aux = cn.calcular(aux);
+                    }
+                } else if (aux.length() <= 8) {
                     aux = cn.calcular(aux);
                 }
-            } else if (cn.letrasNie.contains("" + aux.charAt(0))) {
-                if (aux.length() <= 8) {
-                    aux = cn.calcular(aux);
-                }
-            } else if (aux.length() <= 8) {
-                aux = cn.calcular(aux);
+                return aux;
+            } catch (Exception ex) {
+                return aux;
             }
-            return aux;
         } else {
             return aux;
         }
