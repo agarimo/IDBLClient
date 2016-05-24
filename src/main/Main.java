@@ -73,7 +73,7 @@ public class Main extends Application {
         Var.stage.setScene(createScene(loadMainPane()));
         Image icon = new Image(getClass().getResourceAsStream("/resources/IDBL.png"));
         Var.stage.getIcons().add(icon);
-        Var.stage.setTitle("IDBLClient 2.0");
+        Var.stage.setTitle("IDBLClient 2.1");
         
         Var.stage.show();
     }

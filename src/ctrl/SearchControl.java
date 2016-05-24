@@ -132,9 +132,7 @@ public class SearchControl implements Initializable {
         String query = Query.searchQuery(busqueda, tipo, modo);
 
         if (modo == Modo.NORMAL) {
-            Nav.mainController.botonBuscar(new ActionEvent());
             List<ModeloMulta> list = Query.listaModeloMulta(query);
-            tfBuscar.setText("");
 
             if (list.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -142,7 +140,10 @@ public class SearchControl implements Initializable {
                 alert.setHeaderText("ENTRADA SIN REGISTROS.");
                 alert.setContentText("No existe ningún registro para : " + busqueda);
                 alert.showAndWait();
+//                tfBuscar.setText(busqueda);
             } else {
+                Nav.mainController.botonBuscar(new ActionEvent());
+                tfBuscar.setText("");
                 Nav.mainController.setContent(Nav.mainController.loadMulta());
                 Nav.multaController.tableLoad(list, busqueda);
 
@@ -174,10 +175,8 @@ public class SearchControl implements Initializable {
                 if (aux.length() <= 8) {
                     aux = cn.calcular(aux);
                 }
-            } else {
-                if (aux.length() <= 8) {
-                    aux = cn.calcular(aux);
-                }
+            } else if (aux.length() <= 8) {
+                aux = cn.calcular(aux);
             }
             return aux;
         } else {

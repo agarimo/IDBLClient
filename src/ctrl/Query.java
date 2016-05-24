@@ -74,9 +74,9 @@ public class Query {
         String query;
 
         if (Var.modoAdmin) {
-            query = "SELECT id FROM " + Var.dbName + ".multa_full WHERE " + tipo.getColumnMulta() + "=(" + searchSpecificQuery(busqueda, tipo, modo) + ")";
+            query = "SELECT id FROM " + Var.dbName + ".multa_full WHERE " + tipo.getColumnMulta() + " IN (" + searchSpecificQuery(busqueda, tipo, modo) + ")";
         } else {
-            query = "SELECT id FROM " + Var.dbName + ".multa_limited WHERE " + tipo.getColumnMulta() + "=(" + searchSpecificQuery(busqueda, tipo, modo) + ")";
+            query = "SELECT id FROM " + Var.dbName + ".multa_limited WHERE " + tipo.getColumnMulta() + " IN (" + searchSpecificQuery(busqueda, tipo, modo) + ")";
         }
 
         return query;
