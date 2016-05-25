@@ -140,7 +140,6 @@ public class SearchControl implements Initializable {
                 alert.setHeaderText("ENTRADA SIN REGISTROS.");
                 alert.setContentText("No existe ningún registro para : " + busqueda);
                 alert.showAndWait();
-//                tfBuscar.setText(busqueda);
             } else {
                 Nav.mainController.botonBuscar(new ActionEvent());
                 tfBuscar.setText("");
