@@ -41,7 +41,7 @@ import model.Op;
 import model.OpType;
 import model.Tipo;
 import sql.Sql;
-import util.Varios;
+import tools.Util;
 
 /**
  *
@@ -140,7 +140,7 @@ public class Query {
                 aux.setLinea(rs.getString("linea"));
             }
 
-            rs = bd.ejecutarQueryRs("SELECT id FROM " + Var.dbName + ".documento WHERE id=" + Varios.entrecomillar(aux.getnBoe()));
+            rs = bd.ejecutarQueryRs("SELECT id FROM " + Var.dbName + ".documento WHERE id=" + Util.comillas(aux.getnBoe()));
 
             if (rs.next()) {
                 aux.setDocumento(true);

@@ -28,7 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import main.Var;
 import sql.Sql;
-import util.Varios;
+import tools.Util;
 
 /**
  *
@@ -61,14 +61,14 @@ public class Op {
             return "INSERT INTO " + Var.dbNameStats + ".exception (id_host,adminMode,exception) values("
                     + Var.host.getId() + ","
                     + Var.modoAdmin + ","
-                    + Varios.entrecomillar(this.opDetail)
+                    + Util.comillas(this.opDetail)
                     + ");";
         } else {
             return "INSERT INTO " + Var.dbNameStats + ".op (id_host,adminMode,op_type,op_detail) values("
                     + Var.host.getId() + ","
                     + Var.modoAdmin + ","
-                    + Varios.entrecomillar(this.opType.toString()) + ","
-                    + Varios.entrecomillar(this.opDetail)
+                    + Util.comillas(this.opType.toString()) + ","
+                    + Util.comillas(this.opDetail)
                     + ");";
         }
     }

@@ -39,8 +39,8 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import sql.Conexion;
 import ftp.ConexionFtp;
-import files.Util;
 import ftp.Ftp;
+import tools.Files;
 
 /**
  *
@@ -104,7 +104,7 @@ public class Var {
     }
 
     public static void xit() {
-        Util.borraDirectorio(runtimeData);
+        Files.deleteDir(runtimeData);
         XMLSave(configFile);
     }
 

@@ -67,8 +67,8 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
-import util.Dates;
 import sql.Sql;
+import tools.Dates;
 
 /**
  * FXML Controller class

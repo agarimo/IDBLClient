@@ -40,7 +40,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import static main.Var.configFile;
 import static main.Var.defaultFile;
-import files.Util;
+import tools.LoadFile;
 
 /**
  *
@@ -74,7 +74,7 @@ public class Main extends Application {
         Image icon = new Image(getClass().getResourceAsStream("/resources/IDBL.png"));
         Var.stage.getIcons().add(icon);
         Var.stage.setTitle("IDBLClient 2.1");
-        
+
         Var.stage.show();
     }
 
@@ -117,7 +117,7 @@ public class Main extends Application {
         br.close();
 
         file.createNewFile();
-        Util.escribeArchivo(file, sb.toString());
+        LoadFile.writeFile(file, sb.toString());
     }
 
     /**

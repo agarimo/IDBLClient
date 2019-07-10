@@ -24,7 +24,7 @@
 package model;
 
 import main.Var;
-import util.Varios;
+import tools.Util;
 
 /**
  *
@@ -49,11 +49,11 @@ public enum Modo {
     public String getQuery(String aux, Tipo tipo){
         switch (this) {
             case NORMAL:
-                return "=" + Varios.entrecomillar(aux);
+                return "=" + Util.comillas(aux);
             case COMIENZA:
-                return " like " + Varios.entrecomillar(aux + "%") + " order by " + tipo.getColumn() + " limit "+Var.queryLimit;
+                return " like " + Util.comillas(aux + "%") + " order by " + tipo.getColumn() + " limit "+Var.queryLimit;
             case CONTIENE:
-                return " like " + Varios.entrecomillar("%" + aux + "%") + " order by " + tipo.getColumn() + " limit "+Var.queryLimit;
+                return " like " + Util.comillas("%" + aux + "%") + " order by " + tipo.getColumn() + " limit "+Var.queryLimit;
             default:
                 return "";
         }

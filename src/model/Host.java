@@ -30,7 +30,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import main.Var;
 import sql.Sql;
-import util.Varios;
+import tools.Util;
 
 /**
  *
@@ -133,17 +133,17 @@ public class Host {
 
     private String SQLBuscar() {
         return "SELECT id FROM " + Var.dbNameStats + ".host "
-                + "WHERE host_ip=" + Varios.entrecomillar(ip) + " "
-                + "AND host_name=" + Varios.entrecomillar(name) + " "
-                + "AND host_user=" + Varios.entrecomillar(user) + ";";
+                + "WHERE host_ip=" + Util.comillas(ip) + " "
+                + "AND host_name=" + Util.comillas(name) + " "
+                + "AND host_user=" + Util.comillas(user) + ";";
     }
 
     private String SQLCrear() {
         return "INSERT INTO " + Var.dbNameStats + ".host (host_ip,host_name,host_user,host_os) values("
-                + Varios.entrecomillar(this.ip) + ","
-                + Varios.entrecomillar(this.name) + ","
-                + Varios.entrecomillar(this.user) + ","
-                + Varios.entrecomillar(this.os)
+                + Util.comillas(this.ip) + ","
+                + Util.comillas(this.name) + ","
+                + Util.comillas(this.user) + ","
+                + Util.comillas(this.os)
                 + ");";
     }
 }

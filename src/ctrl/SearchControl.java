@@ -43,7 +43,7 @@ import model.Modo;
 import model.Op;
 import model.OpType;
 import model.Tipo;
-import util.CalculaNif;
+import tools.CalculaNif;
 
 /**
  * FXML Controller class
